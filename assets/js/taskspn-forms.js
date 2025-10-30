@@ -422,9 +422,9 @@
         var searchToggleSelector = '.taskspn-' + cptKey + '-search-toggle';
         var searchInputSelector = '.taskspn-' + cptKey + '-search-input';
         var searchWrapperSelector = '.taskspn-' + cptKey + '-search-wrapper';
-        var listSelector = '.taskspn-taskspn_' + cptKey + '-list';
-        var listWrapperSelector = '.taskspn-taskspn_' + cptKey + '-list-wrapper';
-        var addNewSelector = '.taskspn-' + cptKey + '[data-taskspn_' + cptKey + '-id="0"]';
+        var listSelector = '.taskspn-' + cptKey + '-list';
+        var listWrapperSelector = '.taskspn-' + cptKey + '-list-wrapper';
+        var addNewSelector = '.taskspn-add-new-cpt';
 
         // Only initialize if elements exist
         if ($(searchToggleSelector).length) {
@@ -470,8 +470,6 @@
             if (searchTerm === '') {
               // Show all items when search is empty
               items.show();
-              // Also show the "Add new" item
-              itemsList.find(addNewSelector).show();
             } else {
               // Filter items based on title
               items.each(function() {
@@ -482,9 +480,10 @@
                   $(this).hide();
                 }
               });
-              // Hide the "Add new" item when filtering
-              itemsList.find(addNewSelector).hide();
             }
+
+            // Always show the "Add new" item
+            itemsList.find(addNewSelector).show();
           });
 
           // Close search on escape key

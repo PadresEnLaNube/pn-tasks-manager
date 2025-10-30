@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Tasks Manager - PN\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-31 14:12+0000\n"
-"PO-Revision-Date: 2024-08-17 12:26+0000\n"
+"PO-Revision-Date: 2025-10-30 19:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: Español\n"
 "Language: es_ES\n"
@@ -12,204 +12,280 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.11; wp-6.6.1\n"
+"X-Loco-Version: 2.8.0; wp-6.8.3; php-8.2.29\n"
 "X-Domain: taskspn"
 
-#: includes/class-taskspn-activator.php:39
-msgid "1 cup of respect"
-msgstr "1 taza de respeto"
+#: includes/class-taskspn-validation.php:47
+#, php-format
+msgid "%s is required."
+msgstr "%s es obligatorio."
 
-#: includes/class-taskspn-activator.php:39
-msgid "1 dash of adventure"
-msgstr "1 pizca de aventura"
+#: includes/class-taskspn-post-type-task.php:866
+msgid "Access Denied"
+msgstr "Acceso denegado"
 
-#: includes/class-taskspn-activator.php:39
-msgid "1 dash of humor"
-msgstr "1 pizca de humor"
+#: includes/class-taskspn-post-type-task.php:656
+msgid "Access denied"
+msgstr "Acceso denegado"
 
-#: includes/class-taskspn-activator.php:39
-msgid "1 dash of joy"
-msgstr "1 pizca de alegría"
+#: includes/class-taskspn-forms.php:373
+msgid "Add audio"
+msgstr "Agregar audio"
 
-#: includes/class-taskspn-activator.php:39
-msgid "1 dash of tenderness"
-msgstr "1 pizca de ternura"
+#: includes/class-taskspn-forms.php:373
+msgid "Add audios"
+msgstr "Agregar audios"
 
-#: includes/class-taskspn-activator.php:39
-msgid "1/2 cup of understanding"
-msgstr "1/2 taza de entendimiento"
+#: includes/class-taskspn-forms.php:468
+msgid "Add element"
+msgstr "Agregar elemento"
 
-#: includes/class-taskspn-activator.php:39
-msgid "1/4 cup of patience"
-msgstr "1/4 taza de paciencia"
+#: includes/class-taskspn-forms.php:394
+msgid "Add file"
+msgstr "Agregar archivo"
 
-#: includes/class-taskspn-activator.php:39
-msgid "2 cups of trust"
-msgstr "2 tazas de confianza"
+#: includes/class-taskspn-forms.php:394
+msgid "Add files"
+msgstr "Agregar archivos"
 
-#: includes/class-taskspn-activator.php:39
-msgid "2 hearts brimming with love"
-msgstr "2 corazones llenos de amor"
+#: includes/class-taskspn-forms.php:331
+msgid "Add image"
+msgstr "Agregar imagen"
 
-#: includes/class-taskspn-activator.php:45
-msgid ""
-"<!-- wp:heading {\"level\":3,\"className\":\"wp-block-heading\"} --><h3 "
-"class=\"wp-block-heading\">A Feast for the Heart: A Culinary Journey of "
-"Love</h3><!-- /wp:heading --><!-- wp:paragraph --><p>To create an original "
-"love dish, start with a solid foundation of trust, respect, understanding "
-"and patience. Season with humor, joy, adventure and tenderness to bring life "
-"to life. Place two hearts overflowing with love in the center. Simmer "
-"throughout the process, stirring occasionally to cope with the ups and downs."
-" Garnish with kind words, loving gestures and small details. Share with your "
-"loved one and enjoy the delicious taste of true love.</p><!-- /wp:paragraph -"
-"-><!-- wp:paragraph --><p>Remember that there is no fixed recipe for Love, "
-"everyone creates it in their own way. Experiment, use fresh, high-quality "
-"ingredients, and serve with a smile and an open heart. Let love be the spice "
-"that adds flavor to your life!</p><!-- /wp:paragraph -->"
-msgstr ""
-"<!-- wp:heading {\"level\":3,\"className\": \"wp-block-heading\"} --><h3 "
-"class=\"wp-block-heading\">Un banquete para el corazón: un viaje culinario "
-"de amor</h3><!-- /wp:heading --><!-- wp:paragraph --><p>Para crear un plato "
-"de amor original, comienza con una base sólida de confianza, respeto, "
-"comprensión y paciencia. Sazona con humor, alegría, aventura y ternura para "
-"darle vida a la vida. Coloca dos corazones rebosantes de amor en el centro. "
-"Cocina a fuego lento durante todo el proceso, revolviendo de vez en cuando "
-"para sobrellevar los altibajos. Adorna con palabras amables, gestos "
-"cariñosos y pequeños detalles. Comparte con tu ser amado y disfruta del "
-"delicioso sabor del amor verdadero.</p><!-- /wp:paragraph --><!-- wp:"
-"paragraph --><p>Recuerda que no hay una receta fija para el amor, cada uno "
-"lo crea a su manera. Experimenta, utiliza ingredientes frescos y de alta "
-"calidad y sirve con una sonrisa y el corazón abierto. ¡Que el amor sea la "
-"especia que le dé sabor a tu vida!</p><!-- /wp:paragraph -->"
+#: includes/class-taskspn-forms.php:331
+msgid "Add images"
+msgstr "Agregar imágenes"
 
-#: includes/class-taskspn-activator.php:44
-msgid ""
-"<p>To serve, garnish with <strong>kind words, loving gestures, and small "
-"details</strong>. Share with your loved one and savor the delicious "
-"experience of true love.&nbsp;</p><p><ul><li><strong>Don't be afraid to "
-"experiment</strong>. Add your own special ingredients to create a unique "
-"dish that represents your love.&nbsp;</li><li><strong>Use fresh, high-"
-"quality ingredients</strong>. True love is a priceless treasure, treat it "
-"with care.&nbsp;</li><li><strong>Serve with a smile and an open "
-"heart</strong>. Love is best enjoyed when shared.</li></ul></p><p>Enjoy your "
-"creation!</p>"
-msgstr ""
-"<p>Para servir, decora con <strong>palabras amables, gestos cariñosos y "
-"pequeños detalles</strong> . Comparte con tu ser amado y saborea la "
-"deliciosa experiencia del amor verdadero.</p><p><ul><li> <strong>No tengas "
-"miedo de experimentar</strong> . Agrega tus propios ingredientes especiales "
-"para crear un plato único que represente tu amor.</li><li> <strong>Utilice "
-"ingredientes frescos y de alta calidad</strong> . El verdadero amor es un "
-"tesoro de valor incalculable, trátalo con cuidado.</li><li> <strong>Sirva "
-"con una sonrisa y el corazón abierto</strong> . El amor se disfruta mejor "
-"cuando se comparte.</li></ul></p><p> ¡Disfruta tu creación!</p>"
+#: includes/class-taskspn-post-type-task.php:221
+#: includes/class-taskspn-post-type-task.php:222
+#: includes/class-taskspn-post-type-task.php:664
+#: includes/class-taskspn-post-type-task.php:792
+#: includes/class-taskspn-post-type-task.php:876
+msgid "Add new Task"
+msgstr "Agregar nueva tarea"
 
-#: includes/class-taskspn-activator.php:41
-msgid ""
-"Add a dash of humor, joy, adventure, and tenderness. Life is tastier with a "
-"touch of fun and spontaneity."
-msgstr ""
-"Añade una pizca de humor, alegría, aventura y ternura. La vida es más "
-"sabrosa con un toque de diversión y espontaneidad."
+#: includes/class-taskspn-taxonomies-task.php:30
+msgid "Add New Task category"
+msgstr "Agregar nueva categoría de tareas"
 
-#: includes/class-taskspn-post-type-recipe.php:137
-msgid "Add New"
-msgstr "Agregar nuevo"
+#: templates/public/archive-taskspn_task.php:64
+msgid "Add task"
+msgstr "Agregar tarea"
 
-#: includes/class-taskspn-post-type-recipe.php:136
-msgid "Add new Recipe"
-msgstr "Agregar nueva receta CPT"
+#: includes/class-taskspn-forms.php:352
+msgid "Add video"
+msgstr "Añadir vídeo"
 
-#: includes/class-taskspn-taxonomies-recipe.php:30
-msgid "Add New Recipe category"
-msgstr "Agregar nueva categoría de receta"
+#: includes/class-taskspn-forms.php:352
+msgid "Add videos"
+msgstr "Añadir vídeos"
 
-#: templates/public/archive-taskspn_recipe.php:64
-msgid "Add recipe"
-msgstr "Agregar receta"
+#: includes/class-taskspn-calendar.php:538
+msgid "All day"
+msgstr "Todo el día"
 
-#: includes/class-taskspn-taxonomies-recipe.php:25
-msgid "All Recipe categories"
-msgstr "Todas las categorías de recetas"
+#: includes/class-taskspn-taxonomies-task.php:25
+msgid "All Task categories"
+msgstr "Todas las categorías de tareas"
 
-#: includes/class-taskspn-post-type-recipe.php:134
-msgid "All Base CPT"
-msgstr "Todas las recetas CPT"
+#: includes/class-taskspn-post-type-task.php:219
+msgid "All Tasks"
+msgstr "Todas las tareas"
 
-#: includes/class-taskspn-common.php:116
+#: includes/class-taskspn-settings.php:69
+msgid "Alternate background"
+msgstr "Fondo alternativo"
+
+#: includes/class-taskspn-settings.php:79
+msgid "Alternate border"
+msgstr "Frontera alternativa"
+
+#: includes/class-taskspn-settings.php:59
+msgid "Alternate color"
+msgstr "color alternativo"
+
+#: includes/class-taskspn-common.php:213
 msgid "An error has occurred. Please try again in a few minutes."
 msgstr "Se ha producido un error. Inténtalo de nuevo en unos minutos."
 
-#: includes/class-taskspn-activator.php:41
-msgid ""
-"Bake for a lifetime, stirring occasionally. Love is a lifelong journey, full "
-"of ups and downs, but it is always worth it."
-msgstr ""
-"Hornee toda la vida, revolviendo ocasionalmente. El amor es un viaje que "
-"dura toda la vida, lleno de altibajos, pero siempre vale la pena."
+#: includes/class-taskspn-ajax.php:333
+msgid "An error occurred while checking the Task."
+msgstr "Se produjo un error al comprobar la tarea."
 
-#: includes/class-taskspn-activator.php:40
-msgid "Baking"
-msgstr "Horneando"
+#: includes/class-taskspn-ajax.php:354
+msgid "An error occurred while duplicating the Task."
+msgstr "Se produjo un error al duplicar la tarea."
 
-#: includes/class-taskspn-activator.php:40
-msgid "Dashing"
-msgstr "Apuesto"
+#: includes/class-taskspn-ajax.php:374
+msgid "An error occurred while removing the Task."
+msgstr "Se produjo un error al eliminar la tarea."
 
-#: includes/class-taskspn-common.php:126
+#: includes/class-taskspn-ajax.php:267 includes/class-taskspn-ajax.php:297
+msgid "An error occurred while showing the Task."
+msgstr "Se produjo un error al mostrar la tarea."
+
+#: includes/class-taskspn-post-type-task.php:121
+msgid "Assigned to"
+msgstr "Asignado a"
+
+#: includes/class-taskspn-forms.php:231
+msgid "Atleast 8 Character"
+msgstr "Al menos 8 caracteres"
+
+#: templates/public/archive-taskspn_task.php:31
+msgid "Base CPT"
+msgstr "Recetas"
+
+#: includes/class-taskspn-blocks.php:29
+msgid "Calendar (Taskspn)"
+msgstr "Calendario (Taskspn)"
+
+#: templates/taskspn-popups.php:44
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: includes/class-taskspn-forms.php:543
+msgid "Clear"
+msgstr "Claro"
+
+#: includes/class-taskspn-shortcodes.php:268
+msgid "Click to view completed tasks"
+msgstr "Haz clic para ver las tareas completadas."
+
+#: includes/class-taskspn-calendar.php:394
+#: includes/class-taskspn-calendar.php:636
+msgid "Click to view day"
+msgstr "Haz clic para ver el día"
+
+#: includes/class-taskspn-ajax.php:185
+msgid "Completed tasks"
+msgstr "Tareas completadas"
+
+#: includes/class-taskspn-settings.php:21
+msgid "Configure the colors used in the main CSS :root."
+msgstr "Configura los colores utilizados en el CSS principal :root."
+
+#: includes/class-taskspn-common.php:251
+msgid "Connection error"
+msgstr "Error de conexión"
+
+#: includes/class-taskspn-common.php:252
+msgid "Connection error: Could not connect to server"
+msgstr "Error de conexión: No se pudo conectar con el servidor"
+
+#: includes/class-taskspn-common.php:237
+msgid "Copied"
+msgstr "Copiado"
+
+#: includes/class-taskspn-post-type-task.php:656
+msgid "Create account"
+msgstr "Crear una cuenta"
+
+#: includes/class-taskspn-post-type-task.php:884
+msgid "Create Task"
+msgstr "Crear tarea"
+
+#: includes/class-taskspn-calendar.php:286
+msgid "Day"
+msgstr "Día"
+
+#: includes/class-taskspn-post-type-task.php:100
+msgid "Days"
+msgstr "Días"
+
+#: includes/class-taskspn-post-type-task.php:756
+msgid "Duplicate Task"
+msgstr "Tarea duplicada"
+
+#: includes/class-taskspn-common.php:226 includes/class-taskspn-forms.php:369
 msgid "Edit audio"
 msgstr "Editar audio"
 
-#: includes/class-taskspn-common.php:127
+#: includes/class-taskspn-common.php:227 includes/class-taskspn-forms.php:369
 msgid "Edit audios"
 msgstr "Editar audios"
 
-#: includes/class-taskspn-common.php:130
+#: includes/class-taskspn-common.php:230 includes/class-taskspn-forms.php:390
 msgid "Edit file"
 msgstr "Editar archivo"
 
-#: includes/class-taskspn-common.php:131
+#: includes/class-taskspn-common.php:231 includes/class-taskspn-forms.php:390
 msgid "Edit files"
 msgstr "Editar archivos"
 
-#: includes/class-taskspn-common.php:118
+#: includes/class-taskspn-common.php:218 includes/class-taskspn-forms.php:327
 msgid "Edit image"
 msgstr "Editar imagen"
 
-#: includes/class-taskspn-common.php:119
+#: includes/class-taskspn-common.php:219 includes/class-taskspn-forms.php:327
 msgid "Edit images"
 msgstr "Editar imágenes"
 
-#: includes/class-taskspn-post-type-recipe.php:138
-msgid "Edit Recipe"
-msgstr "Editar receta CPT"
+#: includes/class-taskspn-post-type-task.php:223
+#: includes/class-taskspn-post-type-task.php:744
+#: includes/class-taskspn-post-type-task.php:854
+msgid "Edit Task"
+msgstr "Editar tarea"
 
-#: templates/public/single-taskspn_recipe.php:53
-#: templates/public/archive-taskspn_recipe.php:50
-msgid "Edit recipe"
-msgstr "Editar receta"
+#: templates/public/single-taskspn_task.php:52
+#: templates/public/archive-taskspn_task.php:50
+msgid "Edit task"
+msgstr "Editar tarea"
 
-#: includes/class-taskspn-taxonomies-recipe.php:28
-msgid "Edit Recipe category"
-msgstr "Editar categoría de receta"
+#: includes/class-taskspn-taxonomies-task.php:28
+msgid "Edit Task category"
+msgstr "Editar categoría de tareas"
 
-#: includes/class-taskspn-common.php:122
+#: includes/class-taskspn-common.php:222 includes/class-taskspn-forms.php:348
 msgid "Edit video"
 msgstr "Editar video"
 
-#: includes/class-taskspn-common.php:123
+#: includes/class-taskspn-common.php:223 includes/class-taskspn-forms.php:348
 msgid "Edit videos"
 msgstr "Editar vídeos"
 
-#: templates/public/single-taskspn_recipe.php:129
+#: includes/class-taskspn-post-type-task.php:902
+msgid "Editing Task"
+msgstr "Tarea de edición"
+
+#: templates/public/single-taskspn_task.php:128
 msgid "Elaboration steps"
 msgstr "Pasos de elaboración"
 
-#: includes/class-taskspn-activator.php:40
-msgid "Hearting"
-msgstr "Corazón"
+#: includes/class-taskspn-common.php:250
+msgid "Error in transcription"
+msgstr "Error en la transcripción"
 
-#: templates/public/single-taskspn_recipe.php:138
+#: includes/class-taskspn-post-type-task.php:849
+msgid "Error loading task fields"
+msgstr "Error al cargar los campos de la tarea"
+
+#: includes/class-taskspn-common.php:256
+msgid "Error processing audio"
+msgstr "Error al procesar el audio"
+
+#: includes/class-taskspn-common.php:244
+msgid "Error: Could not access microphone"
+msgstr "Error: No se pudo acceder al micrófono"
+
+#: includes/class-taskspn-post-type-task.php:67
+msgid "Estimated hours"
+msgstr "Horas estimadas"
+
+#: includes/class-taskspn-post-type-task.php:68
+msgid "Estimated hours (e.g., 1.5)"
+msgstr "Horas estimadas (por ejemplo, 1,5)"
+
+#: includes/class-taskspn-post-type-task.php:660
+msgid "Filter..."
+msgstr "Filtrar..."
+
+#: includes/class-taskspn-calendar.php:365
+msgid "Friday"
+msgstr "Viernes"
+
+#: includes/class-taskspn-ajax.php:202
+#: templates/public/single-taskspn_task.php:137
 msgid "hours"
 msgstr "horas"
 
@@ -219,9 +295,9 @@ msgstr "https://padresenlanube.com/"
 
 #. URI of the plugin
 msgid "https://padresenlanube.com/plugins/taskspn/"
-msgstr ""
+msgstr "https://padresenlanube.com/plugins/taskspn/"
 
-#: includes/class-taskspn-menus.php:33
+#: includes/class-taskspn-settings.php:124
 msgid ""
 "If you activate this option the plugin will remove all options on "
 "deactivation. Please, be careful. This process cannot be undone."
@@ -229,302 +305,726 @@ msgstr ""
 "Si activa esta opción, el complemento eliminará todas las opciones al "
 "desactivarla. Por favor tenga cuidado. Este proceso no se puede deshacer."
 
-#: includes/class-taskspn-activator.php:41
-msgid ""
-"In a large bowl, mix together the trust, respect, understanding, and "
-"patience. These are the foundations of a strong and lasting relationship."
-msgstr ""
-"En un tazón grande, mezcle la confianza, el respeto, la comprensión y la "
-"paciencia. Éstas son las bases de una relación sólida y duradera."
-
-#: includes/class-taskspn-post-type-recipe.php:29
-#: includes/class-taskspn-post-type-recipe.php:30
-msgid "Ingredient"
-msgstr "Ingrediente"
-
-#: includes/class-taskspn-post-type-recipe.php:22
-#: templates/public/single-taskspn_recipe.php:104
+#: templates/public/single-taskspn_task.php:103
 msgid "Ingredients"
 msgstr "Ingredientes"
 
-#: includes/class-taskspn-menus.php:99
+#: includes/class-taskspn-validation.php:152
+msgid "Invalid selection format."
+msgstr "Formato de selección no válido."
+
+#: includes/class-taskspn-common.php:247
+msgid "Invalid server response"
+msgstr "Respuesta del servidor no válida"
+
+#: includes/class-taskspn-common.php:246
+msgid "Invalid server response format"
+msgstr "Formato de respuesta del servidor no válido"
+
+#: includes/class-taskspn-post-type-task.php:808
+msgid "Invalid task ID"
+msgstr "ID de tarea no válido"
+
+#: includes/class-taskspn-ajax.php:115 includes/class-taskspn-ajax.php:231
+msgid "Invalid task."
+msgstr "Tarea no válida."
+
+#: includes/class-taskspn-ajax.php:133
+msgid "Invalid user."
+msgstr "Usuario no válido."
+
+#: includes/class-taskspn-shortcodes.php:148
+msgid "Join task"
+msgstr "Unirse a la tarea"
+
+#: includes/class-taskspn-blocks.php:27
+msgid "Joinable Tasks (Taskspn)"
+msgstr "Tareas que se pueden unir (Taskspn)"
+
+#: includes/class-taskspn-common.php:217
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: includes/class-taskspn-activator.php:47
-#: includes/class-taskspn-activator.php:65
-msgid "Love recipe"
-msgstr "Receta de amor"
+#: includes/class-taskspn-post-type-task.php:656
+msgid "Log in or create an account to create and manage tasks."
+msgstr "Inicia sesión o crea una cuenta para crear y gestionar tareas."
 
-#: templates/public/single-taskspn_recipe.php:138
+#: includes/class-taskspn-shortcodes.php:144
+msgid "Log in to join"
+msgstr "Inicia sesión para unirte"
+
+#: includes/class-taskspn-forms.php:219
+msgid "Lowercase & Uppercase"
+msgstr "Minúsculas y mayúsculas"
+
+#: includes/class-taskspn-settings.php:20
+msgid "Main colors"
+msgstr "Colores principales"
+
+#. Description of the plugin
+msgid ""
+"Manage your tasks and time tracking with this plugin. Create tasks, assign "
+"them to users, and track the time spent on each task."
+msgstr ""
+"Gestiona tus tareas y el control del tiempo con este plugin. Crea tareas, "
+"asígnalas a los usuarios y controla el tiempo dedicado a cada una."
+
+#: includes/class-taskspn-settings.php:41
+msgid "Maps to --taskspn-bg-color-main"
+msgstr "Asigna a --taskspn-bg-color-main"
+
+#: includes/class-taskspn-settings.php:71
+msgid "Maps to --taskspn-bg-color-main-alt"
+msgstr "Se asigna a --taskspn-bg-color-main-alt"
+
+#: includes/class-taskspn-settings.php:51
+msgid "Maps to --taskspn-border-color-main"
+msgstr "Asigna a --taskspn-border-color-main"
+
+#: includes/class-taskspn-settings.php:81
+msgid "Maps to --taskspn-border-color-main-alt"
+msgstr "Se asigna a --taskspn-border-color-main-alt"
+
+#: includes/class-taskspn-settings.php:31
+msgid "Maps to --taskspn-color-main"
+msgstr "Asigna a --taskspn-color-main"
+
+#: includes/class-taskspn-settings.php:61
+msgid "Maps to --taskspn-color-main-alt"
+msgstr "Asigna a --taskspn-color-main-alt"
+
+#: includes/class-taskspn-settings.php:91
+msgid "Maps to --taskspn-color-main-blue"
+msgstr "Se asigna a --taskspn-color-main-blue"
+
+#: includes/class-taskspn-settings.php:101
+msgid "Maps to --taskspn-color-main-grey"
+msgstr "Se asigna a --taskspn-color-main-grey"
+
+#: includes/class-taskspn-post-type-task.php:721
+msgid "Mark as done"
+msgstr "Marcar como hecho"
+
+#: includes/class-taskspn-post-type-task.php:721
+msgid "Mark as not done"
+msgstr "Marcar como no realizado"
+
+#: templates/public/single-taskspn_task.php:137
 msgid "minutes"
 msgstr "minutos"
 
-#: includes/class-taskspn-activator.php:40
-msgid "Mixing"
-msgstr "Mezclado"
+#: includes/class-taskspn-calendar.php:361
+msgid "Monday"
+msgstr "Lunes"
 
-#: templates/public/single-taskspn_recipe.php:49
-msgid "More recipes"
-msgstr "Más recetas"
+#: includes/class-taskspn-calendar.php:292
+msgid "Month"
+msgstr "Mes"
 
-#: includes/class-taskspn-taxonomies-recipe.php:31
-msgid "New Recipe category"
-msgstr "Nueva categoría de recetas"
+#: includes/class-taskspn-post-type-task.php:102
+msgid "Months"
+msgstr "Meses"
 
-#: templates/public/single-taskspn_recipe.php:195
+#: templates/public/single-taskspn_task.php:48
+msgid "More tasks"
+msgstr "Más tareas"
+
+#: includes/class-taskspn-taxonomies-task.php:31
+msgid "New Task category"
+msgstr "Nueva categoría de tareas"
+
+#: templates/public/single-taskspn_task.php:194
 msgid "Next"
 msgstr "Siguiente"
 
-#: includes/class-taskspn-post-type-recipe.php:141
-msgid "Not Base CPT found"
-msgstr "No se encontraron recetas CPT"
+#: includes/class-taskspn-forms.php:788
+msgid "No"
+msgstr "No"
 
-#: includes/class-taskspn-post-type-recipe.php:142
-msgid "Not Base CPT found in Trash"
-msgstr "No se encontraron recetas CPT en la papelera"
+#: includes/class-taskspn-common.php:245
+msgid "No audio to transcribe"
+msgstr "No hay audio para transcribir."
 
-#: includes/class-taskspn-forms.php:324 includes/class-taskspn-forms.php:340
+#: includes/class-taskspn-shortcodes.php:263
+msgid "No completed hours found."
+msgstr "No se encontraron horas completadas."
+
+#: includes/class-taskspn-ajax.php:187
+msgid "No completed tasks found for this user."
+msgstr "No se encontraron tareas completadas para este usuario."
+
+#: includes/class-taskspn-forms.php:98
+msgid "No file found"
+msgstr "No se encontró ningún archivo."
+
+#: includes/class-taskspn-forms.php:780
+msgid "No file uploaded"
+msgstr "No se ha subido ningún archivo."
+
+#: includes/class-taskspn-forms.php:870
+msgid "No images uploaded"
+msgstr "No se han subido imágenes."
+
+#: includes/class-taskspn-shortcodes.php:155
+msgid ""
+"No joinable tasks found. Add some tasks to the platform to make them "
+"joinable."
+msgstr ""
+"No se encontraron tareas a las que unirse. Agrega algunas tareas a la "
+"plataforma para que sean compatibles."
+
+#: includes/class-taskspn-shortcodes.php:155
+#, fuzzy
+#| msgid "No tasks found."
+msgid "No tasks found"
+msgstr "No se encontraron tareas."
+
+#: includes/class-taskspn-calendar.php:555
+msgid "No tasks scheduled for this day."
+msgstr "No hay tareas programadas para hoy."
+
+#: includes/class-taskspn-common.php:249
+msgid "No transcription received from server"
+msgstr "No se recibió ninguna transcripción del servidor."
+
+#: includes/class-taskspn-post-type-task.php:226
+msgid "Not Task found"
+msgstr "No se encontró la tarea"
+
+#: includes/class-taskspn-post-type-task.php:227
+#| msgid "Not Base CPT found in Trash"
+msgid "Not Task found in Trash"
+msgstr "No se encontraron Tareas en la papelera"
+
+#: includes/class-taskspn-post-type-task.php:89
+msgid "Number"
+msgstr "Número"
+
+#: includes/class-taskspn-forms.php:223
+msgid "Number (0-9)"
+msgstr "Número (0-9)"
+
+#: includes/class-taskspn-validation.php:91
+#, php-format
+msgid "Number must be at least %s."
+msgstr "El número debe ser al menos %s."
+
+#: includes/class-taskspn-validation.php:100
+#, php-format
+msgid "Number must be at most %s."
+msgstr "El número debe ser como máximo %s."
+
+#: includes/class-taskspn-forms.php:442 includes/class-taskspn-forms.php:458
 msgid "Order element"
 msgstr "Elemento de orden"
 
-#: includes/class-taskspn-common.php:134
+#: includes/class-taskspn-common.php:234
 msgid "Ordered element"
 msgstr "Elemento ordenado"
 
-#: includes/class-taskspn-post-type-recipe.php:133
-msgid "Parent Recipe"
-msgstr "Receta para padres"
+#. Author of the plugin
+msgid "Padres en la Nube"
+msgstr "Padres en la nube"
 
-#: includes/class-taskspn-taxonomies-recipe.php:26
-msgid "Parent Recipe category"
-msgstr "Categoría de receta principal"
+#: includes/class-taskspn-post-type-task.php:218
+msgid "Parent Task"
+msgstr "Tarea principal"
 
-#: includes/class-taskspn-taxonomies-recipe.php:27
-msgid "Parent Recipe category:"
-msgstr "Categoría de receta principal:"
+#: includes/class-taskspn-taxonomies-task.php:26
+msgid "Parent Task category"
+msgstr "Categoría de tarea principal"
 
-#: includes/class-taskspn-activator.php:41
-msgid ""
-"Place the two hearts in the center of the mixture. Love is the main "
-"ingredient in this dish."
+#: includes/class-taskspn-taxonomies-task.php:27
+msgid "Parent Task category:"
+msgstr "Categoría de tarea principal:"
+
+#: includes/class-taskspn-forms.php:215
+msgid "Password strength checker"
+msgstr "comprobador de seguridad de contraseñas"
+
+#: includes/class-taskspn-post-type-task.php:97
+msgid "Period"
+msgstr "Período"
+
+#: includes/class-taskspn-common.php:253
+msgid "Permission error: Security verification failed"
+msgstr "Error de permisos: Falló la verificación de seguridad."
+
+#: includes/class-taskspn-forms.php:511
+msgid "Play audio"
+msgstr "Reproducir audio"
+
+#: templates/public/single-taskspn_task.php:131
+msgid "Play task"
+msgstr "Jugar tarea"
+
+#: includes/class-taskspn-common.php:214
+msgid "Please create a new user or login to save the information."
 msgstr ""
-"Coloca los dos corazones en el centro de la mezcla. El amor es el "
-"ingrediente principal de este plato."
+"Por favor, cree un nuevo usuario o inicie sesión para guardar la información."
 
-#: templates/public/single-taskspn_recipe.php:132
-msgid "Play recipe"
-msgstr "Reproducir receta"
+#: includes/class-taskspn-validation.php:134
+msgid "Please enter a valid date."
+msgstr "Por favor, introduzca una fecha válida."
 
-#: includes/class-taskspn-post-type-recipe.php:130
+#: includes/class-taskspn-validation.php:64
+msgid "Please enter a valid email address."
+msgstr "Por favor, introduce una dirección de correo electrónico válida."
+
+#: includes/class-taskspn-validation.php:83
+msgid "Please enter a valid number."
+msgstr "Por favor, introduzca un número válido."
+
+#: includes/class-taskspn-validation.php:73
+msgid "Please enter a valid URL."
+msgstr "Por favor, introduzca una URL válida."
+
+#: includes/class-taskspn-validation.php:143
+msgid "Please select a valid option."
+msgstr "Seleccione una opción válida."
+
+#: includes/class-taskspn-validation.php:160
+msgid "Please select valid options."
+msgstr "Por favor, seleccione opciones válidas."
+
+#: includes/class-taskspn-settings.php:170
+msgid "Plugin main Banner"
+msgstr "Banner principal del plugin"
+
+#: includes/class-taskspn-post-type-task.php:215
+#| msgid "Base CPT"
 msgctxt "Post Type general name"
-msgid "Base CPT"
-msgstr "Recetas CPT"
+msgid "Task"
+msgstr "Tarea"
 
-#: includes/class-taskspn-post-type-recipe.php:131
+#: includes/class-taskspn-post-type-task.php:216
+#| msgid "Recipe"
 msgctxt "Post Type singular name"
-msgid "Recipe"
-msgstr "Receta CPT"
+msgid "Task"
+msgstr "Tarea"
 
-#: includes/class-taskspn-activator.php:41
-msgid ""
-"Preheat the oven to low heat. Love cooks best over a slow flame, with "
-"patience and care."
-msgstr ""
-"Precalienta el horno a fuego lento. El amor se cocina mejor a fuego lento, "
-"con paciencia y cuidado."
-
-#: includes/class-taskspn-activator.php:40
-msgid "Preparing step"
-msgstr "Paso de preparación"
-
-#: templates/public/single-taskspn_recipe.php:192
+#: templates/public/single-taskspn_task.php:191
 msgid "Previous"
 msgstr "Anterior"
 
-#: includes/class-taskspn-taxonomies-recipe.php:32
-msgid "Recipe categories"
-msgstr "Categorías de recetas"
+#: includes/class-taskspn-settings.php:39
+msgid "Primary background"
+msgstr "Fondo principal"
 
-#: includes/class-taskspn-post-type-recipe.php:178
-msgid "Recipe details"
-msgstr "Detalles de la receta"
+#: includes/class-taskspn-settings.php:89
+msgid "Primary blue"
+msgstr "Azul primario"
 
-#: includes/class-taskspn-post-type-recipe.php:81
-#: includes/class-taskspn-post-type-recipe.php:82
-msgid "Recipe gallery"
-msgstr "Galería de recetas"
+#: includes/class-taskspn-settings.php:49
+msgid "Primary border"
+msgstr "Frontera principal"
 
-#: includes/class-taskspn-menus.php:23 includes/class-taskspn-menus.php:24
-msgid "Recipe slug"
-msgstr "Slug de receta"
+#: includes/class-taskspn-settings.php:29
+msgid "Primary color"
+msgstr "Color primario"
 
-#: includes/class-taskspn-post-type-recipe.php:74
-msgid "Recipe suggestions"
-msgstr "Sugerencias de recetas"
+#: includes/class-taskspn-settings.php:99
+msgid "Primary gray"
+msgstr "Gris primario"
 
-#: includes/class-taskspn-post-type-recipe.php:67
-#: includes/class-taskspn-post-type-recipe.php:68
-msgid "Recipe total time (hours:minutes)"
-msgstr "Tiempo total de la receta (horas:minutos)"
+#: includes/class-taskspn-common.php:240 includes/class-taskspn-forms.php:486
+msgid "Ready to record"
+msgstr "Listo para grabar"
 
-#: includes/class-taskspn-post-type-recipe.php:89
-#: includes/class-taskspn-post-type-recipe.php:90
-msgid "Recipe video url"
-msgstr "URL del vídeo de la receta"
+#: includes/class-taskspn-common.php:243
+msgid "Recording completed. Ready to transcribe."
+msgstr "Grabación finalizada. Listo para transcribir."
 
-#: includes/class-taskspn-post-type-recipe.php:132
-#: includes/class-taskspn-post-type-recipe.php:148
-#: templates/public/archive-taskspn_recipe.php:31
-msgid "Base CPT"
-msgstr "Recetas"
+#: includes/class-taskspn-common.php:242
+msgid "Recording stopped. Ready to play or transcribe."
+msgstr "La grabación se ha detenido. Listo para reproducir o transcribir."
 
-#: includes/class-taskspn-menus.php:15
-#: includes/class-taskspn-post-type-recipe.php:100
-#, fuzzy
-#| msgid "Base CPT"
-msgid "recipes"
-msgstr "Recetas CPT"
+#: includes/class-taskspn-common.php:241
+msgid "Recording..."
+msgstr "Grabación..."
 
-#: includes/class-taskspn-post-type-recipe.php:149
-msgid "Base CPT description"
-msgstr "Descripción de recetas CPT"
+#: templates/taskspn-popups.php:39
+msgid "removal"
+msgstr "eliminación"
 
-#. Name of the plugin
-#: includes/class-taskspn-activator.php:25
-msgid "Base CPT manager - PN"
-msgstr "Gestor de recetas - PN"
+#: templates/taskspn-popups.php:47
+msgid "Remove"
+msgstr "Eliminar"
 
-#: includes/class-taskspn-menus.php:59
-msgid "Base CPT manager PN"
-msgstr "Administrador de recetas PN"
+#: includes/class-taskspn-forms.php:446 includes/class-taskspn-forms.php:462
+msgid "Remove element"
+msgstr "Eliminar elemento"
 
-#: includes/class-taskspn-menus.php:32
+#: includes/class-taskspn-settings.php:123
 msgid "Remove plugin options on deactivation"
 msgstr "Eliminar las opciones del plugin al desactivarlo"
 
-#: includes/class-taskspn-menus.php:99
+#: includes/class-taskspn-post-type-task.php:768
+msgid "Remove Task"
+msgstr "Eliminar tarea"
+
+#: includes/class-taskspn-common.php:216
+msgid "Removed successfully"
+msgstr "Eliminado exitosamente"
+
+#: includes/class-taskspn-post-type-task.php:88
+msgid "Repeat every"
+msgstr "Repetir cada"
+
+#: includes/class-taskspn-post-type-task.php:76
+#: includes/class-taskspn-post-type-task.php:77
+msgid "Repeat task"
+msgstr "Repetir tarea"
+
+#: includes/class-taskspn-post-type-task.php:112
+#: includes/class-taskspn-post-type-task.php:113
+msgid "Repeat until"
+msgstr "Repetir hasta"
+
+#: includes/class-taskspn-forms.php:653 includes/class-taskspn-forms.php:718
+msgid "Required field"
+msgstr "Campo obligatorio"
+
+#: includes/class-taskspn-calendar.php:366
+msgid "Saturday"
+msgstr "Sábado"
+
+#: includes/class-taskspn-settings.php:135
 msgid "Save options"
 msgstr ""
 "Guardar opciones\n"
 
-#: includes/class-taskspn-common.php:117
+#: includes/class-taskspn-post-type-task.php:912
+msgid "Save Task"
+msgstr "Guardar tarea"
+
+#: includes/class-taskspn-common.php:215
 msgid "Saved successfully"
 msgstr "Guardado con éxito"
 
-#: includes/class-taskspn-post-type-recipe.php:140
-msgid "Search Recipe"
-msgstr "Buscar receta CPT"
+#: includes/class-taskspn-taxonomies-task.php:24
+msgid "Search Task categories"
+msgstr "Categorías de tareas de búsqueda"
 
-#: includes/class-taskspn-taxonomies-recipe.php:24
-msgid "Search Recipe categories"
-msgstr "Buscar categorías de recetas"
+#: includes/class-taskspn-post-type-task.php:225
+#: includes/class-taskspn-post-type-task.php:661
+msgid "Search Tasks"
+msgstr "Tareas de búsqueda"
 
-#: includes/class-taskspn-common.php:128
+#: includes/class-taskspn-ajax-nopriv.php:33
+#: includes/class-taskspn-post-type-task.php:330
+#: includes/class-taskspn-ajax.php:34
+msgid "Security check failed: Invalid nonce."
+msgstr "Falló la comprobación de seguridad: Nonce no válido."
+
+#: includes/class-taskspn-ajax-nopriv.php:24
+#: includes/class-taskspn-post-type-task.php:321
+#: includes/class-taskspn-ajax.php:25
+msgid "Security check failed: Nonce is required."
+msgstr "Falló la comprobación de seguridad: Se requiere un nonce."
+
+#: includes/class-taskspn-common.php:228
 msgid "Select audio"
 msgstr "Seleccionar audio"
 
-#: includes/class-taskspn-common.php:129
+#: includes/class-taskspn-common.php:229
 msgid "Select audios"
 msgstr "Seleccionar audios"
 
-#: includes/class-taskspn-common.php:132
+#: includes/class-taskspn-common.php:232
 msgid "Select file"
 msgstr "Seleccione archivo"
 
-#: includes/class-taskspn-common.php:133
+#: includes/class-taskspn-common.php:233
 msgid "Select files"
 msgstr "Selecciona archivos"
 
-#: includes/class-taskspn-common.php:120
+#: includes/class-taskspn-common.php:220
 msgid "Select image"
 msgstr "Seleccionar imagen"
 
-#: includes/class-taskspn-common.php:121
+#: includes/class-taskspn-common.php:221
 msgid "Select images"
 msgstr "Seleccionar imágenes"
 
-#: includes/class-taskspn-common.php:124
+#: includes/class-taskspn-common.php:235
+msgid "Select option"
+msgstr "Seleccionar opción"
+
+#: includes/class-taskspn-common.php:236
+msgid "Select options"
+msgstr "Seleccionar opciones"
+
+#: includes/class-taskspn-post-type-task.php:98
+msgid "Select period"
+msgstr "Seleccionar período"
+
+#: includes/class-taskspn-post-type-task.php:122
+msgid "Select users"
+msgstr "Seleccionar usuarios"
+
+#: includes/class-taskspn-common.php:224
 msgid "Select video"
 msgstr "Seleccionar vídeo"
 
-#: includes/class-taskspn-common.php:125
+#: includes/class-taskspn-common.php:225
 msgid "Select videos"
 msgstr "Seleccionar vídeos"
 
-#. Description of the plugin
-msgid "Simple and usefull Base CPT manager and portfolio plugin for WordPress."
-msgstr ""
+#: includes/class-taskspn-common.php:254
+msgid "Server error: Internal server problem"
+msgstr "Error del servidor: Problema interno del servidor"
 
-#: includes/class-taskspn-post-type-recipe.php:50
-#: includes/class-taskspn-post-type-recipe.php:51
-msgid "Step description"
-msgstr "Descripción del paso"
+#: includes/class-taskspn-settings.php:159
+#: includes/class-taskspn-settings.php:160
+#: includes/class-taskspn-settings.php:230
+msgid "Settings"
+msgstr "Ajustes"
 
-#: includes/class-taskspn-post-type-recipe.php:58
-#: includes/class-taskspn-post-type-recipe.php:59
-msgid "Step time (hours:minutes)"
-msgstr "Tiempo del paso (horas:minutos)"
+#: includes/class-taskspn-post-type-task.php:131
+#: includes/class-taskspn-post-type-task.php:132
+msgid "Show task in public calendar"
+msgstr "Mostrar tarea en el calendario público"
 
-#: includes/class-taskspn-post-type-recipe.php:43
-#: includes/class-taskspn-post-type-recipe.php:44
-msgid "Step title"
-msgstr "Título del paso"
+#: includes/class-taskspn-forms.php:227
+msgid "Special Character (!@#$%^&*)"
+msgstr "Carácter especial (!@#$%^&*)"
 
-#: includes/class-taskspn-post-type-recipe.php:36
-msgid "Steps"
-msgstr "Pasos"
+#: includes/class-taskspn-forms.php:495
+msgid "Start recording"
+msgstr "Comienza a grabar"
 
-#: templates/public/single-taskspn_recipe.php:204
+#: includes/class-taskspn-forms.php:518
+msgid "Stop audio"
+msgstr "Detener audio"
+
+#: includes/class-taskspn-forms.php:502
+msgid "Stop recording"
+msgstr "Detener la grabación"
+
+#: templates/public/single-taskspn_task.php:203
 msgid "Suggestions"
 msgstr "Sugerencias"
 
-#: includes/class-taskspn-taxonomies-recipe.php:22
+#: includes/class-taskspn-calendar.php:367
+msgid "Sunday"
+msgstr "Domingo"
+
+#: includes/class-taskspn-blocks.php:30
+msgid "Task (Taskspn)"
+msgstr "Tarea (Taskspn)"
+
+#: includes/class-taskspn-post-type-task.php:160
+#: includes/class-taskspn-post-type-task.php:161
+msgid "Task audio url"
+msgstr "URL de audio de la tarea"
+
+#: includes/class-taskspn-taxonomies-task.php:32
+msgid "Task categories"
+msgstr "Categorías de tareas"
+
+#: includes/class-taskspn-post-type-task.php:49
+#: includes/class-taskspn-post-type-task.php:50
+msgid "Task date"
+msgstr "Fecha de la tarea"
+
+#: includes/class-taskspn-post-type-task.php:32
+#: includes/class-taskspn-post-type-task.php:33
+#: includes/class-taskspn-post-type-task.php:234
+#| msgid "Step description"
+msgid "Task description"
+msgstr "Descripción de la tarea"
+
+#: includes/class-taskspn-post-type-task.php:264
+msgid "Task details"
+msgstr "Detalles de la tarea"
+
+#: includes/class-taskspn-ajax.php:275
+msgid "Task ID is required."
+msgstr "Se requiere el ID de la tarea."
+
+#: includes/class-taskspn-blocks.php:31
+msgid "Task List (Taskspn)"
+msgstr "Lista de tareas (Taskspn)"
+
+#: includes/class-taskspn-post-type-task.php:140
+#: includes/class-taskspn-post-type-task.php:141
+msgid "Task multimedia content"
+msgstr "Contenido multimedia de la tarea"
+
+#: includes/class-taskspn-post-type-task.php:814
+msgid "Task not found"
+msgstr "Tarea no encontrada"
+
+#: includes/class-taskspn-settings.php:114
+#: includes/class-taskspn-settings.php:115
+msgid "Task slug"
+msgstr "slug de tarea"
+
+#: includes/class-taskspn-activator.php:50
+#: includes/class-taskspn-activator.php:62
+msgid "Task Test"
+msgstr "Prueba de tarea"
+
+#: includes/class-taskspn-post-type-task.php:57
+#: includes/class-taskspn-post-type-task.php:58
+msgid "Task time"
+msgstr "Hora de la tarea"
+
+#: includes/class-taskspn-post-type-task.php:23
+#: includes/class-taskspn-post-type-task.php:24
+msgid "Task title"
+msgstr "Título de la tarea"
+
+#: includes/class-taskspn-post-type-task.php:150
+#: includes/class-taskspn-post-type-task.php:151
+msgid "Task url"
+msgstr "URL de la tarea"
+
+#: includes/class-taskspn-post-type-task.php:170
+#: includes/class-taskspn-post-type-task.php:171
+msgid "Task video url"
+msgstr "URL del vídeo de la tarea"
+
+#: includes/class-taskspn-post-type-task.php:217
+#: includes/class-taskspn-post-type-task.php:233
+msgid "Tasks"
+msgstr "Tareas"
+
+#. Name of the plugin
+#: includes/class-taskspn-activator.php:28 includes/class-taskspn-blocks.php:21
+#: includes/class-taskspn-settings.php:148
+#: includes/class-taskspn-settings.php:149
+msgid "Tasks Manager - PN"
+msgstr "Gestor de tareas - PN"
+
+#: includes/class-taskspn-settings.php:171
+msgid "Tasks Manager - PN Settings"
+msgstr "Administrador de tareas - Configuración de PN"
+
+#: includes/class-taskspn-taxonomies-task.php:22
 msgctxt "Taxonomy general name"
-msgid "Recipe categories"
-msgstr "Categorías de recetas"
+msgid "Task category"
+msgstr "Categoría de tarea"
 
-#: includes/class-taskspn-taxonomies-recipe.php:23
+#: includes/class-taskspn-taxonomies-task.php:23
+#| msgid "Recipe category"
 msgctxt "Taxonomy singular name"
-msgid "Recipe category"
-msgstr "Categoría de receta"
+msgid "Task category"
+msgstr "Categoría de tarea"
 
-#: includes/class-taskspn-menus.php:25
+#: includes/class-taskspn-validation.php:114
+msgid "Text must be at least %d characters long."
+msgstr "El texto debe tener al menos %d caracteres."
+
+#: includes/class-taskspn-validation.php:123
+msgid "Text must be at most %d characters long."
+msgstr "El texto debe tener como máximo %d caracteres."
+
+#: includes/class-taskspn-validation.php:48
+msgid "This field"
+msgstr "Este campo"
+
+#: includes/class-taskspn-settings.php:116
+#| msgid ""
+#| "This option sets the slug of the main recipes archive page, and the "
+#| "recipe pages. By default they will be:"
 msgid ""
-"This option sets the slug of the main recipes archive page, and the recipe "
-"pages. By default they will be:"
+"This option sets the slug of the main Task archive page, and the Task pages. "
+"By default they will be:"
 msgstr ""
 "Esta opción configura el slug de la página principal de archivo de recetas y "
-"las páginas de recetas. Por defecto serán:"
+"las páginas de tareas. Por defecto serán:"
 
-#: templates/public/single-taskspn_recipe.php:138
+#: includes/class-taskspn-calendar.php:364
+msgid "Thursday"
+msgstr "Jueves"
+
+#: templates/public/single-taskspn_task.php:137
 msgid "Total time"
 msgstr "Tiempo Total"
 
-#: includes/class-taskspn-post-type-recipe.php:139
-msgid "Update Recipe"
-msgstr "Actualizar receta CPT"
+#: includes/class-taskspn-forms.php:536
+msgid "Transcribe Audio"
+msgstr "Transcribir audio"
 
-#: includes/class-taskspn-taxonomies-recipe.php:29
-msgid "Update Recipe category"
-msgstr "Actualizar categoría de receta"
+#: includes/class-taskspn-forms.php:557
+msgid "Transcribed text will appear here..."
+msgstr "El texto transcrito aparecerá aquí..."
 
-#: includes/class-taskspn-post-type-recipe.php:135
-msgid "View Recipe"
-msgstr "Ver receta CPT"
+#: includes/class-taskspn-common.php:248
+msgid "Transcription completed"
+msgstr "Transcripción completada"
 
-#. Author of the plugin
-msgid "Wordpress-Heroes"
-msgstr "Wordpress-Heroes"
+#: includes/class-taskspn-calendar.php:362
+msgid "Tuesday"
+msgstr "Martes"
 
-#: includes/class-taskspn-menus.php:53
-msgid "PN Options"
-msgstr "Opciones de PN"
+#: includes/class-taskspn-common.php:255
+msgid "Unknown error"
+msgstr "Error desconocido"
 
-#: includes/class-taskspn-post-type-recipe.php:91
+#: includes/class-taskspn-post-type-task.php:224
+msgid "Update Task"
+msgstr "Actualizar tarea"
+
+#: includes/class-taskspn-taxonomies-task.php:29
+msgid "Update Task category"
+msgstr "Actualizar categoría de tareas"
+
+#: includes/class-taskspn-blocks.php:28
+msgid "Users Ranking (Taskspn)"
+msgstr "Clasificación de usuarios (Taskspn)"
+
+#: includes/class-taskspn-shortcodes.php:261
+msgid "Users ranking by completed hours"
+msgstr "Clasificación de usuarios por horas completadas"
+
+#: includes/class-taskspn-post-type-task.php:220
+#: includes/class-taskspn-post-type-task.php:732
+msgid "View Task"
+msgstr "Ver tarea"
+
+#: includes/class-taskspn-calendar.php:363
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: includes/class-taskspn-calendar.php:289
+msgid "Week"
+msgstr "Semana"
+
+#: includes/class-taskspn-post-type-task.php:101
+msgid "Weeks"
+msgstr "Semanas"
+
+#: templates/taskspn-popups.php:40
 msgid ""
-"You can set a video repository url here (like YouTube or Vimeo) to show the "
-"content in the recipe's page."
+"will be completely deleted. This process cannot be reversed and cannot be "
+"recovered."
 msgstr ""
-"Puede configurar una URL del repositorio de videos aquí (como YouTube o "
-"Vimeo) para mostrar el contenido en la página de la receta."
+"Será eliminado por completo. Este proceso es irreversible e irrecuperable."
+
+#: includes/class-taskspn-calendar.php:295
+msgid "Year"
+msgstr "Año"
+
+#: includes/class-taskspn-forms.php:788
+msgid "Yes"
+msgstr "Sí"
+
+#: includes/class-taskspn-shortcodes.php:146
+msgid "You are an owner"
+msgstr "Eres propietario"
+
+#: includes/class-taskspn-post-type-task.php:866
+#: includes/class-taskspn-ajax.php:307
+msgid "You must be logged in to create a new asset."
+msgstr "Debes iniciar sesión para crear un nuevo activo."
+
+#: includes/class-taskspn-ajax.php:221
+msgid "You must be logged in to join a task."
+msgstr "Debes iniciar sesión para unirte a una tarea."
+
+#: includes/class-taskspn-ajax.php:105
+msgid "You must be logged in to update a task."
+msgstr "Debes iniciar sesión para actualizar una tarea."

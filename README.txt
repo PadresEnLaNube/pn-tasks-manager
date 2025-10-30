@@ -4,7 +4,7 @@ Donate link: https://padresenlanube.com/
 Tags: task, time manager, tasking, time tracking, performance
 Requires at least: 3.5
 Tested up to: 6.8
-Stable tag: 1.0.0
+Stable tag: 1.0.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Manage your tasks and time tracking with this plugin. Create tasks, assign them to users, and track the time spent on each task.
@@ -113,6 +113,6 @@ To uninstall the plugin, go to the 'Plugins' screen in WordPress, find the Tasks
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.0.15 =
 
 Hello world!

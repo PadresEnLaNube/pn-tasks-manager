@@ -171,6 +171,7 @@ class TASKSPN_Common {
 		]);
 
 		// Add CPTs data to JavaScript
+		wp_localize_script($this->plugin_name . '-forms', 'taskspn_cpts', TASKSPN_CPTS);
 		wp_localize_script($this->plugin_name . '-ajax', 'taskspn_cpts', TASKSPN_CPTS);
 
 		// Verify nonce for GET parameters

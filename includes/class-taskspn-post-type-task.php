@@ -652,20 +652,25 @@ class TASKSPN_Post_Type_Task {
     ob_start();
     ?>
       <div class="taskspn-cpt-list taskspn-taskspn_task-list taskspn-mb-100 taskspn-max-width-700 taskspn-margin-auto">
-        <div class="taskspn-cpt-search-container taskspn-mb-20 taskspn-text-align-right">
-          <div class="taskspn-cpt-search-wrapper taskspn-taskspn_task-search-wrapper">
-            <input type="text" class="taskspn-cpt-search-input taskspn-taskspn_task-search-input taskspn-input taskspn-display-none" placeholder="<?php esc_attr_e('Filter...', 'taskspn'); ?>" />
-            <i class="material-icons-outlined taskspn-cpt-search-toggle taskspn-taskspn_task-search-toggle taskspn-cursor-pointer taskspn-font-size-30 taskspn-vertical-align-middle taskspn-tooltip" title="<?php esc_attr_e('Search Tasks', 'taskspn'); ?>">search</i>
-            
-            <a href="#" class="taskspn-popup-open-ajax taskspn-text-decoration-none" data-taskspn-popup-id="taskspn-popup-taskspn_task-add" data-taskspn-ajax-type="taskspn_task_new">
-              <i class="material-icons-outlined taskspn-cursor-pointer taskspn-font-size-30 taskspn-vertical-align-middle taskspn-tooltip" title="<?php esc_attr_e('Add new Task', 'taskspn'); ?>">add</i>
-            </a>
+        <?php if (!is_user_logged_in()): ?>
+          <?php echo do_shortcode('[taskspn-call-to-action taskspn_call_to_action_icon="error_outline" taskspn_call_to_action_title="' . esc_html__('Access denied', 'taskspn') . '" taskspn_call_to_action_content="' . esc_html__('Log in or create an account to create and manage tasks.', 'taskspn') . '" taskspn_call_to_action_button_text="' . esc_html__('Create account', 'taskspn') . '" taskspn_call_to_action_button_link="' . esc_url(wp_registration_url()) . '"]'); ?>
+        <?php else: ?>
+          <div class="taskspn-cpt-search-container taskspn-mb-20 taskspn-text-align-right">
+            <div class="taskspn-cpt-search-wrapper taskspn-taskspn_task-search-wrapper">
+              <input type="text" class="taskspn-cpt-search-input taskspn-taskspn_task-search-input taskspn-input taskspn-display-none" placeholder="<?php esc_attr_e('Filter...', 'taskspn'); ?>" />
+              <i class="material-icons-outlined taskspn-cpt-search-toggle taskspn-taskspn_task-search-toggle taskspn-cursor-pointer taskspn-font-size-30 taskspn-vertical-align-middle taskspn-tooltip" title="<?php esc_attr_e('Search Tasks', 'taskspn'); ?>">search</i>
+              
+              <a href="#" class="taskspn-popup-open-ajax taskspn-text-decoration-none" data-taskspn-popup-id="taskspn-popup-taskspn_task-add" data-taskspn-ajax-type="taskspn_task_new">
+                <i class="material-icons-outlined taskspn-cursor-pointer taskspn-font-size-30 taskspn-vertical-align-middle taskspn-tooltip" title="<?php esc_attr_e('Add new Task', 'taskspn'); ?>">add</i>
+              </a>
+            </div>
           </div>
-        </div>
+  
+          <div class="taskspn-cpt-list-wrapper taskspn-taskspn_task-list-wrapper">
+            <?php echo wp_kses(self::taskspn_task_list(), TASKSPN_KSES); ?>
+          </div>
+        <?php endif; ?>
 
-        <div class="taskspn-cpt-list-wrapper taskspn-taskspn_task-list-wrapper">
-          <?php echo wp_kses(self::taskspn_task_list(), TASKSPN_KSES); ?>
-        </div>
       </div>
     <?php
     $taskspn_return_string = ob_get_contents(); 
@@ -1016,6 +1021,33 @@ class TASKSPN_Post_Type_Task {
     }
 
     return array_unique($taskspn_owners_array);
+  }
+
+  /**
+   * Toggle task completed state and set metadata like completed_at and completed_by
+   *
+   * @param int $task_id
+   * @param int $user_id The user performing the action
+   * @return bool New completed state (true if completed)
+   */
+  public function taskspn_task_toggle_completed($task_id, $user_id = 0) {
+    $task_id = intval($task_id);
+    if (!$task_id) { return false; }
+    $task = get_post($task_id);
+    if (!$task || $task->post_type !== 'taskspn_task') { return false; }
+
+    $current = get_post_meta($task_id, 'taskspn_task_completed', true) === 'on';
+    $new = !$current;
+    update_post_meta($task_id, 'taskspn_task_completed', $new ? 'on' : '');
+
+    if ($new) {
+      // Store completion metadata for later reporting
+      update_post_meta($task_id, 'taskspn_task_completed_at', current_time('mysql'));
+      if (!empty($user_id)) {
+        update_post_meta($task_id, 'taskspn_task_completed_by', intval($user_id));
+      }
+    }
+    return $new;
   }
 
   /**

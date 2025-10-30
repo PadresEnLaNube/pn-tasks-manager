@@ -52,7 +52,7 @@ class TASKSPN {
 		if (defined('TASKSPN_VERSION')) {
 			$this->taskspn_version = TASKSPN_VERSION;
 		} else {
-			$this->taskspn_version = '1.0.0';
+			$this->taskspn_version = '1.0.15';
 		}
 
 		$this->taskspn_plugin_name = 'taskspn';

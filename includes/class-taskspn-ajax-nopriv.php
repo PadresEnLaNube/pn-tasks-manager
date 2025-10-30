@@ -192,7 +192,8 @@ class TASKSPN_Ajax_Nopriv {
                 case 'post':
                   if (empty($taskspn_form_subtype) || in_array($taskspn_form_subtype, ['post_new', 'post_edit'])) {
                     if (empty($post_id)) {
-                      if (TASKSPN_Functions_User::taskspn_user_is_admin(get_current_user_id())) {
+                      // Allow any logged-in user to create a new post
+                      if (is_user_logged_in()) {
                         $post_functions = new TASKSPN_Functions_Post();
                         $title = !empty($_POST[$post_type . '_title']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST[$post_type . '_title'])) : '';
                         $description = !empty($_POST[$post_type . '_description']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST[$post_type . '_description'])) : '';

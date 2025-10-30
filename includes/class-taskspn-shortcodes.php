@@ -108,7 +108,8 @@ class TASKSPN_Shortcodes {
       ]
     ];
 
-    if ($atts['public_only'] === '1') {
+    // For logged-in users show all joinable tasks (not limited to public); guests only see public
+    if ($atts['public_only'] === '1' && !is_user_logged_in()) {
       $query_args['meta_query'][] = [
         'key' => 'taskspn_task_public',
         'value' => 'on',
@@ -142,7 +143,7 @@ class TASKSPN_Shortcodes {
                     <?php if (!is_user_logged_in()): ?>
                       <span><?php esc_html_e('Log in to join', 'taskspn'); ?></span>
                     <?php elseif ($is_owner): ?>
-                      <span class="taskspn-color-green"><?php esc_html_e('You are an owner', 'taskspn'); ?></span>
+                      <span class="taskspn-color-green taskspn-font-size-small"><?php esc_html_e('You are an owner', 'taskspn'); ?></span>
                     <?php else: ?>
                       <a href="#" class="taskspn-btn taskspn-btn-mini taskspn-join-task-btn" data-task-id="<?php echo esc_attr($task_id); ?>"><?php esc_html_e('Join task', 'taskspn'); ?></a>
                     <?php endif; ?>
@@ -264,7 +265,7 @@ class TASKSPN_Shortcodes {
           <ol class="taskspn-list-style-none taskspn-p-0">
             <?php foreach ($hours_per_user as $user_id => $total_hours): ?>
               <?php $display_name = TASKSPN_Functions_User::taskspn_user_get_name($user_id); ?>
-              <li class="taskspn-bordered taskspn-border-radius-5 taskspn-p-10 taskspn-mb-10">
+              <li class="taskspn-bordered taskspn-border-radius-5 taskspn-p-10 taskspn-mb-10 taskspn-users-ranking-item taskspn-cursor-pointer" data-user-id="<?php echo esc_attr($user_id); ?>" title="<?php esc_attr_e('Click to view completed tasks', 'taskspn'); ?>">
                 <div class="taskspn-display-table taskspn-width-100-percent">
                   <div class="taskspn-display-inline-table taskspn-width-70-percent">
                     <strong><?php echo esc_html($display_name); ?></strong>
@@ -278,6 +279,43 @@ class TASKSPN_Shortcodes {
           </ol>
         <?php endif; ?>
       </div>
+
+      <?php echo TASKSPN_Popups::open('<div id="taskspn-users-ranking-popup-content"></div>', ['id' => 'taskspn-users-ranking-popup']); ?>
+
+      <script>
+      (function(){
+        var popupId = 'taskspn-users-ranking-popup';
+        document.addEventListener('click', function(e){
+          var item = e.target.closest('.taskspn-users-ranking-item');
+          if(!item){ return; }
+          var userId = item.getAttribute('data-user-id');
+          if(!userId){ return; }
+          var data = new FormData();
+          data.append('action','taskspn_ajax');
+          data.append('taskspn_ajax_type','taskspn_users_ranking_user_tasks');
+          data.append('user_id', userId);
+          data.append('taskspn_ajax_nonce', (window.taskspn_ajax && taskspn_ajax.taskspn_ajax_nonce) ? taskspn_ajax.taskspn_ajax_nonce : '');
+          fetch((window.taskspn_ajax && taskspn_ajax.ajax_url) ? taskspn_ajax.ajax_url : '/wp-admin/admin-ajax.php', { method: 'POST', credentials: 'same-origin', body: data })
+            .then(function(r){ return r.json(); })
+            .then(function(resp){
+              if(!resp || resp.error_key){
+                alert((window.taskspn_i18n && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error');
+                return;
+              }
+              var popup = document.getElementById(popupId);
+              if(!popup){ return; }
+              var content = popup.querySelector('#taskspn-users-ranking-popup-content');
+              if(content){ content.innerHTML = resp.html; }
+              if (typeof TASKSPN_Popups !== 'undefined') {
+                // Pass popup id string so taskspn-popups.js resolves jQuery element correctly
+                TASKSPN_Popups.open(popupId);
+              }
+            }).catch(function(){
+              alert((window.taskspn_i18n && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error');
+            });
+        });
+      })();
+      </script>
     <?php
     $taskspn_return_string = ob_get_contents();
     ob_end_clean();

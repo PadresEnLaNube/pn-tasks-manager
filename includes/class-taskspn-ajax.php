@@ -117,12 +117,100 @@ class TASKSPN_Ajax {
             exit;
           }
 
-          $current = get_post_meta($task_id, 'taskspn_task_completed', true) === 'on';
-          $new = !$current;
-          update_post_meta($task_id, 'taskspn_task_completed', $new ? 'on' : '');
+          $task_class = new TASKSPN_Post_Type_Task();
+          $new = $task_class->taskspn_task_toggle_completed($task_id, get_current_user_id());
           echo wp_json_encode([
             'error_key' => '',
             'completed' => $new,
+          ]);
+          exit;
+          break;
+        case 'taskspn_users_ranking_user_tasks':
+          $user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
+          if (empty($user_id)) {
+            echo wp_json_encode([
+              'error_key' => 'invalid_user',
+              'error_content' => esc_html(__('Invalid user.', 'taskspn')),
+            ]);
+            exit;
+          }
+
+          // Fetch completed tasks and filter by ownership
+          $query_args = [
+            'fields' => 'ids',
+            'numberposts' => -1,
+            'post_type' => 'taskspn_task',
+            'post_status' => 'publish',
+            'meta_query' => [
+              [ 'key' => 'taskspn_task_completed', 'value' => 'on', 'compare' => '=' ],
+              [ 'key' => 'taskspn_repeated_from', 'compare' => 'NOT EXISTS' ],
+            ],
+          ];
+
+          if (class_exists('Polylang')) {
+            $query_args['lang'] = pll_current_language('slug');
+          }
+
+          $tasks = get_posts($query_args);
+
+          $items = [];
+          $task_class = new TASKSPN_Post_Type_Task();
+          foreach ($tasks as $tid) {
+            // Use canonical owners resolver to include author and normalize formats
+            $owners = $task_class->taskspn_task_owners($tid);
+            if (!in_array(intval($user_id), array_map('intval', $owners), true)) { continue; }
+
+            $hours = floatval(get_post_meta($tid, 'taskspn_task_estimated_hours', true));
+            $completed_at = get_post_meta($tid, 'taskspn_task_completed_at', true);
+            if (empty($completed_at)) {
+              $p = get_post($tid);
+              $completed_at = $p ? $p->post_modified : '';
+            }
+            $items[] = [
+              'title' => get_the_title($tid),
+              'hours' => $hours,
+              'completed_at' => $completed_at,
+              'id' => $tid,
+            ];
+          }
+
+          // Sort by completion time desc
+          usort($items, function($a, $b) {
+            return strtotime($b['completed_at']) <=> strtotime($a['completed_at']);
+          });
+
+          ob_start();
+          ?>
+          <div class="taskspn-p-20">
+            <h4 class="taskspn-mb-20"><?php esc_html_e('Completed tasks', 'taskspn'); ?></h4>
+            <?php if (empty($items)) : ?>
+              <p><?php esc_html_e('No completed tasks found for this user.', 'taskspn'); ?></p>
+            <?php else : ?>
+              <ul class="taskspn-list-style-none taskspn-p-0">
+                <?php foreach ($items as $it) : ?>
+                  <li class="taskspn-bordered taskspn-border-radius-5 taskspn-p-10 taskspn-mb-10">
+                    <div class="taskspn-display-table taskspn-width-100-percent">
+                      <div class="taskspn-display-inline-table taskspn-width-30-percent">
+                        <strong><?php echo esc_html($it['title']); ?></strong>
+                      </div>
+                      <div class="taskspn-display-inline-table taskspn-width-40-percent taskspn-text-align-right">
+                        <i class="material-icons-outlined taskspn-font-size-20 taskspn-vertical-align-middle taskspn-mr-10">calendar_today</i>
+                        <small class="taskspn-font-size-small"><?php echo esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($it['completed_at']))); ?></small>
+                      </div>
+                      <div class="taskspn-display-inline-table taskspn-width-30-percent">
+                        <i class="material-icons-outlined taskspn-font-size-20 taskspn-vertical-align-middle taskspn-mr-10">timer</i>
+                        <span class="taskspn-mr-10"><?php echo esc_html(number_format((float)$it['hours'], 2)); ?> <?php esc_html_e('hours', 'taskspn'); ?></span>
+                      </div>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+            <?php endif; ?>
+          </div>
+          <?php
+          $html = ob_get_clean();
+          echo wp_json_encode([
+            'error_key' => '',
+            'html' => $html,
           ]);
           exit;
           break;
