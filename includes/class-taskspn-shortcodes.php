@@ -280,7 +280,7 @@ class TASKSPN_Shortcodes {
         <?php endif; ?>
       </div>
 
-      <?php echo TASKSPN_Popups::open('<div id="taskspn-users-ranking-popup-content"></div>', ['id' => 'taskspn-users-ranking-popup']); ?>
+      <?php echo wp_kses_post( TASKSPN_Popups::open('<div id="taskspn-users-ranking-popup-content"></div>', ['id' => 'taskspn-users-ranking-popup']) ); ?>
 
       <script>
       (function(){

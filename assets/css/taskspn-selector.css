@@ -95,6 +95,23 @@ select.taskspn-select[required] {
 .taskspn-selector__option {
     padding: 8px 12px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.taskspn-selector__option-icon {
+    font-size: 20px;
+    vertical-align: middle;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.taskspn-selector__option-label {
+    flex: 1;
 }
 
 .taskspn-selector__option:hover {
@@ -159,8 +176,24 @@ select.taskspn-select[required] {
     padding: 4px 8px;
     background: transparent;
     border: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     vertical-align: middle;
+}
+
+.taskspn-selector__single-value__icon {
+    font-size: 18px;
+    vertical-align: middle;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.taskspn-selector__single-value__label {
+    flex: 1;
 }
 
 .taskspn-selector__single-value__remove {

@@ -552,6 +552,84 @@
         }
       });
     }
+
+    // Taxonomy field: Add new category functionality
+    $(document).on('click', '.taskspn-taxonomy-add-btn', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      var $btn = $(this);
+      var $wrapper = $btn.closest('.taskspn-taxonomy-wrapper');
+      var $input = $wrapper.find('.taskspn-taxonomy-new-name');
+      var $select = $wrapper.find('.taskspn-taxonomy-select');
+      var $termsList = $wrapper.find('.taskspn-taxonomy-terms-list');
+      var categoryName = $input.val().trim();
+      var taxonomy = $select.data('taxonomy');
+
+      if (!categoryName) {
+        alert('Please enter a category name');
+        return;
+      }
+
+      // Disable button while processing
+      $btn.prop('disabled', true).text('Adding...');
+
+      // Create new term via AJAX
+      $.ajax({
+        url: taskspn_ajax.ajax_url,
+        type: 'POST',
+        data: {
+          action: 'taskspn_create_taxonomy_term',
+          taxonomy: taxonomy,
+          term_name: categoryName,
+          nonce: taskspn_ajax.taskspn_ajax_nonce
+        },
+        success: function(response) {
+          if (response.success && response.data.term_id) {
+            // Add option to select
+            var $option = $('<option>', {
+              value: response.data.term_id,
+              text: categoryName,
+              selected: true
+            });
+            $select.append($option);
+
+            // Add badge to terms list
+            var $badge = $('<span>', {
+              class: 'taskspn-taxonomy-term-badge',
+              'data-term-id': response.data.term_id,
+              text: categoryName
+            });
+            $termsList.append($badge);
+
+            // Clear input
+            $input.val('');
+
+            // Show success message
+            if (typeof taskspn_get_main_message === 'function') {
+              taskspn_get_main_message('Category created successfully');
+            }
+          } else {
+            alert(response.data && response.data.message ? response.data.message : 'Error creating category');
+          }
+        },
+        error: function() {
+          alert('Error creating category. Please try again.');
+        },
+        complete: function() {
+          $btn.prop('disabled', false).text('Add');
+        }
+      });
+    });
+
+    // Allow Enter key to add category
+    $(document).on('keypress', '.taskspn-taxonomy-new-name', function(e) {
+      if (e.which === 13) { // Enter key
+        e.preventDefault();
+        $(this).siblings('.taskspn-taxonomy-add-btn').click();
+      }
+    });
   });
 
   $(document).on('click', '.taskspn-toggle', function(e) {

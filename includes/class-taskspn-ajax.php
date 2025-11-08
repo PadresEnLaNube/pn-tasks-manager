@@ -17,9 +17,13 @@ class TASKSPN_Ajax {
    * @since    1.0.0
    */
   public function taskspn_ajax_server() {
+    // Set proper headers for JSON response
+    header('Content-Type: application/json; charset=utf-8');
+    status_header(200); // Always return 200, errors are in JSON
+    
     if (array_key_exists('taskspn_ajax_type', $_POST)) {
       // Always require nonce verification
-      if (!array_key_exists('taskspn_ajax_nonce', $_POST)) {
+      if (!array_key_exists('taskspn_ajax_nonce', $_POST) || empty($_POST['taskspn_ajax_nonce'])) {
         echo wp_json_encode([
           'error_key' => 'taskspn_nonce_ajax_error_required',
           'error_content' => esc_html(__('Security check failed: Nonce is required.', 'taskspn')),
@@ -37,9 +41,9 @@ class TASKSPN_Ajax {
         exit;
       }
 
-      $taskspn_ajax_type = TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_ajax_type']));
+      $taskspn_ajax_type = isset($_POST['taskspn_ajax_type']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_ajax_type'])) : '';
 
-      $taskspn_ajax_keys = !empty($_POST['taskspn_ajax_keys']) ? array_map(function($key) {
+      $taskspn_ajax_keys = !empty($_POST['taskspn_ajax_keys']) && isset($_POST['taskspn_ajax_keys']) ? array_map(function($key) {
         return array(
           'id' => sanitize_key($key['id']),
           'node' => sanitize_key($key['node']),
@@ -48,7 +52,7 @@ class TASKSPN_Ajax {
         );
       }, wp_unslash($_POST['taskspn_ajax_keys'])) : [];
 
-      $taskspn_task_id = !empty($_POST['taskspn_task_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_task_id'])) : 0;
+      $taskspn_task_id = !empty($_POST['taskspn_task_id']) && isset($_POST['taskspn_task_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_task_id'])) : 0;
       
       $taskspn_key_value = [];
 
@@ -58,7 +62,7 @@ class TASKSPN_Ajax {
             $taskspn_clear_key = str_replace('[]', '', $taskspn_key['id']);
             ${$taskspn_clear_key} = $taskspn_key_value[$taskspn_clear_key] = [];
 
-            if (!empty($_POST[$taskspn_clear_key])) {
+            if (!empty($_POST[$taskspn_clear_key]) && isset($_POST[$taskspn_clear_key])) {
               $unslashed_array = wp_unslash($_POST[$taskspn_clear_key]);
               $sanitized_array = array_map(function($value) use ($taskspn_key) {
                 return TASKSPN_Forms::taskspn_sanitizer(
@@ -85,7 +89,7 @@ class TASKSPN_Ajax {
             }
           } else {
             $sanitized_key = sanitize_key($taskspn_key['id']);
-            $taskspn_key_id = !empty($_POST[$sanitized_key]) ? 
+            $taskspn_key_id = !empty($_POST[$sanitized_key]) && isset($_POST[$sanitized_key]) ? 
               TASKSPN_Forms::taskspn_sanitizer(
                 wp_unslash($_POST[$sanitized_key]), 
                 $taskspn_key['node'], 
@@ -251,17 +255,58 @@ class TASKSPN_Ajax {
           exit;
           break;
         case 'taskspn_task_view':
+          // Ensure we have proper headers for JSON response
+          header('Content-Type: application/json; charset=utf-8');
+          status_header(200); // Ensure we return 200 even on error
+          
           if (!empty($taskspn_task_id)) {
             try {
+              // Use output buffering to catch any unexpected output
+              ob_start();
+              
               $plugin_post_type_taskpn = new TASKSPN_Post_Type_Task();
               $task_html = $plugin_post_type_taskpn->taskspn_task_view(intval($taskspn_task_id));
               
-              echo wp_json_encode([
-                'error_key' => '', 
-                'html' => $task_html, 
-              ]);
+              // Clean any unexpected output
+              $unexpected_output = ob_get_clean();
+              
+              // Only use the HTML if it's not empty and doesn't contain error messages
+              if (!empty($task_html) && strpos($task_html, 'error crítico') === false && strpos($task_html, 'critical error') === false) {
+                $json_response = wp_json_encode([
+                  'error_key' => '', 
+                  'html' => $task_html, 
+                ]);
+                
+                if ($json_response !== false) {
+                  echo $json_response;
+                } else {
+                  echo wp_json_encode([
+                    'error_key' => 'taskspn_task_view_error', 
+                    'error_content' => esc_html(__('An error occurred while encoding the response.', 'taskspn')), 
+                  ]);
+                }
+              } else {
+                echo wp_json_encode([
+                  'error_key' => 'taskspn_task_view_error', 
+                  'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
+                ]);
+              }
             } catch (Exception $e) {
-              error_log('TASKSPN Error in taskspn_task_view: ' . $e->getMessage());
+              // Clean any output buffer
+              if (ob_get_level() > 0) {
+                ob_end_clean();
+              }
+              // error_log('TASKSPN Error in taskspn_task_view: ' . $e->getMessage());
+              echo wp_json_encode([
+                'error_key' => 'taskspn_task_view_error', 
+                'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
+              ]);
+            } catch (Error $e) {
+              // Clean any output buffer
+              if (ob_get_level() > 0) {
+                ob_end_clean();
+              }
+              // error_log('TASKSPN Fatal Error in taskspn_task_view: ' . $e->getMessage());
               echo wp_json_encode([
                 'error_key' => 'taskspn_task_view_error', 
                 'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
@@ -388,9 +433,9 @@ class TASKSPN_Ajax {
           break;
         case 'taskspn_calendar_view':
           $calendar_view = !empty($_POST['calendar_view']) ? sanitize_text_field(wp_unslash($_POST['calendar_view'])) : 'month';
-          $calendar_year = !empty($_POST['calendar_year']) ? intval($_POST['calendar_year']) : date('Y');
-          $calendar_month = !empty($_POST['calendar_month']) ? intval($_POST['calendar_month']) : date('m');
-          $calendar_day = !empty($_POST['calendar_day']) ? intval($_POST['calendar_day']) : date('d');
+          $calendar_year = !empty($_POST['calendar_year']) ? intval(wp_unslash($_POST['calendar_year'])) : gmdate('Y');
+          $calendar_month = !empty($_POST['calendar_month']) ? intval(wp_unslash($_POST['calendar_month'])) : gmdate('m');
+          $calendar_day = !empty($_POST['calendar_day']) ? intval(wp_unslash($_POST['calendar_day'])) : gmdate('d');
           
           $plugin_calendar = new TASKSPN_Calendar();
           $calendar_html = $plugin_calendar->taskspn_calendar_render_view_content($calendar_view, $calendar_year, $calendar_month, $calendar_day);
@@ -405,6 +450,44 @@ class TASKSPN_Ajax {
           ]);
 
           exit;
+          break;
+        case 'taskspn_create_taxonomy_term':
+          if (!is_user_logged_in()) {
+            wp_send_json_error(['message' => __('You must be logged in to create a category.', 'taskspn')]);
+          }
+
+          // Verify nonce
+          if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'taskspn-nonce')) {
+            wp_send_json_error(['message' => __('Security check failed.', 'taskspn')]);
+          }
+
+          $taxonomy = isset($_POST['taxonomy']) ? sanitize_text_field(wp_unslash($_POST['taxonomy'])) : '';
+          $term_name = isset($_POST['term_name']) ? sanitize_text_field(wp_unslash($_POST['term_name'])) : '';
+
+          if (empty($taxonomy) || empty($term_name)) {
+            wp_send_json_error(['message' => __('Taxonomy and term name are required.', 'taskspn')]);
+          }
+
+          // Check if term already exists
+          $existing_term = get_term_by('name', $term_name, $taxonomy);
+          if ($existing_term) {
+            wp_send_json_success([
+              'term_id' => $existing_term->term_id,
+              'message' => __('Category already exists.', 'taskspn')
+            ]);
+          }
+
+          // Create new term
+          $term_result = wp_insert_term($term_name, $taxonomy);
+          
+          if (is_wp_error($term_result)) {
+            wp_send_json_error(['message' => $term_result->get_error_message()]);
+          }
+
+          wp_send_json_success([
+            'term_id' => $term_result['term_id'],
+            'message' => __('Category created successfully.', 'taskspn')
+          ]);
           break;
       }
 

@@ -52,7 +52,7 @@ class TASKSPN {
 		if (defined('TASKSPN_VERSION')) {
 			$this->taskspn_version = TASKSPN_VERSION;
 		} else {
-			$this->taskspn_version = '1.0.15';
+			$this->taskspn_version = '1.0.8';
 		}
 
 		$this->taskspn_plugin_name = 'taskspn';
@@ -247,7 +247,20 @@ class TASKSPN {
 		$this->taskspn_loader->taskspn_add_filter('body_class', $plugin_common, 'taskspn_body_classes');
 
 		$plugin_post_type_task = new TASKSPN_Post_Type_Task();
-		$this->taskspn_loader->taskspn_add_action('taskspn_task_form_save', $plugin_post_type_task, 'taskspn_task_form_save', 999, 5);
+		$this->taskspn_loader->taskspn_add_action('taskspn_form_save', $plugin_post_type_task, 'taskspn_task_form_save', 999, 5);
+    // Keep Gutenberg enabled while hiding public REST endpoints of the task CPT
+    $this->taskspn_loader->taskspn_add_filter('rest_endpoints', $plugin_post_type_task, 'taskspn_hide_task_rest_endpoints');
+    
+    // Schedule cron job for resetting repeated tasks
+    if (!wp_next_scheduled('taskspn_reset_repeated_tasks')) {
+      wp_schedule_event(time(), 'hourly', 'taskspn_reset_repeated_tasks');
+    }
+    $this->taskspn_loader->taskspn_add_action('taskspn_reset_repeated_tasks', $plugin_post_type_task, 'taskspn_reset_repeated_tasks');
+    
+    // ICS download handler (available for both logged in and non-logged in users)
+    $plugin_calendar = new TASKSPN_Calendar();
+    $this->taskspn_loader->taskspn_add_action('wp_ajax_taskspn_download_ics', $plugin_calendar, 'taskspn_download_ics_handler');
+    $this->taskspn_loader->taskspn_add_action('wp_ajax_nopriv_taskspn_download_ics', $plugin_calendar, 'taskspn_download_ics_handler');
 	}
 
 	/**
@@ -260,6 +273,8 @@ class TASKSPN {
 		$plugin_admin = new TASKSPN_Admin(self::taskspn_get_plugin_name(), self::taskspn_get_version());
 		$this->taskspn_loader->taskspn_add_action('admin_enqueue_scripts', $plugin_admin, 'taskspn_enqueue_styles');
 		$this->taskspn_loader->taskspn_add_action('admin_enqueue_scripts', $plugin_admin, 'taskspn_enqueue_scripts');
+    // Admin notice if MailPN is not active
+    $this->taskspn_loader->taskspn_add_action('admin_notices', $plugin_admin, 'taskspn_mailpn_notice');
 	}
 
 	/**

@@ -30,6 +30,12 @@ class TASKSPN_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function taskspn_deactivate() {
+		// Clear scheduled cron job
+		$timestamp = wp_next_scheduled('taskspn_reset_repeated_tasks');
+		if ($timestamp) {
+			wp_unschedule_event($timestamp, 'taskspn_reset_repeated_tasks');
+		}
+		
 		$plugin_post = new TASKSPN_Post_Type_Task();
 		
 		if (get_option('taskspn_options_remove') == 'on') {

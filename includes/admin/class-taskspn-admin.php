@@ -60,4 +60,29 @@ class TASKSPN_Admin {
 		wp_enqueue_media();
 		wp_enqueue_script($this->plugin_name . '-admin', TASKSPN_URL . 'assets/js/admin/taskspn-admin.js', ['jquery'], $this->version, false);
 	}
+
+	/**
+	 * Show admin notice if MailPN is not active to inform about required email plugin
+	 */
+	public function taskspn_mailpn_notice() {
+		if (!current_user_can('activate_plugins')) { return; }
+		// If MailPN available, no notice
+		if (class_exists('MAILPN_Mailing') || shortcode_exists('mailpn-sender')) { return; }
+
+		$install_url = wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=mailpn'), 'install-plugin_mailpn');
+		$plugins_url = admin_url('plugin-install.php?tab=search&type=term&s=mailpn');
+		?>
+		<div class="notice notice-warning">
+			<p>
+				<strong><?php echo esc_html__('TaskSPN notice:', 'taskspn'); ?></strong>
+				<?php echo esc_html__('To send task assignment emails, please install and activate', 'taskspn'); ?>
+				<a href="<?php echo esc_url('https://wordpress.org/plugins/mailpn'); ?>" target="_blank" rel="noopener noreferrer">Mailing Manager – PN</a>.
+			</p>
+			<p>
+				<a class="button button-primary" href="<?php echo esc_url($install_url); ?>"><?php echo esc_html__('Install MailPN', 'taskspn'); ?></a>
+				<a class="button" href="<?php echo esc_url($plugins_url); ?>"><?php echo esc_html__('Search in plugins', 'taskspn'); ?></a>
+			</p>
+		</div>
+		<?php
+	}
 }

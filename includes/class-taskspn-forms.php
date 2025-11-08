@@ -28,7 +28,7 @@ class TASKSPN_Forms {
    * @param array $taskspn_input The input array containing field configuration
    * @return mixed The current value of the field
    */
-  private static function taskspn_get_field_value($field_id, $taskspn_type, $taskspn_id = 0, $taskspn_meta_array = 0, $taskspn_array_index = 0, $taskspn_input = []) {
+  public static function taskspn_get_field_value($field_id, $taskspn_type, $taskspn_id = 0, $taskspn_meta_array = 0, $taskspn_array_index = 0, $taskspn_input = []) {
     $current_value = '';
 
     if ($taskspn_meta_array) {
@@ -581,7 +581,7 @@ class TASKSPN_Forms {
         break;
       case 'tags':
         // Get current tags value
-        $current_tags = self::taskspn_get_taskpnspn_value($taskspn_type, $taskspn_id, $taskspn_input);
+        $current_tags = self::taskspn_get_field_value($taskspn_input['id'], $taskspn_type, $taskspn_id, $taskspn_meta_array, $taskspn_array_index, $taskspn_input);
         $tags_array = is_array($current_tags) ? $current_tags : [];
         $tags_string = implode(', ', $tags_array);
         ?>
@@ -614,6 +614,74 @@ class TASKSPN_Forms {
             id="<?php echo esc_attr($taskspn_input['id']); ?>_tags_array" 
             name="<?php echo esc_attr($taskspn_input['id']); ?>_tags_array" 
             value="<?php echo esc_attr(json_encode($tags_array)); ?>" />
+        </div>
+        <?php
+        break;
+      case 'taxonomy':
+        $taxonomy = !empty($taskspn_input['taxonomy']) ? $taskspn_input['taxonomy'] : 'category';
+        $is_multiple = array_key_exists('multiple', $taskspn_input) && $taskspn_input['multiple'];
+        
+        // Get current taxonomy terms
+        $current_terms = [];
+        if ($taskspn_type === 'post' && !empty($taskspn_id)) {
+          $terms = wp_get_post_terms($taskspn_id, $taxonomy, ['fields' => 'ids']);
+          $current_terms = is_array($terms) ? $terms : [];
+        }
+        
+        // Get all terms for this taxonomy
+        $all_terms = get_terms([
+          'taxonomy' => $taxonomy,
+          'hide_empty' => false,
+        ]);
+        
+        // Get selected values
+        $selected_values = $is_multiple ? $current_terms : (!empty($current_terms) ? [$current_terms[0]] : []);
+        ?>
+        <div class="taskspn-taxonomy-wrapper" <?php echo wp_kses_post($taskspn_parent_block); ?>>
+          <select 
+            id="<?php echo esc_attr($taskspn_input['id']); ?>" 
+            name="<?php echo esc_attr($taskspn_input['id']) . ($is_multiple ? '[]' : ''); ?>" 
+            class="taskspn-field taskspn-taxonomy-select <?php echo array_key_exists('class', $taskspn_input) ? esc_attr($taskspn_input['class']) : ''; ?>"
+            <?php echo $is_multiple ? 'multiple' : ''; ?>
+            <?php echo ((array_key_exists('required', $taskspn_input) && $taskspn_input['required'] == true) ? 'required' : ''); ?>
+            <?php echo (((array_key_exists('disabled', $taskspn_input) && $taskspn_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>
+            data-taxonomy="<?php echo esc_attr($taxonomy); ?>"
+            data-taskspn-allow-new="<?php echo (array_key_exists('allow_new', $taskspn_input) && $taskspn_input['allow_new'] == true) ? 'true' : 'false'; ?>"
+          >
+            <?php if (array_key_exists('placeholder', $taskspn_input) && !empty($taskspn_input['placeholder'])): ?>
+              <option value=""><?php echo esc_html($taskspn_input['placeholder']); ?></option>
+            <?php endif; ?>
+            
+            <?php if (!empty($all_terms) && !is_wp_error($all_terms)): ?>
+              <?php foreach ($all_terms as $term): ?>
+                <?php $is_selected = in_array($term->term_id, $selected_values); ?>
+                <option 
+                  value="<?php echo esc_attr($term->term_id); ?>"
+                  <?php echo $is_selected ? 'selected="selected"' : ''; ?>
+                >
+                  <?php echo esc_html($term->name); ?>
+                </option>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </select>
+          
+          <?php if (array_key_exists('allow_new', $taskspn_input) && $taskspn_input['allow_new'] == true): ?>
+            <div class="taskspn-taxonomy-add-new taskspn-mt-10">
+              <input 
+                type="text" 
+                class="taskspn-taxonomy-new-name taskspn-input taskspn-width-70-percent" 
+                placeholder="<?php echo esc_attr__('New category name', 'taskspn'); ?>"
+                <?php echo (((array_key_exists('disabled', $taskspn_input) && $taskspn_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>
+              />
+              <button 
+                type="button" 
+                class="taskspn-btn taskspn-btn-mini taskspn-taxonomy-add-btn taskspn-width-30-percent"
+                <?php echo (((array_key_exists('disabled', $taskspn_input) && $taskspn_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>
+              >
+                <?php esc_html_e('Add', 'taskspn'); ?>
+              </button>
+            </div>
+          <?php endif; ?>
         </div>
         <?php
         break;
@@ -804,11 +872,103 @@ class TASKSPN_Forms {
                 break;
 
               case 'color':
+                $color_value = !empty($current_value) ? trim($current_value) : '#d45500';
+                // Ensure color value is valid hex color
+                if (!preg_match('/^#[a-fA-F0-9]{6}$/', $color_value)) {
+                  $color_value = '#d45500';
+                }
                 ?>
                   <div class="taskspn-color-display">
-                    <span class="taskspn-color-preview" style="background-color: <?php echo esc_attr($current_value); ?>"></span>
-                    <span class="taskspn-color-value"><?php echo esc_html($current_value); ?></span>
+                    <span class="taskspn-color-preview" style="background-color: <?php echo esc_attr($color_value); ?> !important; display: inline-block; width: 24px; height: 24px; border-radius: 4px; border: 1px solid #e0e0e0;"></span>
+                    <span class="taskspn-color-value"><?php echo esc_html($color_value); ?></span>
                   </div>
+                <?php
+                break;
+
+              case 'date':
+                if (!empty($current_value) && is_string($current_value)) {
+                  try {
+                    // Convert date string to timestamp
+                    $date_timestamp = strtotime(trim($current_value));
+                    if ($date_timestamp !== false && $date_timestamp > 0) {
+                      // Format using WordPress date format setting
+                      $date_format = get_option('date_format');
+                      if (empty($date_format)) {
+                        $date_format = 'Y-m-d'; // Default format
+                      }
+                      $formatted_date = date_i18n($date_format, $date_timestamp);
+                      if (!empty($formatted_date)) {
+                        ?>
+                          <span class="taskspn-date-value"><?php echo esc_html($formatted_date); ?></span>
+                        <?php
+                      } else {
+                        ?>
+                          <span class="taskspn-text-value"><?php echo esc_html($current_value); ?></span>
+                        <?php
+                      }
+                    } else {
+                      ?>
+                        <span class="taskspn-text-value"><?php echo esc_html($current_value); ?></span>
+                      <?php
+                    }
+                  } catch (Exception $e) {
+                    ?>
+                      <span class="taskspn-text-value"><?php echo esc_html($current_value); ?></span>
+                    <?php
+                  }
+                } else {
+                  ?>
+                    <span class="taskspn-text-value"><?php echo esc_html($current_value); ?></span>
+                  <?php
+                }
+                break;
+
+              case 'datetime-local':
+                if (!empty($current_value) && is_string($current_value)) {
+                  try {
+                    // Convert datetime string to timestamp
+                    $datetime_timestamp = strtotime(trim($current_value));
+                    if ($datetime_timestamp !== false && $datetime_timestamp > 0) {
+                      // Format using WordPress date and time format settings
+                      $date_format = get_option('date_format');
+                      $time_format = get_option('time_format');
+                      if (empty($date_format)) {
+                        $date_format = 'Y-m-d'; // Default format
+                      }
+                      if (empty($time_format)) {
+                        $time_format = 'H:i'; // Default format
+                      }
+                      $formatted_datetime = date_i18n($date_format . ' ' . $time_format, $datetime_timestamp);
+                      if (!empty($formatted_datetime)) {
+                        ?>
+                          <span class="taskspn-datetime-value"><?php echo esc_html($formatted_datetime); ?></span>
+                        <?php
+                      } else {
+                        ?>
+                          <span class="taskspn-text-value"><?php echo esc_html($current_value); ?></span>
+                        <?php
+                      }
+                    } else {
+                      ?>
+                        <span class="taskspn-text-value"><?php echo esc_html($current_value); ?></span>
+                      <?php
+                    }
+                  } catch (Exception $e) {
+                    ?>
+                      <span class="taskspn-text-value"><?php echo esc_html($current_value); ?></span>
+                    <?php
+                  }
+                } else {
+                  ?>
+                    <span class="taskspn-text-value"><?php echo esc_html($current_value); ?></span>
+                  <?php
+                }
+                break;
+
+              case 'time':
+                // Time fields can be displayed as-is or formatted
+                ?>
+                  <span class="taskspn-time-value"><?php echo esc_html($current_value); ?></span>
                 <?php
                 break;
 
@@ -914,6 +1074,33 @@ class TASKSPN_Forms {
                 <?php endif; ?>
               </div>
             <?php
+            break;
+          case 'taxonomy':
+            $taxonomy = !empty($taskspn_input['taxonomy']) ? $taskspn_input['taxonomy'] : 'category';
+            $is_multiple = array_key_exists('multiple', $taskspn_input) && $taskspn_input['multiple'];
+            
+            // Get current taxonomy terms
+            $current_terms = [];
+            if ($taskspn_type === 'post' && !empty($taskspn_id)) {
+              $terms = wp_get_post_terms($taskspn_id, $taxonomy, ['fields' => 'all']);
+              $current_terms = is_array($terms) && !is_wp_error($terms) ? $terms : [];
+            }
+            
+            if (!empty($current_terms)) {
+              if ($is_multiple) {
+                ?>
+                <div class="taskspn-taxonomy-values">
+                  <?php foreach ($current_terms as $term): ?>
+                    <span class="taskspn-taxonomy-term"><?php echo esc_html($term->name); ?></span>
+                  <?php endforeach; ?>
+                </div>
+                <?php
+              } else {
+                ?>
+                <span class="taskspn-taxonomy-term"><?php echo esc_html($current_terms[0]->name); ?></span>
+                <?php
+              }
+            }
             break;
         }
         ?>

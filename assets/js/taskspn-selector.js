@@ -172,6 +172,9 @@
             const options = $(this.element).find('option');
             this.optionsContainer.empty();
 
+            // Check if this is the icon selector field
+            const isIconField = $(this.element).attr('id') === 'taskspn_task_icon';
+
             options.each((_, option) => {
                 const $option = $(option);
                 const value = $option.val();
@@ -183,8 +186,17 @@
                 const isSelected = this.selectedValues.includes(value);
 
                 const optionElement = $('<div class="taskspn-selector__option"></div>')
-                    .text(label)
                     .data('value', value);
+
+                if (isIconField && value) {
+                    // For icon field, show icon + label
+                    const iconElement = $('<i class="material-icons-outlined taskspn-selector__option-icon"></i>').text(value);
+                    const labelElement = $('<span class="taskspn-selector__option-label"></span>').text(label);
+                    optionElement.append(iconElement).append(labelElement);
+                } else {
+                    // For other fields, just show label
+                    optionElement.text(label);
+                }
 
                 if (isSelected) {
                     optionElement.addClass('-selector__option--is-selected');
@@ -265,7 +277,21 @@
             } else {
                 // Single select: text + x to remove
                 const valueElement = $('<span class="taskspn-selector__single-value"></span>');
-                const labelElement = $('<span class="taskspn-selector__single-value__label"></span>').text(label);
+                
+                // Check if this is the icon selector field
+                const isIconField = $(this.element).attr('id') === 'taskspn_task_icon';
+                
+                let iconElement, labelElement;
+                
+                if (isIconField && value) {
+                    // For icon field, show icon + label
+                    iconElement = $('<i class="material-icons-outlined taskspn-selector__single-value__icon"></i>').text(value);
+                    labelElement = $('<span class="taskspn-selector__single-value__label"></span>').text(label);
+                } else {
+                    // For other fields, just show label
+                    labelElement = $('<span class="taskspn-selector__single-value__label"></span>').text(label);
+                }
+                
                 const removeButton = $('<span class="taskspn-selector__single-value__remove"><i class="material-icons-outlined taskspn-icon-close">close</i></span>');
                 removeButton.on('click', (e) => {
                     e.stopPropagation();
@@ -279,7 +305,12 @@
                         this.valueContainer.append('<span class="taskspn-selector__placeholder">' + this.placeholder + '</span>');
                     }
                 });
-                valueElement.append(labelElement, removeButton);
+                
+                if (isIconField && value && iconElement) {
+                    valueElement.append(iconElement, labelElement, removeButton);
+                } else {
+                    valueElement.append(labelElement, removeButton);
+                }
                 this.valueContainer.append(valueElement);
             }
         }

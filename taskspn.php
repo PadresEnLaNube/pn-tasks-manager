@@ -13,7 +13,7 @@
  * Plugin Name:       Tasks Manager - PN
  * Plugin URI:        https://padresenlanube.com/plugins/taskspn/
  * Description:       Manage your tasks and time tracking with this plugin. Create tasks, assign them to users, and track the time spent on each task.
- * Version:           1.0.15
+ * Version:           1.0.8
  * Requires at least: 3.0
  * Requires PHP:      7.2
  * Author:            Padres en la Nube
@@ -34,7 +34,7 @@ if (!defined('WPINC')) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('TASKSPN_VERSION', '1.0.15');
+define('TASKSPN_VERSION', '1.0.8');
 define('TASKSPN_DIR', plugin_dir_path(__FILE__));
 define('TASKSPN_URL', plugin_dir_url(__FILE__));
 define('TASKSPN_CPTS', [
@@ -46,40 +46,40 @@ define('TASKSPN_CPTS', [
  */
 $taskspn_role_cpt_capabilities = [];
 
-foreach (TASKSPN_CPTS as $cpt_key => $cpt_value) {
-	$taskspn_role_cpt_capabilities[$cpt_key] = [
-		'edit_post' 				=> 'edit_' . $cpt_key,
-		'edit_posts' 				=> 'edit_' . $cpt_key,
-		'edit_private_posts' 		=> 'edit_private_' . $cpt_key,
-		'edit_published_posts' 		=> 'edit_published_' . $cpt_key,
-		'edit_others_posts' 		=> 'edit_others_' . $cpt_key,
-		'publish_posts' 			=> 'publish_' . $cpt_key,
+foreach (TASKSPN_CPTS as $taskspn_cpt_key => $taskspn_cpt_value) {
+	$taskspn_role_cpt_capabilities[$taskspn_cpt_key] = [
+		'edit_post' 				=> 'edit_' . $taskspn_cpt_key,
+		'edit_posts' 				=> 'edit_' . $taskspn_cpt_key,
+		'edit_private_posts' 		=> 'edit_private_' . $taskspn_cpt_key,
+		'edit_published_posts' 		=> 'edit_published_' . $taskspn_cpt_key,
+		'edit_others_posts' 		=> 'edit_others_' . $taskspn_cpt_key,
+		'publish_posts' 			=> 'publish_' . $taskspn_cpt_key,
 
 		// Post reading capabilities
-		'read_post' 				=> 'read_' . $cpt_key,
-		'read_private_posts' 		=> 'read_private_' . $cpt_key,
+		'read_post' 				=> 'read_' . $taskspn_cpt_key,
+		'read_private_posts' 		=> 'read_private_' . $taskspn_cpt_key,
 		
 		// Post deletion capabilities
-		'delete_post' 				=> 'delete_' . $cpt_key,
-		'delete_posts' 				=> 'delete_' . $cpt_key,
-		'delete_private_posts' 		=> 'delete_private_' . $cpt_key,
-		'delete_published_posts' 	=> 'delete_published_' . $cpt_key,
-		'delete_others_posts'		=> 'delete_others_' . $cpt_key,
+		'delete_post' 				=> 'delete_' . $taskspn_cpt_key,
+		'delete_posts' 				=> 'delete_' . $taskspn_cpt_key,
+		'delete_private_posts' 		=> 'delete_private_' . $taskspn_cpt_key,
+		'delete_published_posts' 	=> 'delete_published_' . $taskspn_cpt_key,
+		'delete_others_posts'		=> 'delete_others_' . $taskspn_cpt_key,
 
 		// Media capabilities
 		'upload_files' 				=> 'upload_files',
 
 		// Taxonomy capabilities
-		'manage_terms' 				=> 'manage_' . $cpt_key . '_category',
-		'edit_terms' 				=> 'edit_' . $cpt_key . '_category',
-		'delete_terms' 				=> 'delete_' . $cpt_key . '_category',
-		'assign_terms' 				=> 'assign_' . $cpt_key . '_category',
+		'manage_terms' 				=> 'manage_' . $taskspn_cpt_key . '_category',
+		'edit_terms' 				=> 'edit_' . $taskspn_cpt_key . '_category',
+		'delete_terms' 				=> 'delete_' . $taskspn_cpt_key . '_category',
+		'assign_terms' 				=> 'assign_' . $taskspn_cpt_key . '_category',
 
 		// Options capabilities
-		'manage_options' 			=> 'manage_' . $cpt_key . '_options'
+		'manage_options' 			=> 'manage_' . $taskspn_cpt_key . '_options'
 	];
 	
-	define('TASKSPN_ROLE_' . strtoupper($cpt_key) . '_CAPABILITIES', $taskspn_role_cpt_capabilities[$cpt_key]);
+	define('TASKSPN_ROLE_' . strtoupper($taskspn_cpt_key) . '_CAPABILITIES', $taskspn_role_cpt_capabilities[$taskspn_cpt_key]);
 }
 
 /**
@@ -87,7 +87,7 @@ foreach (TASKSPN_CPTS as $cpt_key => $cpt_value) {
  */
 $taskspn_kses = [
 	// Basic text elements
-	'div' => ['id' => [], 'class' => []],
+	'div' => ['id' => [], 'class' => [], 'style' => []],
 	'section' => ['id' => [], 'class' => []],
 	'article' => ['id' => [], 'class' => []],
 	'aside' => ['id' => [], 'class' => []],
@@ -96,7 +96,7 @@ $taskspn_kses = [
 	'main' => ['id' => [], 'class' => []],
 	'nav' => ['id' => [], 'class' => []],
 	'p' => ['id' => [], 'class' => []],
-	'span' => ['id' => [], 'class' => []],
+	'span' => ['id' => [], 'class' => [], 'style' => []],
 	'small' => ['id' => [], 'class' => []],
 	'em' => [],
 	'strong' => [],
@@ -207,8 +207,8 @@ $taskspn_kses = [
 	],
 ];
 
-foreach (TASKSPN_CPTS as $cpt_key => $cpt_value) {
-	$taskspn_kses['li']['data-' . $cpt_key . '-id'] = [];
+foreach (TASKSPN_CPTS as $taskspn_cpt_key => $taskspn_cpt_value) {
+	$taskspn_kses['li']['data-' . $taskspn_cpt_key . '-id'] = [];
 }
 
 // Now define the constant with the complete array

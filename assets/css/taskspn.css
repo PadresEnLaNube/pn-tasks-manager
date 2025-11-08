@@ -1081,8 +1081,8 @@ textarea{
 }
 .taskspn-close-icon{
   position:absolute;
-  top:5px;
-  right:0;
+  top:10px;
+  right:10px;
 }
 .taskspn-shader{
   z-index:3;
@@ -1248,6 +1248,37 @@ header .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigati
 .taskspn-list-more p{
   margin-bottom:0;
 }
+.taskspn-task-list-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.taskspn-task-list-footer .taskspn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.taskspn-task-list-footer .taskspn-btn-primary {
+  background: var(--taskspn-color-main);
+  color: #fff;
+  border: none;
+}
+
+.taskspn-task-list-footer .taskspn-btn-primary:hover {
+  background: var(--taskspn-color-main);
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 .taskspn-tasks-list{
   margin-top:50px;
   margin-bottom:100px;
@@ -2033,6 +2064,8 @@ header .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigati
     height: 24px;
     border-radius: 4px;
     border: 1px solid #e0e0e0;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .taskspn-color-value {
@@ -2313,3 +2346,53 @@ header .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigati
     .taskspn-users-ranking .taskspn-display-inline-table:last-child span{ min-width:48px; }
   }
 /* END JOINABLE TASKS + USERS RANKING */
+
+/* TASK COMMENTS STYLES */
+.taskspn-task-comments-list {
+  margin-top: 15px;
+}
+
+.taskspn-task-comment {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.taskspn-task-comment:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.taskspn-task-comment-content {
+  color: #495057;
+  line-height: 1.6;
+}
+
+.taskspn-task-comment-content p {
+  margin-bottom: 0.5em;
+}
+
+.taskspn-task-comment-content p:last-child {
+  margin-bottom: 0;
+}
+
+.taskspn-color-dark {
+  color: #212529;
+}
+
+.taskspn-color-gray {
+  color: #6c757d;
+}
+
+.taskspn-bg-light {
+  background-color: #f8f9fa;
+}
+
+.taskspn-border-radius-8 {
+  border-radius: 8px;
+}
+/* END TASK COMMENTS STYLES */

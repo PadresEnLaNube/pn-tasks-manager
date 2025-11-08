@@ -8,6 +8,47 @@
   position: relative;
 }
 
+.taskspn-calendar-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.taskspn-calendar-footer-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.taskspn-calendar-footer .taskspn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  margin: 0;
+}
+
+.taskspn-calendar-footer .taskspn-btn-primary {
+  background: var(--taskspn-color-main);
+  color: #fff;
+  border: none;
+}
+
+.taskspn-calendar-footer .taskspn-btn-primary:hover {
+  background: var(--taskspn-color-main);
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 .taskspn-calendar-loader-wrapper {
   position: relative;
 }
@@ -105,35 +146,56 @@
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .taskspn-calendar-weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   background: #fdfdfd;
   border-bottom: 2px solid #e0e0e0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .taskspn-calendar-weekday {
-  padding: 12px 8px;
+  padding: 8px;
+  position: relative;
   text-align: center;
   font-weight: 600;
   font-size: 12px;
   color: #666;
   text-transform: uppercase;
+  border-right: 1px solid #e0e0e0;
+  box-sizing: border-box;
+}
+
+.taskspn-calendar-weekday:last-child {
+  border-right: none;
 }
 
 .taskspn-calendar-days {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .taskspn-calendar-day {
   min-height: 100px;
   padding: 8px;
-  border: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
   background: #fff;
   position: relative;
+  overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.taskspn-calendar-days .taskspn-calendar-day:nth-child(7n) {
+  border-right: none;
 }
 
 .taskspn-calendar-day-empty {
@@ -185,6 +247,9 @@
 
 .taskspn-calendar-day-tasks {
   margin-top: 4px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .taskspn-calendar-task-item {
@@ -199,6 +264,29 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: all 0.2s ease;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: block;
+}
+
+.taskspn-calendar-task-icon {
+  display: inline-block;
+  margin: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.taskspn-calendar-task-icon:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+.taskspn-calendar-task-icon i {
+  font-size: 18px;
+  vertical-align: middle;
 }
 
 .taskspn-calendar-task-item:hover {
@@ -296,23 +384,43 @@
   background: #f5f5f5;
   border-left: 3px solid var(--taskspn-color-main);
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .taskspn-calendar-task-item-week:hover {
   background: #e8e8e8;
 }
 
+.taskspn-calendar-task-item-week .taskspn-calendar-task-icon-week {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.taskspn-calendar-task-item-week .taskspn-calendar-task-icon-week i {
+  font-size: 18px;
+  vertical-align: middle;
+  line-height: 1;
+}
+
 .taskspn-calendar-task-item-week .taskspn-calendar-task-time {
-  display: block;
   font-size: 11px;
   color: #666;
-  margin-bottom: 4px;
+  margin-right: 8px;
+  white-space: nowrap;
 }
 
 .taskspn-calendar-task-item-week .taskspn-calendar-task-title {
   font-size: 13px;
   color: #333;
   font-weight: 500;
+  flex: 1;
+  margin-left: 8px;
 }
 
 /* Day View */
@@ -359,11 +467,27 @@
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   transition: all 0.2s ease;
+  align-items: flex-start;
 }
 
 .taskspn-calendar-task-item-day:hover {
   border-color: var(--taskspn-color-main);
   box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+}
+
+.taskspn-calendar-task-item-day .taskspn-calendar-task-icon-day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.taskspn-calendar-task-item-day .taskspn-calendar-task-icon-day i {
+  font-size: 30px;
+  vertical-align: middle;
+  line-height: 1;
 }
 
 .taskspn-calendar-task-time-day {
@@ -373,10 +497,14 @@
   color: var(--taskspn-color-main);
   text-align: right;
   padding-top: 4px;
+  flex-shrink: 0;
 }
 
 .taskspn-calendar-task-content-day {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .taskspn-calendar-task-title-day {
@@ -384,6 +512,9 @@
   font-weight: 600;
   color: #333;
   margin: 0 0 8px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .taskspn-calendar-task-description {
@@ -454,10 +585,12 @@
 
 .taskspn-calendar-year-month-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 1px;
   background: #e0e0e0;
   padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .taskspn-calendar-year-weekday {
@@ -467,6 +600,9 @@
   color: #999;
   padding: 4px;
   text-transform: uppercase;
+  min-width: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .taskspn-calendar-year-day {
@@ -477,8 +613,48 @@
   color: #666;
   min-height: 24px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.taskspn-calendar-year-day-number {
+  display: block;
+  width: 100%;
+}
+
+.taskspn-calendar-year-day-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  margin-top: 2px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.taskspn-calendar-year-task-icon {
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.taskspn-calendar-year-task-icon:hover {
+  transform: scale(1.3);
+  opacity: 0.8;
+}
+
+.taskspn-calendar-year-task-icon i {
+  font-size: 12px;
+  vertical-align: middle;
 }
 
 .taskspn-calendar-year-day-clickable {
@@ -517,6 +693,69 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .taskspn-calendar-weekday {
+    font-size: 0 !important;
+    line-height: 1.5;
+    overflow: visible;
+    position: relative;
+    padding: 8px 4px;
+  }
+
+  .taskspn-calendar-weekday::before {
+    content: attr(data-short);
+    font-size: 11px !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    line-height: 1.5;
+  }
+
+  .taskspn-calendar-task-item-day {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .taskspn-calendar-task-item-day .taskspn-calendar-task-icon-day {
+    flex-shrink: 0;
+  }
+
+  .taskspn-calendar-task-item-day .taskspn-calendar-task-time-day {
+    min-width: auto;
+    width: 100%;
+    text-align: left;
+    padding-top: 0;
+  }
+
+  .taskspn-calendar-task-item-day .taskspn-calendar-task-content-day {
+    flex: 1 1 100%;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .taskspn-calendar-task-title-day {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .taskspn-calendar-footer-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .taskspn-calendar-footer .taskspn-btn {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .taskspn-calendar-footer .taskspn-mr-10 {
+    margin-right: 0;
+  }
   .taskspn-calendar-week-grid {
     grid-template-columns: 1fr;
   }

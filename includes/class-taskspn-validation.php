@@ -44,6 +44,7 @@ class TASKSPN_Validation {
             return new WP_Error(
                 'required_field', 
                 sprintf(
+                    /* translators: %s: Field label */
                     __('%s is required.', 'taskspn'),
                     !empty($field_config['label']) ? $field_config['label'] : __('This field', 'taskspn')
                 )
@@ -88,6 +89,7 @@ class TASKSPN_Validation {
                     return new WP_Error(
                         'number_too_small', 
                         sprintf(
+                            /* translators: %s: Minimum number value */
                             __('Number must be at least %s.', 'taskspn'),
                             $field_config['min']
                         )
@@ -97,6 +99,7 @@ class TASKSPN_Validation {
                     return new WP_Error(
                         'number_too_large', 
                         sprintf(
+                            /* translators: %s: Maximum number value */
                             __('Number must be at most %s.', 'taskspn'),
                             $field_config['max']
                         )
@@ -111,6 +114,7 @@ class TASKSPN_Validation {
                     return new WP_Error(
                         'text_too_short', 
                         sprintf(
+                            /* translators: %d: Minimum number of characters */
                             __('Text must be at least %d characters long.', 'taskspn'),
                             $field_config['minlength']
                         )
@@ -120,6 +124,7 @@ class TASKSPN_Validation {
                     return new WP_Error(
                         'text_too_long', 
                         sprintf(
+                            /* translators: %d: Maximum number of characters */
                             __('Text must be at most %d characters long.', 'taskspn'),
                             $field_config['maxlength']
                         )

@@ -130,7 +130,7 @@ class TASKSPN_Functions_User {
   /**
    * Check if current user can view a specific post based on ownership and capabilities
    *
-   * @since    1.0.7
+   * @since    1.0.0
    * @param    int       $post_id    Post ID to check
    * @param    string    $post_type  Post type (taskspn_asset or taskspn_liability)
    * @return   bool                  True if user can view, false otherwise
@@ -181,7 +181,7 @@ class TASKSPN_Functions_User {
   /**
    * Filter posts to only show those the user can view
    *
-   * @since    1.0.7
+   * @since    1.0.0
    * @param    array     $posts      Array of post IDs
    * @param    string    $post_type  Post type (taskspn_asset or taskspn_liability)
    * @return   array                 Filtered array of post IDs

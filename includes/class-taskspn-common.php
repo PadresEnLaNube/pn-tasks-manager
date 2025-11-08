@@ -187,10 +187,10 @@ class TASKSPN_Common {
 		$taskspn_tab = '';
 
 		if ($nonce_verified) {
-			$taskspn_action = !empty($_GET['taskspn_action']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_GET['taskspn_action'])) : '';
-			$taskspn_btn_id = !empty($_GET['taskspn_btn_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_GET['taskspn_btn_id'])) : '';
-			$taskspn_popup = !empty($_GET['taskspn_popup']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_GET['taskspn_popup'])) : '';
-			$taskspn_tab = !empty($_GET['taskspn_tab']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_GET['taskspn_tab'])) : '';
+			$taskspn_action = !empty($_GET['taskspn_action']) && isset($_GET['taskspn_action']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_GET['taskspn_action'])) : '';
+			$taskspn_btn_id = !empty($_GET['taskspn_btn_id']) && isset($_GET['taskspn_btn_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_GET['taskspn_btn_id'])) : '';
+			$taskspn_popup = !empty($_GET['taskspn_popup']) && isset($_GET['taskspn_popup']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_GET['taskspn_popup'])) : '';
+			$taskspn_tab = !empty($_GET['taskspn_tab']) && isset($_GET['taskspn_tab']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_GET['taskspn_tab'])) : '';
 		}
 		
 		wp_localize_script($this->plugin_name, 'taskspn_action', [

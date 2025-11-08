@@ -21,6 +21,11 @@ class TASKSPN_Activator {
 	public static function taskspn_activate() {
     require_once TASKSPN_DIR . 'includes/class-taskspn-functions-post.php';
     require_once TASKSPN_DIR . 'includes/class-taskspn-functions-attachment.php';
+    
+    // Schedule cron job for resetting repeated tasks
+    if (!wp_next_scheduled('taskspn_reset_repeated_tasks')) {
+      wp_schedule_event(time(), 'hourly', 'taskspn_reset_repeated_tasks');
+    }
 
     $post_functions = new TASKSPN_Functions_Post();
     $attachment_functions = new TASKSPN_Functions_Attachment();
