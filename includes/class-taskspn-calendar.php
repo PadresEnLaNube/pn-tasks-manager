@@ -386,19 +386,19 @@ class TASKSPN_Calendar {
         <div class="taskspn-calendar-footer-buttons">
           <?php if (!empty($task_list_page_url) || is_user_logged_in()): ?>
             <?php if (!empty($task_list_page_url)): ?>
-              <a href="<?php echo esc_url($task_list_page_url); ?>" class="taskspn-btn taskspn-btn-primary taskspn-mr-10">
+              <a href="<?php echo esc_url($task_list_page_url); ?>" class="taskspn-btn taskspn-btn-primary taskspn-btn-mini taskspn-mr-10">
                 <i class="material-icons-outlined taskspn-vertical-align-middle taskspn-mr-10">add</i>
                 <?php esc_html_e('Add new Task', 'taskspn'); ?>
               </a>
             <?php elseif (is_user_logged_in()): ?>
-              <a href="#" class="taskspn-btn taskspn-btn-primary taskspn-popup-open-ajax taskspn-mr-10" data-taskspn-popup-id="taskspn-popup-taskspn_task-add" data-taskspn-ajax-type="taskspn_task_new">
+              <a href="#" class="taskspn-btn taskspn-btn-primary taskspn-btn-mini taskspn-popup-open-ajax taskspn-mr-10" data-taskspn-popup-id="taskspn-popup-taskspn_task-add" data-taskspn-ajax-type="taskspn_task_new">
                 <i class="material-icons-outlined taskspn-vertical-align-middle taskspn-mr-10">add</i>
                 <?php esc_html_e('Add new Task', 'taskspn'); ?>
               </a>
             <?php endif; ?>
           <?php endif; ?>
           
-          <a href="<?php echo esc_url(admin_url('admin-ajax.php?action=taskspn_download_ics&nonce=' . wp_create_nonce('taskspn-download-ics'))); ?>" class="taskspn-btn taskspn-btn-secondary taskspn-download-ics-btn">
+          <a href="<?php echo esc_url(admin_url('admin-ajax.php?action=taskspn_download_ics&nonce=' . wp_create_nonce('taskspn-download-ics'))); ?>" class="taskspn-btn taskspn-btn-secondary taskspn-download-ics-btn taskspn-btn-mini">
             <i class="material-icons-outlined taskspn-vertical-align-middle taskspn-mr-10">download</i>
             <?php esc_html_e('Download ICS', 'taskspn'); ?>
           </a>

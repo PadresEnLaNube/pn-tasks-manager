@@ -17,6 +17,11 @@ class TASKSPN_Ajax_Nopriv {
    * @since    1.0.0
    */
   public function taskspn_ajax_nopriv_server() {
+    // Clean any existing output buffers first
+    while (ob_get_level() > 0) {
+      ob_end_clean();
+    }
+    
     // Set proper headers for JSON response first
     if (!headers_sent()) {
       header('Content-Type: application/json; charset=utf-8');
@@ -186,19 +191,58 @@ class TASKSPN_Ajax_Nopriv {
           break;
         case 'taskspn_task_view':
           // Ensure we have proper headers for JSON response
-          header('Content-Type: application/json; charset=utf-8');
+          if (!headers_sent()) {
+            header('Content-Type: application/json; charset=utf-8');
+            status_header(200);
+          }
+          
+          // Clean any existing output buffers
+          while (ob_get_level() > 0) {
+            ob_end_clean();
+          }
+          
+          // Get task ID from POST if not already set
+          if (empty($taskspn_task_id)) {
+            $taskspn_task_id = !empty($_POST['taskspn_task_id']) && isset($_POST['taskspn_task_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_task_id'])) : 0;
+          }
           
           if (!empty($taskspn_task_id)) {
             try {
               $plugin_post_type_taskpn = new TASKSPN_Post_Type_Task();
               $task_html = $plugin_post_type_taskpn->taskspn_task_view(intval($taskspn_task_id));
               
-              echo wp_json_encode([
-                'error_key' => '', 
-                'html' => $task_html, 
-              ]);
+              if (!empty($task_html)) {
+                $json_response = wp_json_encode([
+                  'error_key' => '', 
+                  'html' => $task_html, 
+                ]);
+                
+                if ($json_response !== false) {
+                  echo $json_response;
+                } else {
+                  echo wp_json_encode([
+                    'error_key' => 'taskspn_task_view_error', 
+                    'error_content' => esc_html(__('An error occurred while encoding the response.', 'taskspn')), 
+                  ]);
+                }
+              } else {
+                echo wp_json_encode([
+                  'error_key' => 'taskspn_task_view_error', 
+                  'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
+                ]);
+              }
             } catch (Exception $e) {
-              status_header(200); // Ensure we return 200 even on error
+              while (ob_get_level() > 0) {
+                ob_end_clean();
+              }
+              echo wp_json_encode([
+                'error_key' => 'taskspn_task_view_error', 
+                'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
+              ]);
+            } catch (Error $e) {
+              while (ob_get_level() > 0) {
+                ob_end_clean();
+              }
               echo wp_json_encode([
                 'error_key' => 'taskspn_task_view_error', 
                 'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
@@ -207,7 +251,6 @@ class TASKSPN_Ajax_Nopriv {
 
             exit;
           }else{
-            status_header(200); // Ensure we return 200 even on error
             echo wp_json_encode([
               'error_key' => 'taskspn_task_view_error', 
               'error_content' => esc_html(__('Task ID is required.', 'taskspn')), 

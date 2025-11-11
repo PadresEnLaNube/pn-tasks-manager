@@ -1137,14 +1137,21 @@ class TASKSPN_Post_Type_Task {
   public function taskspn_task_view($task_id) {
     // Validate task ID
     if (empty($task_id) || !is_numeric($task_id)) {
+      error_log('TASKSPN: taskspn_task_view - Invalid task ID: ' . $task_id);
       return '<div class="taskspn_task-view taskspn-p-30"><p class="taskspn-text-align-center">' . esc_html__('Invalid task ID', 'taskspn') . '</p></div>';
     }
     
     // Check if task exists
     $task = get_post($task_id);
     if (!$task || $task->post_type !== 'taskspn_task') {
+      error_log('TASKSPN: taskspn_task_view - Task not found. ID: ' . $task_id . ', Task exists: ' . ($task ? 'YES' : 'NO') . ', Post type: ' . ($task ? $task->post_type : 'N/A'));
       return '<div class="taskspn_task-view taskspn-p-30"><p class="taskspn-text-align-center">' . esc_html__('Task not found', 'taskspn') . '</p></div>';
     }
+    
+    @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
+      date('Y-m-d H:i:s') . " - taskspn_task_view - Task found. ID: $task_id, Title: " . get_the_title($task_id) . "\n", 
+      FILE_APPEND
+    );
 
     // Check if user is owner or administrator
     $current_user_id = get_current_user_id();
@@ -1159,13 +1166,16 @@ class TASKSPN_Post_Type_Task {
     // Always show view-only mode for taskspn_task_view
     // The completion form (taskspn_task_check) is accessed separately via the menu
     ob_start();
-    try {
-      self::taskspn_task_register_scripts();
-      self::taskspn_task_print_scripts();
-    } catch (Exception $e) {
-      // Silently continue if scripts can't be registered/printed
-    } catch (Error $e) {
-      // Silently continue if scripts can't be registered/printed
+    // Don't print scripts in AJAX context as they can cause output issues
+    if (!defined('DOING_AJAX') || !DOING_AJAX) {
+      try {
+        self::taskspn_task_register_scripts();
+        self::taskspn_task_print_scripts();
+      } catch (Exception $e) {
+        // Silently continue if scripts can't be registered/printed
+      } catch (Error $e) {
+        // Silently continue if scripts can't be registered/printed
+      }
     }
     ?>
       <div class="taskspn_task-view taskspn-p-30" data-taskspn_task-id="<?php echo esc_attr($task_id); ?>">
@@ -1267,7 +1277,16 @@ class TASKSPN_Post_Type_Task {
       </div>
     <?php
     $taskspn_return_string = ob_get_contents(); 
-    ob_end_clean(); 
+    ob_end_clean();
+    
+    // Log return string info for debugging (use file_put_contents as fallback)
+    $return_length = strlen($taskspn_return_string);
+    $return_empty = empty($taskspn_return_string);
+    @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
+      date('Y-m-d H:i:s') . " - taskspn_task_view - Return string length: $return_length, is_empty: " . ($return_empty ? 'YES' : 'NO') . "\n", 
+      FILE_APPEND
+    );
+    
     return $taskspn_return_string;
   }
 
@@ -1342,8 +1361,17 @@ class TASKSPN_Post_Type_Task {
     }
     
     ob_start();
-    self::taskspn_task_register_scripts();
-    self::taskspn_task_print_scripts();
+    // Don't print scripts in AJAX context as they can cause output issues
+    if (!defined('DOING_AJAX') || !DOING_AJAX) {
+      try {
+        self::taskspn_task_register_scripts();
+        self::taskspn_task_print_scripts();
+      } catch (Exception $e) {
+        // Silently continue if scripts can't be registered/printed
+      } catch (Error $e) {
+        // Silently continue if scripts can't be registered/printed
+      }
+    }
     ?>
       <div class="taskspn_task-check taskspn-p-30" data-taskspn_task-id="<?php echo esc_attr($task_id); ?>">
         <a href="#" class="taskspn-popup-close taskspn-text-decoration-none taskspn-close-icon"><i class="material-icons-outlined">close</i></a>

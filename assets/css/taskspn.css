@@ -821,8 +821,8 @@ input:checked + .taskspn-slider:before{
   background-color:var(--taskspn-bg-color-main-alt);
 }
 .taskspn-btn-mini{
-  line-height:20px;
-  padding:5px 30px;
+  line-height:20px!important;
+  padding:5px 30px!important;
 }
 .taskspn-cursor-pointer{
   cursor:pointer;
