@@ -3,7 +3,8 @@
 
   $(document).ready(function() {
     if($('.taskspn-tooltip').length) {
-      $('.taskspn-tooltip').tooltipster({maxWidth: 300, delayTouch:[0, 4000], customClass: 'taskspn-tooltip'});
+      // Only initialize tooltips that haven't been initialized yet
+      $('.taskspn-tooltip').not('.tooltipstered').tooltipster({maxWidth: 300, delayTouch:[0, 4000], customClass: 'taskspn-tooltip'});
     }
 
     if ($('.taskspn-select').length) {

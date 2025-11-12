@@ -52,7 +52,7 @@ class TASKSPN {
 		if (defined('TASKSPN_VERSION')) {
 			$this->taskspn_version = TASKSPN_VERSION;
 		} else {
-			$this->taskspn_version = '1.0.11';
+			$this->taskspn_version = '1.0.15';
 		}
 
 		$this->taskspn_plugin_name = 'taskspn';
@@ -380,6 +380,7 @@ class TASKSPN {
 	private function taskspn_load_ajax() {
 		$plugin_ajax = new TASKSPN_Ajax();
 		$this->taskspn_loader->taskspn_add_action('wp_ajax_taskspn_ajax', $plugin_ajax, 'taskspn_ajax_server');
+		$this->taskspn_loader->taskspn_add_action('wp_ajax_taskspn_create_taxonomy_term', $plugin_ajax, 'taskspn_create_taxonomy_term_ajax');
 		
 		// Debug: Log that we're registering the action
 		@file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 

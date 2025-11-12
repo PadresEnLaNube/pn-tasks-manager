@@ -285,7 +285,8 @@
             taskspn_audios_block.append('<div class="taskspn-audio taskspn-tooltip" title="' + $(this)[0].title + '"><i class="dashicons dashicons-media-audio"></i></div>');
           });
 
-          $('.taskspn-tooltip').tooltipster({maxWidth: 300,delayTouch:[0, 4000], customClass: 'taskspn-tooltip'});
+          // Only initialize tooltips on newly added elements
+          taskspn_audios_block.find('.taskspn-tooltip').not('.tooltipstered').tooltipster({maxWidth: 300,delayTouch:[0, 4000], customClass: 'taskspn-tooltip'});
           taskspn_input_btn.text((taskspn_audios_block.attr('data-taskspn-multiple') == 'true') ? taskspn_i18n.select_audios : taskspn_i18n.select_audio);
           taskspn_audios_input.val(ids);
         });
@@ -348,7 +349,8 @@
             taskspn_videos_block.append('<div class="taskspn-video taskspn-tooltip" title="' + $(this)[0].title + '"><i class="dashicons dashicons-media-video"></i></div>');
           });
 
-          $('.taskspn-tooltip').tooltipster({maxWidth: 300,delayTouch:[0, 4000], customClass: 'taskspn-tooltip'});
+          // Only initialize tooltips on newly added elements
+          taskspn_videos_block.find('.taskspn-tooltip').not('.tooltipstered').tooltipster({maxWidth: 300,delayTouch:[0, 4000], customClass: 'taskspn-tooltip'});
           taskspn_input_btn.text((taskspn_videos_block.attr('data-taskspn-multiple') == 'true') ? taskspn_i18n.select_videos : taskspn_i18n.select_video);
           taskspn_videos_input.val(ids);
         });
@@ -504,7 +506,68 @@
               itemsList.find('li').show();
             }
           });
+        }
+
+        // Task sort functionality
+        if (cptKey === 'taskspn_task') {
+          var sortToggleSelector = '.taskspn-task-sort-toggle';
+          
+          $(document).on('click', sortToggleSelector, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            var sortToggle = $(this);
+            var currentOrder = sortToggle.attr('data-sort-order') || 'date';
+            var newOrder = currentOrder === 'date' ? 'title' : 'date';
+            var list = sortToggle.closest(listSelector);
+            var listWrapper = list.find(listWrapperSelector);
+            
+            // Update icon and tooltip
+            sortToggle.attr('data-sort-order', newOrder);
+            if (newOrder === 'title') {
+              sortToggle.attr('title', (typeof taskspn_i18n !== 'undefined' && taskspn_i18n.sort_by_date) ? taskspn_i18n.sort_by_date : 'Sort by date');
+              sortToggle.text('sort_by_alpha');
+            } else {
+              sortToggle.attr('title', (typeof taskspn_i18n !== 'undefined' && taskspn_i18n.sort_by_title) ? taskspn_i18n.sort_by_title : 'Sort by title');
+              sortToggle.text('sort');
+            }
+            
+            // Show loading
+            listWrapper.html('<div class="taskspn-text-align-center taskspn-p-30"><div class="taskspn-loader-circle"><div></div><div></div><div></div><div></div></div></div>');
+            
+            // Make AJAX request to get sorted list
+            $.ajax({
+              url: taskspn_ajax.ajax_url,
+              type: 'POST',
+              data: {
+                action: 'taskspn_ajax',
+                taskspn_ajax_type: 'taskspn_task_list_sort',
+                taskspn_ajax_nonce: taskspn_ajax.taskspn_ajax_nonce,
+                orderby: newOrder
+              },
+              dataType: 'json',
+              success: function(response) {
+                if (response && response.html) {
+                  listWrapper.html(response.html);
+                  
+                  // Reinitialize tooltips
+                  if ($('.taskspn-tooltip').length) {
+                    $('.taskspn-tooltip').not('.tooltipstered').tooltipster({
+                      maxWidth: 300,
+                      delayTouch: [0, 4000],
+                      customClass: 'taskspn-tooltip'
+                    });
+                  }
+                } else {
+                  listWrapper.html('<div class="taskspn-text-align-center taskspn-p-30">' + ((typeof taskspn_i18n !== 'undefined' && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error loading tasks') + '</div>');
                 }
+              },
+              error: function() {
+                listWrapper.html('<div class="taskspn-text-align-center taskspn-p-30">' + ((typeof taskspn_i18n !== 'undefined' && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error loading tasks') + '</div>');
+              }
+            });
+          });
+        }
       });
 
       // Single unified click outside handler for all search wrappers
@@ -568,7 +631,11 @@
       var taxonomy = $select.data('taxonomy');
 
       if (!categoryName) {
-        alert('Please enter a category name');
+        if (typeof taskspn_get_main_message === 'function') {
+          taskspn_get_main_message(taskspn_i18n.please_enter_category_name);
+        } else {
+          alert(taskspn_i18n.please_enter_category_name);
+        }
         return;
       }
 
@@ -608,14 +675,24 @@
 
             // Show success message
             if (typeof taskspn_get_main_message === 'function') {
-              taskspn_get_main_message('Category created successfully');
+              var successMessage = response.data && response.data.message ? response.data.message : taskspn_i18n.category_created_successfully;
+              taskspn_get_main_message(successMessage);
             }
           } else {
-            alert(response.data && response.data.message ? response.data.message : 'Error creating category');
+            var errorMessage = response.data && response.data.message ? response.data.message : taskspn_i18n.error_creating_category;
+            if (typeof taskspn_get_main_message === 'function') {
+              taskspn_get_main_message(errorMessage);
+            } else {
+              alert(errorMessage);
+            }
           }
         },
         error: function() {
-          alert('Error creating category. Please try again.');
+          if (typeof taskspn_get_main_message === 'function') {
+            taskspn_get_main_message(taskspn_i18n.error_creating_category_try_again);
+          } else {
+            alert(taskspn_i18n.error_creating_category_try_again);
+          }
         },
         complete: function() {
           $btn.prop('disabled', false).text('Add');

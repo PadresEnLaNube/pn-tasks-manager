@@ -16,13 +16,15 @@ class TASKSPN_Calendar {
    * 
    * @param string $start_date Start date in Y-m-d format
    * @param string $end_date End date in Y-m-d format
+   * @param bool $hide_others If true and user is admin, hide tasks from others (but keep public tasks visible)
    * @return array Array of task posts
    */
-  public function taskspn_get_tasks_for_range($start_date, $end_date) {
+  public function taskspn_get_tasks_for_range($start_date, $end_date, $hide_others = false) {
     $start_timestamp = strtotime($start_date);
     $end_timestamp = strtotime($end_date . ' 23:59:59');
     
     $current_user_id = get_current_user_id();
+    $is_admin = current_user_can('administrator') || current_user_can('manage_options');
     
     // Get all original tasks (excluding repeated instances that may exist from old system)
     $all_tasks = get_posts([
@@ -39,6 +41,7 @@ class TASKSPN_Calendar {
     ]);
     
     // Filter tasks to show those assigned to the current user OR public tasks
+    // Administrators can see all tasks by default, unless hide_others is true
     $assigned_tasks = [];
     
     foreach ($all_tasks as $task_id) {
@@ -57,7 +60,49 @@ class TASKSPN_Calendar {
         continue;
       }
       
-      // For logged-in users, check if task is assigned to them
+      // For administrators: show all tasks by default, unless hide_others is true
+      if ($is_admin) {
+        if (!$hide_others) {
+          // Admin sees all tasks
+          $assigned_tasks[] = $task_id;
+          continue;
+        } else {
+          // Admin with hide_others filter: only show tasks assigned to them (public tasks already handled above)
+          $task_owners = [];
+          
+          // Get assigned owners
+          if (class_exists('TASKSPN_Post_Type_Task')) {
+            $post_type_task = new TASKSPN_Post_Type_Task();
+            $task_owners = $post_type_task->taskspn_task_owners($task_id);
+          } else {
+            // Fallback: check meta directly
+            $task_owners = [];
+            $task_author = $task->post_author;
+            if ($task_author) {
+              $task_owners[] = $task_author;
+            }
+            $owners_meta = get_post_meta($task_id, 'taskspn_task_owners', true);
+            if (!empty($owners_meta)) {
+              if (is_array($owners_meta)) {
+                foreach ($owners_meta as $owner_id) {
+                  $task_owners[] = intval($owner_id);
+                }
+              } else {
+                $task_owners[] = intval($owners_meta);
+              }
+            }
+            $task_owners = array_unique($task_owners);
+          }
+          
+          // Include task if current user is assigned
+          if (in_array($current_user_id, $task_owners)) {
+            $assigned_tasks[] = $task_id;
+          }
+        }
+        continue;
+      }
+      
+      // For logged-in users (non-admins), check if task is assigned to them
       if ($current_user_id > 0) {
         $task_owners = [];
         
@@ -246,30 +291,32 @@ class TASKSPN_Calendar {
    * @param int $year Year
    * @param int $month Month
    * @param int $day Day
+   * @param bool $hide_others If true, hide tasks from others (for admins only)
    * @return string Calendar content HTML
    */
-  public function taskspn_calendar_render_view_content($view, $year, $month, $day) {
+  public function taskspn_calendar_render_view_content($view, $year, $month, $day, $hide_others = false) {
     $current_year = intval($year);
     $current_month = intval($month);
     $current_day = intval($day);
     $current_view = sanitize_text_field($view);
+    $hide_others = (bool) $hide_others;
     
     ob_start();
     switch ($current_view) {
       case 'month':
-        echo wp_kses_post( $this->taskspn_calendar_render_month($current_year, $current_month) );
+        echo wp_kses_post( $this->taskspn_calendar_render_month($current_year, $current_month, $hide_others) );
         break;
       case 'week':
-        echo wp_kses_post( $this->taskspn_calendar_render_week($current_year, $current_month, $current_day) );
+        echo wp_kses_post( $this->taskspn_calendar_render_week($current_year, $current_month, $current_day, $hide_others) );
         break;
       case 'day':
-        echo wp_kses_post( $this->taskspn_calendar_render_day($current_year, $current_month, $current_day) );
+        echo wp_kses_post( $this->taskspn_calendar_render_day($current_year, $current_month, $current_day, $hide_others) );
         break;
       case 'year':
-        echo wp_kses_post( $this->taskspn_calendar_render_year($current_year) );
+        echo wp_kses_post( $this->taskspn_calendar_render_year($current_year, $hide_others) );
         break;
       default:
-        echo wp_kses_post( $this->taskspn_calendar_render_month($current_year, $current_month) );
+        echo wp_kses_post( $this->taskspn_calendar_render_month($current_year, $current_month, $hide_others) );
         break;
     }
     return ob_get_clean();
@@ -314,7 +361,11 @@ class TASKSPN_Calendar {
     
     ob_start();
     ?>
-    <div class="taskspn-calendar-wrapper" data-calendar-view="<?php echo esc_attr($current_view); ?>" data-calendar-year="<?php echo esc_attr($current_year); ?>" data-calendar-month="<?php echo esc_attr($current_month); ?>" data-calendar-day="<?php echo esc_attr($current_day); ?>">
+    <?php
+    $is_admin = current_user_can('administrator') || current_user_can('manage_options');
+    $hide_others_default = isset($_GET['hide_others']) ? (bool) intval(wp_unslash($_GET['hide_others'])) : false;
+    ?>
+    <div class="taskspn-calendar-wrapper" data-calendar-view="<?php echo esc_attr($current_view); ?>" data-calendar-year="<?php echo esc_attr($current_year); ?>" data-calendar-month="<?php echo esc_attr($current_month); ?>" data-calendar-day="<?php echo esc_attr($current_day); ?>" data-hide-others="<?php echo $hide_others_default ? '1' : '0'; ?>">
       <div class="taskspn-calendar-header">
         <div class="taskspn-calendar-view-selector">
           <button class="taskspn-calendar-view-btn <?php echo $current_view === 'day' ? 'active' : ''; ?>" data-view="day">
@@ -330,6 +381,14 @@ class TASKSPN_Calendar {
             <?php esc_html_e('Year', 'taskspn'); ?>
           </button>
         </div>
+        <?php if ($is_admin): ?>
+        <div class="taskspn-calendar-filter">
+          <label class="taskspn-calendar-filter-label">
+            <input type="checkbox" class="taskspn-calendar-filter-checkbox" <?php echo $hide_others_default ? 'checked' : ''; ?>>
+            <span><?php esc_html_e('Hide tasks from others', 'taskspn'); ?></span>
+          </label>
+        </div>
+        <?php endif; ?>
       </div>
       
       <div class="taskspn-calendar-loader-wrapper">
@@ -340,16 +399,16 @@ class TASKSPN_Calendar {
         <?php
         switch ($current_view) {
           case 'month':
-            echo wp_kses_post( $this->taskspn_calendar_render_month($current_year, $current_month) );
+            echo wp_kses_post( $this->taskspn_calendar_render_month($current_year, $current_month, $hide_others_default) );
             break;
           case 'week':
-            echo wp_kses_post( $this->taskspn_calendar_render_week($current_year, $current_month, $current_day) );
+            echo wp_kses_post( $this->taskspn_calendar_render_week($current_year, $current_month, $current_day, $hide_others_default) );
             break;
           case 'day':
-            echo wp_kses_post( $this->taskspn_calendar_render_day($current_year, $current_month, $current_day) );
+            echo wp_kses_post( $this->taskspn_calendar_render_day($current_year, $current_month, $current_day, $hide_others_default) );
             break;
           case 'year':
-            echo wp_kses_post( $this->taskspn_calendar_render_year($current_year) );
+            echo wp_kses_post( $this->taskspn_calendar_render_year($current_year, $hide_others_default) );
             break;
         }
         ?>
@@ -412,7 +471,7 @@ class TASKSPN_Calendar {
   /**
    * Render month view
    */
-  private function taskspn_calendar_render_month($year, $month) {
+  private function taskspn_calendar_render_month($year, $month, $hide_others = false) {
     $first_day = mktime(0, 0, 0, $month, 1, $year);
     $month_name = date_i18n('F Y', $first_day);
     $days_in_month = gmdate('t', $first_day);
@@ -424,7 +483,7 @@ class TASKSPN_Calendar {
     // Get start and end dates for fetching tasks
     $start_date = gmdate('Y-m-01', $first_day);
     $end_date = gmdate('Y-m-' . $days_in_month, $first_day);
-    $tasks_by_date = $this->taskspn_get_tasks_for_range($start_date, $end_date);
+    $tasks_by_date = $this->taskspn_get_tasks_for_range($start_date, $end_date, $hide_others);
     
     ob_start();
     ?>
@@ -530,7 +589,7 @@ class TASKSPN_Calendar {
   /**
    * Render week view
    */
-  private function taskspn_calendar_render_week($year, $month, $day) {
+  private function taskspn_calendar_render_week($year, $month, $day, $hide_others = false) {
     $current_date = mktime(0, 0, 0, $month, $day, $year);
     $current_day_of_week = gmdate('w', $current_date);
     $current_day_of_week = ($current_day_of_week == 0) ? 6 : ($current_day_of_week - 1); // Convert to Monday = 0
@@ -541,7 +600,7 @@ class TASKSPN_Calendar {
     $sunday_timestamp = $monday_timestamp + (6 * 86400);
     $sunday_date = gmdate('Y-m-d', $sunday_timestamp);
     
-    $tasks_by_date = $this->taskspn_get_tasks_for_range($monday_date, $sunday_date);
+    $tasks_by_date = $this->taskspn_get_tasks_for_range($monday_date, $sunday_date, $hide_others);
     
     ob_start();
     ?>
@@ -604,13 +663,13 @@ class TASKSPN_Calendar {
   /**
    * Render day view
    */
-  private function taskspn_calendar_render_day($year, $month, $day) {
+  private function taskspn_calendar_render_day($year, $month, $day, $hide_others = false) {
     $current_date = mktime(0, 0, 0, $month, $day, $year);
     $date_string = gmdate('Y-m-d', $current_date);
     $day_name = date_i18n('l, F j, Y', $current_date);
     $is_today = ($date_string === gmdate('Y-m-d'));
     
-    $tasks_by_date = $this->taskspn_get_tasks_for_range($date_string, $date_string);
+    $tasks_by_date = $this->taskspn_get_tasks_for_range($date_string, $date_string, $hide_others);
     $day_tasks = isset($tasks_by_date[$date_string]) ? $tasks_by_date[$date_string] : [];
     
     ob_start();
@@ -671,10 +730,10 @@ class TASKSPN_Calendar {
   /**
    * Render year view
    */
-  private function taskspn_calendar_render_year($year) {
+  private function taskspn_calendar_render_year($year, $hide_others = false) {
     $start_date = $year . '-01-01';
     $end_date = $year . '-12-31';
-    $tasks_by_date = $this->taskspn_get_tasks_for_range($start_date, $end_date);
+    $tasks_by_date = $this->taskspn_get_tasks_for_range($start_date, $end_date, $hide_others);
     
     ob_start();
     ?>
@@ -781,7 +840,7 @@ class TASKSPN_Calendar {
    * @param string $end_date End date in Y-m-d format (optional, defaults to current year end)
    * @return string ICS file content
    */
-  public function taskspn_generate_ics($start_date = null, $end_date = null) {
+  public function taskspn_generate_ics($start_date = null, $end_date = null, $hide_others = false) {
     // Set default date range to current year if not provided
     if (empty($start_date)) {
       $start_date = gmdate('Y-01-01');
@@ -791,7 +850,7 @@ class TASKSPN_Calendar {
     }
 
     // Get all tasks for the date range
-    $tasks_by_date = $this->taskspn_get_tasks_for_range($start_date, $end_date);
+    $tasks_by_date = $this->taskspn_get_tasks_for_range($start_date, $end_date, $hide_others);
     
     // Get site URL for UID generation
     $site_url = home_url();

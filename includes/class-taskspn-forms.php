@@ -669,13 +669,13 @@ class TASKSPN_Forms {
             <div class="taskspn-taxonomy-add-new taskspn-mt-10">
               <input 
                 type="text" 
-                class="taskspn-taxonomy-new-name taskspn-input taskspn-width-70-percent" 
+                class="taskspn-taxonomy-new-name taskspn-input taskspn-width-100-percent" 
                 placeholder="<?php echo esc_attr__('New category name', 'taskspn'); ?>"
                 <?php echo (((array_key_exists('disabled', $taskspn_input) && $taskspn_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>
               />
               <button 
                 type="button" 
-                class="taskspn-btn taskspn-btn-mini taskspn-taxonomy-add-btn taskspn-width-30-percent"
+                class="taskspn-btn taskspn-btn-mini taskspn-taxonomy-add-btn"
                 <?php echo (((array_key_exists('disabled', $taskspn_input) && $taskspn_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>
               >
                 <?php esc_html_e('Add', 'taskspn'); ?>

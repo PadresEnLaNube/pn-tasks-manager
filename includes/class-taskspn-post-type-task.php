@@ -898,12 +898,25 @@ class TASKSPN_Post_Type_Task {
 
               // After ensuring owners, compute newly added owners and notify only them
               $current_owners = $this->taskspn_task_owners($task_id);
-              $previous_owners = is_array($previous_owners) ? $previous_owners : [];
-              $current_owners = is_array($current_owners) ? $current_owners : [];
+              
+              // Normalize both arrays to integers for proper comparison
+              $previous_owners = is_array($previous_owners) ? array_map('intval', $previous_owners) : [];
+              $current_owners = is_array($current_owners) ? array_map('intval', $current_owners) : [];
+              
+              // Remove duplicates and ensure unique values
+              $previous_owners = array_unique($previous_owners);
+              $current_owners = array_unique($current_owners);
+              
+              // Only notify newly added owners (not existing ones)
               $new_owners = array_diff($current_owners, $previous_owners);
+              
               if (!empty($new_owners)) {
                 foreach ($new_owners as $owner_id) {
-                  self::taskspn_notify_assignment($task_id, intval($owner_id));
+                  $owner_id = intval($owner_id);
+                  // Only send if owner ID is valid
+                  if ($owner_id > 0) {
+                    self::taskspn_notify_assignment($task_id, $owner_id);
+                  }
                 }
               }
 
@@ -968,6 +981,8 @@ class TASKSPN_Post_Type_Task {
               <?php endif; ?>
               <i class="material-icons-outlined taskspn-cpt-search-toggle taskspn-taskspn_task-search-toggle taskspn-cursor-pointer taskspn-font-size-30 taskspn-vertical-align-middle taskspn-tooltip" title="<?php esc_attr_e('Search Tasks', 'taskspn'); ?>">search</i>
               
+              <i class="material-icons-outlined taskspn-task-sort-toggle taskspn-cursor-pointer taskspn-font-size-30 taskspn-vertical-align-middle taskspn-tooltip taskspn-mr-10" data-sort-order="date" title="<?php esc_attr_e('Sort alphabetically', 'taskspn'); ?>">sort</i>
+              
               <a href="#" class="taskspn-popup-open-ajax taskspn-text-decoration-none" data-taskspn-popup-id="taskspn-popup-taskspn_task-add" data-taskspn-ajax-type="taskspn_task_new">
                 <i class="material-icons-outlined taskspn-cursor-pointer taskspn-font-size-30 taskspn-vertical-align-middle taskspn-tooltip" title="<?php esc_attr_e('Add new Task', 'taskspn'); ?>">add</i>
               </a>
@@ -986,14 +1001,14 @@ class TASKSPN_Post_Type_Task {
     return $taskspn_return_string;
   }
 
-  public function taskspn_task_list() {
+  public function taskspn_task_list($orderby = 'date') {
     $task_atts = [
       'fields' => 'ids',
       'numberposts' => -1,
       'post_type' => 'taskspn_task',
       'post_status' => 'any', 
-      'orderby' => 'menu_order', 
-      'order' => 'ASC',
+      'orderby' => $orderby === 'title' ? 'title' : 'date',
+      'order' => $orderby === 'title' ? 'ASC' : 'DESC',
       'meta_query' => [
         [
           'key' => 'taskspn_repeated_from',
@@ -1016,11 +1031,37 @@ class TASKSPN_Post_Type_Task {
       <ul class="taskspn-tasks taskspn-list-style-none taskspn-p-0 taskspn-margin-auto">
         <?php if (!empty($task)): ?>
           <?php foreach ($task as $task_id): ?>
-            <?php $is_completed = get_post_meta($task_id, 'taskspn_task_completed', true) === 'on'; ?>
+            <?php 
+              $is_completed = get_post_meta($task_id, 'taskspn_task_completed', true) === 'on';
+              // Get icon and color - task meta has priority over category
+              $category_style = self::taskspn_get_task_category_style($task_id);
+              $task_icon_meta = get_post_meta($task_id, 'taskspn_task_icon', true);
+              $task_color_meta = get_post_meta($task_id, 'taskspn_task_color', true);
+              
+              // Use task icon if set, otherwise use category icon
+              if (!empty($task_icon_meta)) {
+                $task_icon = $task_icon_meta;
+                // Use task color if set, otherwise use category color
+                $task_color = !empty($task_color_meta) ? $task_color_meta : $category_style['color'];
+              } else {
+                // Use category icon if set, otherwise empty
+                $task_icon = !empty($category_style['icon']) && $category_style['icon'] !== 'event' ? $category_style['icon'] : '';
+                // Use category color
+                $task_color = $category_style['color'];
+              }
+              
+              // Final fallback for color if still empty
+              if (empty($task_color)) {
+                $task_color = get_option('taskspn_color_main') ?: '#d45500'; // Default color from settings
+              }
+            ?>
             <li class="taskspn-task taskspn-taskspn_task-list-item taskspn-mb-10 <?php echo $is_completed ? 'taskspn-completed' : ''; ?>" data-taskspn_task-id="<?php echo esc_attr($task_id); ?>">
               <div class="taskspn-display-table taskspn-width-100-percent">
                 <div class="taskspn-display-inline-table taskspn-width-80-percent">
-                  <a href="#" class="taskspn-popup-open-ajax taskspn-text-decoration-none" data-taskspn-popup-id="taskspn-popup-taskspn_task-view" data-taskspn-ajax-type="taskspn_task_view">
+                  <a href="#" class="taskspn-popup-open-ajax taskspn-text-decoration-none" data-taskspn-popup-id="taskspn-popup-taskspn_task-view" data-taskspn-ajax-type="taskspn_task_view" data-taskspn_task-id="<?php echo esc_attr($task_id); ?>">
+                    <?php if (!empty($task_icon)): ?>
+                      <i class="material-icons-outlined taskspn-vertical-align-middle taskspn-mr-10" style="color: <?php echo esc_attr($task_color); ?>;"><?php echo esc_html($task_icon); ?></i>
+                    <?php endif; ?>
                     <span><?php echo esc_html(get_the_title($task_id)); ?></span>
                   </a>
                 </div>
@@ -1034,7 +1075,7 @@ class TASKSPN_Post_Type_Task {
                   <div class="taskspn-menu-more taskspn-z-index-99 taskspn-display-none-soft">
                     <ul class="taskspn-list-style-none">
                       <li>
-                        <a href="#" class="taskspn-popup-open-ajax taskspn-text-decoration-none" data-taskspn-popup-id="taskspn-popup-taskspn_task-view" data-taskspn-ajax-type="taskspn_task_view">
+                        <a href="#" class="taskspn-popup-open-ajax taskspn-text-decoration-none" data-taskspn-popup-id="taskspn-popup-taskspn_task-view" data-taskspn-ajax-type="taskspn_task_view" data-taskspn_task-id="<?php echo esc_attr($task_id); ?>">
                           <div class="taskspn-display-table taskspn-width-100-percent">
                             <div class="taskspn-display-inline-table taskspn-width-70-percent">
                               <p><?php esc_html_e('View Task', 'taskspn'); ?></p>
@@ -1165,7 +1206,13 @@ class TASKSPN_Post_Type_Task {
 
     // Always show view-only mode for taskspn_task_view
     // The completion form (taskspn_task_check) is accessed separately via the menu
+    
+    // Start output buffering
+    if (ob_get_level() > 0) {
+      ob_end_clean();
+    }
     ob_start();
+    
     // Don't print scripts in AJAX context as they can cause output issues
     if (!defined('DOING_AJAX') || !DOING_AJAX) {
       try {
@@ -1173,16 +1220,18 @@ class TASKSPN_Post_Type_Task {
         self::taskspn_task_print_scripts();
       } catch (Exception $e) {
         // Silently continue if scripts can't be registered/printed
+        error_log('TASKSPN: Error registering/printing scripts in taskspn_task_view: ' . $e->getMessage());
       } catch (Error $e) {
         // Silently continue if scripts can't be registered/printed
+        error_log('TASKSPN: Fatal error registering/printing scripts in taskspn_task_view: ' . $e->getMessage());
       }
     }
     ?>
       <div class="taskspn_task-view taskspn-p-30" data-taskspn_task-id="<?php echo esc_attr($task_id); ?>">
         <a href="#" class="taskspn-popup-close taskspn-text-decoration-none taskspn-close-icon"><i class="material-icons-outlined">close</i></a>
-        <h4 class="taskspn-text-align-center"><?php echo esc_html(get_the_title($task_id)); ?></h4>
+        <h4 class="taskspn-text-align-center taskspn-mb-30"><?php echo esc_html(get_the_title($task_id)); ?></h4>
         
-        <div class="taskspn-word-wrap-break-word">
+        <div class="taskspn-word-wrap-break-word taskspn-mb-30">
           <?php 
           $taskspn_the_content_hook = 'the_content';
           $task_content = '';
@@ -1199,71 +1248,102 @@ class TASKSPN_Post_Type_Task {
           <?php 
           try {
             $all_fields = self::taskspn_task_get_all_fields($task_id);
-            foreach ($all_fields as $taskspn_field): 
-              if (empty($taskspn_field['id']) || in_array($taskspn_field['id'], ['taskspn_task_title', 'taskspn_task_description', 'taskspn_ajax_nonce', 'taskspn_task_form'])) {
-                continue;
-              }
-              
-              // Check if field has a value - skip empty fields
-              $field_has_value = false;
-              
-              // Check if field has a parent and if parent is enabled
-              if (!empty($taskspn_field['parent']) && !empty($taskspn_field['parent_option'])) {
-                $parent_value = get_post_meta($task_id, $taskspn_field['parent'], true);
-                // If parent is not enabled, skip this field
-                if ($parent_value !== $taskspn_field['parent_option']) {
+            
+            if (empty($all_fields) || !is_array($all_fields)) {
+              error_log('TASKSPN: taskspn_task_get_all_fields returned empty or invalid result for task ID: ' . $task_id);
+            } else {
+              foreach ($all_fields as $taskspn_field): 
+                if (empty($taskspn_field) || !is_array($taskspn_field)) {
                   continue;
                 }
-              }
-              
-              // Get field value based on input type
-              if ($taskspn_field['input'] === 'taxonomy') {
-                $taxonomy = !empty($taskspn_field['taxonomy']) ? $taskspn_field['taxonomy'] : 'category';
-                $terms = wp_get_post_terms($task_id, $taxonomy, ['fields' => 'ids']);
-                $field_has_value = !empty($terms) && !is_wp_error($terms) && is_array($terms) && count($terms) > 0;
-              } else {
-                $field_value = TASKSPN_Forms::taskspn_get_field_value($taskspn_field['id'], 'post', $task_id, 0, 0, $taskspn_field);
                 
-                // Check if value is not empty
-                if ($taskspn_field['input'] === 'input' && $taskspn_field['type'] === 'checkbox') {
-                  // For checkboxes, show if value is 'on'
-                  $field_has_value = ($field_value === 'on');
-                } elseif ($taskspn_field['input'] === 'input' && $taskspn_field['type'] === 'url') {
-                  // For URLs, check if not empty and valid
-                  $field_has_value = !empty($field_value) && filter_var($field_value, FILTER_VALIDATE_URL);
-                } elseif ($taskspn_field['input'] === 'input' && $taskspn_field['type'] === 'color') {
-                  // For colors, check if not empty
-                  $field_has_value = !empty($field_value);
-                } elseif ($taskspn_field['input'] === 'input' && ($taskspn_field['type'] === 'time' || $taskspn_field['type'] === 'date' || $taskspn_field['type'] === 'datetime-local')) {
-                  // For time/date fields, check if not empty
-                  $field_has_value = !empty($field_value) && trim($field_value) !== '';
-                } elseif ($taskspn_field['input'] === 'input' && ($taskspn_field['type'] === 'number' || $taskspn_field['type'] === 'text')) {
-                  // For number/text fields, check if not empty
-                  $field_has_value = !empty($field_value) && trim($field_value) !== '';
-                } elseif ($taskspn_field['input'] === 'select') {
-                  // For selects, check if value is set and not empty
-                  $field_has_value = !empty($field_value) && trim($field_value) !== '';
-                } elseif ($taskspn_field['input'] === 'image') {
-                  // For images, check if there are images
-                  $image_value = get_post_meta($task_id, $taskspn_field['id'], true);
-                  $field_has_value = !empty($image_value);
-                } elseif ($taskspn_field['input'] === 'textarea') {
-                  // For textareas, check if not empty
-                  $field_has_value = !empty($field_value) && trim($field_value) !== '';
-                } else {
-                  // For other fields, check if not empty
-                  $field_has_value = !empty($field_value) && trim($field_value) !== '';
+                if (empty($taskspn_field['id']) || in_array($taskspn_field['id'], ['taskspn_task_title', 'taskspn_task_description', 'taskspn_ajax_nonce', 'taskspn_task_form'])) {
+                  continue;
                 }
-              }
-              
-              // Only display field if it has a value
-              if ($field_has_value):
-          ?>
-            <?php echo wp_kses(TASKSPN_Forms::taskspn_input_display_wrapper($taskspn_field, 'post', $task_id), TASKSPN_KSES); ?>
-          <?php 
-              endif;
-            endforeach;
+                
+                // Check if field has a value - skip empty fields
+                $field_has_value = false;
+                
+                // Check if field has a parent and if parent is enabled
+                if (!empty($taskspn_field['parent']) && !empty($taskspn_field['parent_option'])) {
+                  $parent_value = get_post_meta($task_id, $taskspn_field['parent'], true);
+                  // If parent is not enabled, skip this field
+                  if ($parent_value !== $taskspn_field['parent_option']) {
+                    continue;
+                  }
+                }
+                
+                // Get field value based on input type
+                if ($taskspn_field['input'] === 'taxonomy') {
+                  $taxonomy = !empty($taskspn_field['taxonomy']) ? $taskspn_field['taxonomy'] : 'category';
+                  $terms = wp_get_post_terms($task_id, $taxonomy, ['fields' => 'ids']);
+                  $field_has_value = !empty($terms) && !is_wp_error($terms) && is_array($terms) && count($terms) > 0;
+                } else {
+                  try {
+                    $field_value = TASKSPN_Forms::taskspn_get_field_value($taskspn_field['id'], 'post', $task_id, 0, 0, $taskspn_field);
+                    
+                    // Check if value is not empty
+                    if ($taskspn_field['input'] === 'input' && $taskspn_field['type'] === 'checkbox') {
+                      // For checkboxes, show if value is 'on'
+                      $field_has_value = ($field_value === 'on');
+                    } elseif ($taskspn_field['input'] === 'input' && $taskspn_field['type'] === 'url') {
+                      // For URLs, check if not empty and valid
+                      $field_has_value = !empty($field_value) && filter_var($field_value, FILTER_VALIDATE_URL);
+                    } elseif ($taskspn_field['input'] === 'input' && $taskspn_field['type'] === 'color') {
+                      // For colors, check if not empty
+                      $field_has_value = !empty($field_value);
+                    } elseif ($taskspn_field['input'] === 'input' && ($taskspn_field['type'] === 'time' || $taskspn_field['type'] === 'date' || $taskspn_field['type'] === 'datetime-local')) {
+                      // For time/date fields, check if not empty
+                      $field_has_value = !empty($field_value) && trim($field_value) !== '';
+                    } elseif ($taskspn_field['input'] === 'input' && ($taskspn_field['type'] === 'number' || $taskspn_field['type'] === 'text')) {
+                      // For number/text fields, check if not empty
+                      $field_has_value = !empty($field_value) && trim($field_value) !== '';
+                    } elseif ($taskspn_field['input'] === 'select') {
+                      // For selects, check if value is set and not empty
+                      $field_has_value = !empty($field_value) && trim($field_value) !== '';
+                    } elseif ($taskspn_field['input'] === 'image') {
+                      // For images, check if there are images
+                      $image_value = get_post_meta($task_id, $taskspn_field['id'], true);
+                      $field_has_value = !empty($image_value);
+                    } elseif ($taskspn_field['input'] === 'textarea') {
+                      // For textareas, check if not empty
+                      $field_has_value = !empty($field_value) && trim($field_value) !== '';
+                    } else {
+                      // For other fields, check if not empty
+                      $field_has_value = !empty($field_value) && trim($field_value) !== '';
+                    }
+                  } catch (Exception $e) {
+                    error_log('TASKSPN: Exception getting field value for ' . $taskspn_field['id'] . ': ' . $e->getMessage());
+                    continue;
+                  } catch (Error $e) {
+                    error_log('TASKSPN: Fatal error getting field value for ' . $taskspn_field['id'] . ': ' . $e->getMessage());
+                    continue;
+                  }
+                }
+                
+                // Only display field if it has a value
+                if ($field_has_value):
+                  try {
+                    echo wp_kses(TASKSPN_Forms::taskspn_input_display_wrapper($taskspn_field, 'post', $task_id), TASKSPN_KSES);
+                  } catch (Exception $e) {
+                    error_log('TASKSPN: Exception displaying field ' . $taskspn_field['id'] . ': ' . $e->getMessage());
+                    // Continue with next field instead of breaking
+                    continue;
+                  } catch (Error $e) {
+                    error_log('TASKSPN: Fatal error displaying field ' . $taskspn_field['id'] . ': ' . $e->getMessage());
+                    // Continue with next field instead of breaking
+                    continue;
+                  }
+                endif;
+              endforeach;
+            }
           } catch (Exception $e) {
+            error_log('TASKSPN: Exception in taskspn_task_view while loading fields: ' . $e->getMessage());
+            error_log('TASKSPN: Stack trace: ' . $e->getTraceAsString());
+            echo '<p class="taskspn-text-align-center">' . esc_html__('Error loading task fields', 'taskspn') . '</p>';
+          } catch (Error $e) {
+            error_log('TASKSPN: Fatal error in taskspn_task_view while loading fields: ' . $e->getMessage());
+            error_log('TASKSPN: Stack trace: ' . $e->getTraceAsString());
             echo '<p class="taskspn-text-align-center">' . esc_html__('Error loading task fields', 'taskspn') . '</p>';
           }
           ?>
@@ -1276,8 +1356,19 @@ class TASKSPN_Post_Type_Task {
         </div>
       </div>
     <?php
-    $taskspn_return_string = ob_get_contents(); 
-    ob_end_clean();
+    $taskspn_return_string = '';
+    
+    // Get the output buffer content
+    if (ob_get_level() > 0) {
+      $taskspn_return_string = ob_get_contents();
+      ob_end_clean();
+    }
+    
+    // If output is empty, return a basic error message
+    if (empty($taskspn_return_string) || trim($taskspn_return_string) === '') {
+      error_log('TASKSPN: taskspn_task_view returned empty output for task ID: ' . $task_id);
+      $taskspn_return_string = '<div class="taskspn_task-view taskspn-p-30"><p class="taskspn-text-align-center">' . esc_html__('Error loading task content', 'taskspn') . '</p></div>';
+    }
     
     // Log return string info for debugging (use file_put_contents as fallback)
     $return_length = strlen($taskspn_return_string);
@@ -1355,6 +1446,18 @@ class TASKSPN_Post_Type_Task {
       return '<div class="taskspn_task-check taskspn-p-30"><p class="taskspn-text-align-center">' . esc_html__('Task not found', 'taskspn') . '</p></div>';
     }
 
+    // Check if user is administrator or owner
+    $current_user_id = get_current_user_id();
+    $is_administrator = current_user_can('manage_options') || current_user_can('administrator');
+    $is_owner = false;
+    
+    if ($current_user_id > 0) {
+      $task_owners = $this->taskspn_task_owners($task_id);
+      $is_owner = in_array($current_user_id, $task_owners);
+    }
+    
+    $can_edit = $is_administrator || $is_owner;
+
     $task_comments = get_post_meta($task_id, 'taskspn_task_comments', true);
     if (!is_array($task_comments)) {
       $task_comments = [];
@@ -1421,6 +1524,11 @@ class TASKSPN_Post_Type_Task {
           <?php endif; ?>
 
           <div class="taskspn-text-align-right">
+            <?php if ($can_edit): ?>
+              <a href="#" class="taskspn-popup-open-ajax taskspn-mr-50" data-taskspn-popup-id="taskspn-popup-taskspn_task-edit" data-taskspn-ajax-type="taskspn_task_edit" data-taskspn_task-id="<?php echo esc_attr($task_id); ?>">
+                <?php esc_html_e('Edit Task', 'taskspn'); ?>
+              </a>
+            <?php endif; ?>
             <input class="taskspn-btn" type="submit" data-taskspn-type="post" data-taskspn-subtype="post_check" data-taskspn-post-id="<?php echo esc_attr($task_id); ?>" data-taskspn-post-type="taskspn_task" value="<?php esc_attr_e('Save', 'taskspn'); ?>" />
           </div>
         </form>
@@ -1864,264 +1972,6 @@ class TASKSPN_Post_Type_Task {
       // Move to next occurrence
       $next_timestamp = strtotime('+' . $taskspn_task_periodicity, $next_timestamp);
     }
-  }
-
-  /**
-   * TEMPORARY FUNCTION: Add tasks from captured calendar images
-   * This function creates tasks based on the calendar data provided
-   * 
-   * @since    1.0.0
-   * @return   void
-   */
-  public static function taskspn_add_tasks_from_calendar() {
-    // Only run if explicitly called (e.g., via admin action or WP-CLI)
-    if (!current_user_can('manage_options')) {
-      return;
-    }
-
-    // Define category mappings with icons and colors
-    $category_config = [
-      'ASAMBLEA' => ['icon' => 'groups', 'color' => '#2d5016'], // Dark Green
-      'JUNTA GESTORA' => ['icon' => 'groups', 'color' => '#1b5e20'], // Dark Forest Green
-      'Fiesta Nacional' => ['icon' => 'flag', 'color' => '#8b4513'], // Reddish-brown/Maroon
-      'CAMPAMENTOS' => ['icon' => 'camping', 'color' => '#1565c0'], // Dark Blue
-      'No lectivo / Día sin cole' => ['icon' => 'school_off', 'color' => '#c9a961'], // Light Green/Yellowish-brown
-      'Bibliobus' => ['icon' => 'local_library', 'color' => '#8b4513'], // Dark Brown
-      'EXCURSIÓN PRIMARIA' => ['icon' => 'school', 'color' => '#9c27b0'], // Purple
-      'EVENTO FAMILIAS' => ['icon' => 'family_restroom', 'color' => '#2196f3'], // Medium Blue
-      'EXCURSIÓN ALGAS' => ['icon' => 'nature', 'color' => '#6a1b9a'], // Dark Plum/Purple
-      'Todos los Santos' => ['icon' => 'celebration', 'color' => '#b71c1c'], // Red
-      'Navidad' => ['icon' => 'celebration', 'color' => '#b71c1c'], // Red
-      'Año Nuevo' => ['icon' => 'celebration', 'color' => '#b71c1c'], // Red
-      'Día de Reyes' => ['icon' => 'celebration', 'color' => '#b71c1c'], // Red
-      'Concepción' => ['icon' => 'celebration', 'color' => '#b71c1c'], // Red
-      'Jueves Santo' => ['icon' => 'celebration', 'color' => '#8b4513'], // Dark Red/Maroon
-      'Viernes Santo' => ['icon' => 'celebration', 'color' => '#8b4513'], // Dark Red/Maroon
-      'Dom. de Pascua' => ['icon' => 'celebration', 'color' => '#8b4513'], // Dark Red/Maroon
-      'L. de Pascua' => ['icon' => 'celebration', 'color' => '#8b4513'], // Dark Red/Maroon
-      'Fiesta del Trabajo' => ['icon' => 'work', 'color' => '#8b4513'], // Dark Red/Maroon
-      'Día de la Madre' => ['icon' => 'favorite', 'color' => '#8b4513'], // Dark Red/Maroon
-      'Pentecostés' => ['icon' => 'celebration', 'color' => '#8b4513'], // Dark Red/Maroon
-      'DÍA SIN COLE' => ['icon' => 'school_off', 'color' => '#8bc34a'], // Light Green
-      'Bibliobús' => ['icon' => 'local_library', 'color' => '#8b4513'], // Brown/Orange
-      'Batucada' => ['icon' => 'music_note', 'color' => '#03a9f4'], // Light Blue
-      'Síndrome Down' => ['icon' => 'favorite', 'color' => '#03a9f4'], // Light Blue
-      'Día de la Infancia' => ['icon' => 'child_care', 'color' => '#03a9f4'], // Light Blue
-      'CAB' => ['icon' => 'event', 'color' => '#03a9f4'], // Light Blue
-      'Día de las familias' => ['icon' => 'family_restroom', 'color' => '#03a9f4'], // Light Blue
-      'Solsticio' => ['icon' => 'wb_sunny', 'color' => '#03a9f4'], // Light Blue
-      'Bicicletada' => ['icon' => 'directions_bike', 'color' => '#03a9f4'], // Light Blue
-      'FIN DE CURSO' => ['icon' => 'school', 'color' => '#03a9f4'], // Light Blue
-      'Solsticio de invierno' => ['icon' => 'wb_sunny', 'color' => '#1565c0'], // Blue
-      'El rock se cuela en la escuela' => ['icon' => 'music_note', 'color' => '#9c27b0'], // Purple
-      'La Boheme' => ['icon' => 'theater_comedy', 'color' => '#9c27b0'], // Purple
-      'Salakasim + patinaje' => ['icon' => 'sports', 'color' => '#9c27b0'], // Purple
-      'Aula Medio Ambiente' => ['icon' => 'nature', 'color' => '#9c27b0'], // Purple
-      'Constitución' => ['icon' => 'gavel', 'color' => '#2d5016'], // Green
-      'Horario de invierno' => ['icon' => 'schedule', 'color' => '#757575'], // Gray
-      'Horario de verano' => ['icon' => 'schedule', 'color' => '#757575'], // Gray
-      'Nochebuena' => ['icon' => 'celebration', 'color' => '#757575'], // Gray
-      'Nochevieja' => ['icon' => 'celebration', 'color' => '#757575'], // Gray
-      '8M' => ['icon' => 'favorite', 'color' => '#757575'], // Gray
-      'Marzas' => ['icon' => 'celebration', 'color' => '#757575'], // Gray
-      'Equinocio primavera' => ['icon' => 'wb_sunny', 'color' => '#757575'], // Gray
-      'Despedida Voluntarios' => ['icon' => 'people', 'color' => '#757575'], // Gray
-      'Día de la Tierra' => ['icon' => 'nature', 'color' => '#757575'], // Gray
-      'Cultural Cordón' => ['icon' => 'event', 'color' => '#757575'], // Gray
-    ];
-
-    // Define tasks from the calendar images
-    $tasks_data = [
-      // 2025 Tasks
-      ['date' => '2025-08-15', 'title' => 'Asunción', 'category' => 'Fiesta Nacional', 'public' => true],
-      ['date' => '2025-10-12', 'title' => 'Fiesta Nacional', 'category' => 'Fiesta Nacional', 'public' => true],
-      ['date' => '2025-10-26', 'title' => 'Horario de invierno', 'category' => 'Horario de invierno', 'public' => true],
-      ['date' => '2025-11-01', 'title' => 'Todos los Santos', 'category' => 'Todos los Santos', 'public' => true],
-      ['date' => '2025-11-04', 'title' => 'ASAMBLEA', 'category' => 'ASAMBLEA', 'public' => true],
-      ['date' => '2025-11-18', 'title' => 'JUNTA GESTORA', 'category' => 'JUNTA GESTORA', 'public' => true],
-      ['date' => '2025-11-20', 'title' => 'El rock se cuela en la escuela', 'category' => 'El rock se cuela en la escuela', 'public' => true],
-      ['date' => '2025-11-25', 'title' => 'Bibliobús', 'category' => 'Bibliobus', 'public' => true],
-      ['date' => '2025-12-02', 'title' => 'ASAMBLEA', 'category' => 'ASAMBLEA', 'public' => true],
-      ['date' => '2025-12-05', 'title' => 'La Boheme', 'category' => 'La Boheme', 'public' => true],
-      ['date' => '2025-12-06', 'title' => 'Constitución', 'category' => 'Constitución', 'public' => true],
-      ['date' => '2025-12-08', 'title' => 'Concepción', 'category' => 'Concepción', 'public' => true],
-      ['date' => '2025-12-15', 'title' => 'Bibliobús', 'category' => 'Bibliobus', 'public' => true],
-      ['date' => '2025-12-16', 'title' => 'JUNTA GESTORA', 'category' => 'JUNTA GESTORA', 'public' => true],
-      ['date' => '2025-12-17', 'title' => 'Salakasim + patinaje', 'category' => 'Salakasim + patinaje', 'public' => true],
-      ['date' => '2025-12-19', 'title' => 'Solsticio de invierno', 'category' => 'Solsticio de invierno', 'public' => true],
-      ['date' => '2025-12-22', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2025-12-23', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2025-12-24', 'title' => 'Nochebuena', 'category' => 'Nochebuena', 'public' => true],
-      ['date' => '2025-12-25', 'title' => 'Navidad', 'category' => 'Navidad', 'public' => true],
-      ['date' => '2025-12-26', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2025-12-29', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2025-12-30', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2025-12-31', 'title' => 'Nochevieja', 'category' => 'Nochevieja', 'public' => true],
-      
-      // 2026 Tasks
-      ['date' => '2026-01-01', 'title' => 'Año Nuevo', 'category' => 'Año Nuevo', 'public' => true],
-      ['date' => '2026-01-02', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2026-01-05', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2026-01-06', 'title' => 'Día de Reyes', 'category' => 'Día de Reyes', 'public' => true],
-      ['date' => '2026-01-07', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2026-01-13', 'title' => 'ASAMBLEA', 'category' => 'ASAMBLEA', 'public' => true],
-      ['date' => '2026-01-20', 'title' => 'JUNTA GESTORA', 'category' => 'JUNTA GESTORA', 'public' => true],
-      ['date' => '2026-01-27', 'title' => 'Bibliobús', 'category' => 'Bibliobus', 'public' => true],
-      ['date' => '2026-01-30', 'title' => 'Aula Medio Ambiente', 'category' => 'Aula Medio Ambiente', 'public' => true],
-      
-      // 2026 February - July
-      ['date' => '2026-02-03', 'title' => 'ASAMBLEA', 'category' => 'ASAMBLEA', 'public' => true],
-      ['date' => '2026-02-13', 'title' => 'Batucada', 'category' => 'Batucada', 'public' => true],
-      ['date' => '2026-02-16', 'title' => 'DÍA SIN COLE', 'category' => 'DÍA SIN COLE', 'public' => true],
-      ['date' => '2026-02-17', 'title' => 'DÍA SIN COLE', 'category' => 'DÍA SIN COLE', 'public' => true],
-      ['date' => '2026-02-24', 'title' => 'JUNTA GESTORA', 'category' => 'JUNTA GESTORA', 'public' => true],
-      
-      ['date' => '2026-03-03', 'title' => 'ASAMBLEA', 'category' => 'ASAMBLEA', 'public' => true],
-      ['date' => '2026-03-06', 'title' => '8M', 'category' => '8M', 'public' => true],
-      ['date' => '2026-03-10', 'title' => 'Bibliobús', 'category' => 'Bibliobus', 'public' => true],
-      ['date' => '2026-03-17', 'title' => 'JUNTA GESTORA', 'category' => 'JUNTA GESTORA', 'public' => true],
-      ['date' => '2026-03-20', 'title' => 'Síndrome Down', 'category' => 'Síndrome Down', 'public' => true],
-      ['date' => '2026-03-26', 'title' => 'Marzas', 'category' => 'Marzas', 'public' => true],
-      ['date' => '2026-03-26', 'title' => 'Equinocio primavera', 'category' => 'Equinocio primavera', 'public' => true],
-      ['date' => '2026-03-27', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2026-03-29', 'title' => 'Horario de verano', 'category' => 'Horario de verano', 'public' => true],
-      ['date' => '2026-03-30', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2026-03-31', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      
-      ['date' => '2026-04-01', 'title' => 'CAMPAMENTOS', 'category' => 'CAMPAMENTOS', 'public' => true],
-      ['date' => '2026-04-02', 'title' => 'Jueves Santo', 'category' => 'Jueves Santo', 'public' => true],
-      ['date' => '2026-04-03', 'title' => 'Viernes Santo', 'category' => 'Viernes Santo', 'public' => true],
-      ['date' => '2026-04-05', 'title' => 'Dom. de Pascua', 'category' => 'Dom. de Pascua', 'public' => true],
-      ['date' => '2026-04-06', 'title' => 'L. de Pascua', 'category' => 'L. de Pascua', 'public' => true],
-      ['date' => '2026-04-07', 'title' => 'ASAMBLEA', 'category' => 'ASAMBLEA', 'public' => true],
-      ['date' => '2026-04-10', 'title' => 'Despedida Voluntarios', 'category' => 'Despedida Voluntarios', 'public' => true],
-      ['date' => '2026-04-15', 'title' => 'Día de la Infancia', 'category' => 'Día de la Infancia', 'public' => true],
-      ['date' => '2026-04-17', 'title' => 'CAB', 'category' => 'CAB', 'public' => true],
-      ['date' => '2026-04-21', 'title' => 'Bibliobús', 'category' => 'Bibliobus', 'public' => true],
-      ['date' => '2026-04-21', 'title' => 'Día de la Tierra', 'category' => 'Día de la Tierra', 'public' => true],
-      ['date' => '2026-04-21', 'title' => 'JUNTA GESTORA', 'category' => 'JUNTA GESTORA', 'public' => true],
-      ['date' => '2026-04-23', 'title' => 'DÍA SIN COLE', 'category' => 'DÍA SIN COLE', 'public' => true],
-      ['date' => '2026-04-24', 'title' => 'DÍA SIN COLE', 'category' => 'DÍA SIN COLE', 'public' => true],
-      
-      ['date' => '2026-05-01', 'title' => 'Fiesta del Trabajo', 'category' => 'Fiesta del Trabajo', 'public' => true],
-      ['date' => '2026-05-03', 'title' => 'Día de la Madre', 'category' => 'Día de la Madre', 'public' => true],
-      ['date' => '2026-05-05', 'title' => 'ASAMBLEA', 'category' => 'ASAMBLEA', 'public' => true],
-      ['date' => '2026-05-06', 'title' => 'Cultural Cordón', 'category' => 'Cultural Cordón', 'public' => true],
-      ['date' => '2026-05-12', 'title' => 'Bibliobús', 'category' => 'Bibliobus', 'public' => true],
-      ['date' => '2026-05-15', 'title' => 'Día de las familias', 'category' => 'Día de las familias', 'public' => true],
-      ['date' => '2026-05-19', 'title' => 'JUNTA GESTORA', 'category' => 'JUNTA GESTORA', 'public' => true],
-      ['date' => '2026-05-24', 'title' => 'Pentecostés', 'category' => 'Pentecostés', 'public' => true],
-      
-      ['date' => '2026-06-01', 'title' => 'Bibliobús', 'category' => 'Bibliobus', 'public' => true],
-      ['date' => '2026-06-02', 'title' => 'ASAMBLEA', 'category' => 'ASAMBLEA', 'public' => true],
-      ['date' => '2026-06-16', 'title' => 'JUNTA GESTORA', 'category' => 'JUNTA GESTORA', 'public' => true],
-      ['date' => '2026-06-22', 'title' => 'Solsticio', 'category' => 'Solsticio', 'public' => true],
-      ['date' => '2026-06-23', 'title' => 'Bicicletada', 'category' => 'Bicicletada', 'public' => true],
-      ['date' => '2026-06-23', 'title' => 'Bibliobús', 'category' => 'Bibliobus', 'public' => true],
-      ['date' => '2026-06-24', 'title' => 'FIN DE CURSO', 'category' => 'FIN DE CURSO', 'public' => true],
-    ];
-
-    $current_user_id = get_current_user_id();
-    if (empty($current_user_id)) {
-      $current_user_id = 1; // Fallback to admin user
-    }
-
-    $created_count = 0;
-    $taxonomy = 'taskspn_task_category';
-
-    foreach ($tasks_data as $task_data) {
-      // Check if task already exists
-      $existing = get_posts([
-        'post_type' => 'taskspn_task',
-        'post_status' => 'any',
-        'title' => $task_data['title'],
-        'meta_query' => [
-          [
-            'key' => 'taskspn_task_date',
-            'value' => $task_data['date'],
-            'compare' => '='
-          ]
-        ],
-        'fields' => 'ids',
-        'numberposts' => 1
-      ]);
-
-      if (!empty($existing)) {
-        continue; // Skip if already exists
-      }
-
-      // Get or create category term
-      $category_name = $task_data['category'];
-      $term = get_term_by('name', $category_name, $taxonomy);
-      
-      if (!$term) {
-        // Create term
-        $term_result = wp_insert_term($category_name, $taxonomy);
-        if (!is_wp_error($term_result)) {
-          $term_id = $term_result['term_id'];
-          
-          // Set category icon and color as term meta
-          if (isset($category_config[$category_name])) {
-            update_term_meta($term_id, 'taskspn_category_icon', $category_config[$category_name]['icon']);
-            update_term_meta($term_id, 'taskspn_category_color', $category_config[$category_name]['color']);
-          }
-        } else {
-          $term_id = 0;
-        }
-      } else {
-        $term_id = $term->term_id;
-        
-        // Update category icon and color if not set
-        if (isset($category_config[$category_name])) {
-          $existing_icon = get_term_meta($term_id, 'taskspn_category_icon', true);
-          $existing_color = get_term_meta($term_id, 'taskspn_category_color', true);
-          
-          if (empty($existing_icon)) {
-            update_term_meta($term_id, 'taskspn_category_icon', $category_config[$category_name]['icon']);
-          }
-          if (empty($existing_color)) {
-            update_term_meta($term_id, 'taskspn_category_color', $category_config[$category_name]['color']);
-          }
-        }
-      }
-
-      // Create task
-      $post_functions = new TASKSPN_Functions_Post();
-      $task_id = $post_functions->taskspn_insert_post(
-        $task_data['title'],
-        '',
-        '',
-        sanitize_title($task_data['title'] . '-' . $task_data['date']),
-        'taskspn_task',
-        'publish',
-        $current_user_id
-      );
-
-      if ($task_id) {
-        // Set task meta
-        update_post_meta($task_id, 'taskspn_task_date', $task_data['date']);
-        update_post_meta($task_id, 'taskspn_task_public', $task_data['public'] ? 'on' : '');
-        
-        // Set category icon and color from term meta
-        if ($term_id > 0) {
-          wp_set_post_terms($task_id, [$term_id], $taxonomy, false);
-          
-          $category_icon = get_term_meta($term_id, 'taskspn_category_icon', true);
-          $category_color = get_term_meta($term_id, 'taskspn_category_color', true);
-          
-          if (!empty($category_icon)) {
-            update_post_meta($task_id, 'taskspn_task_icon', $category_icon);
-          }
-          if (!empty($category_color)) {
-            update_post_meta($task_id, 'taskspn_task_color', $category_color);
-          }
-        }
-        
-        $created_count++;
-      }
-    }
-
-    return $created_count;
   }
 
   /**

@@ -69,10 +69,43 @@
 }
 
 /* Header with view selector */
+.taskspn-calendar-filter {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 0 15px;
+}
+
+.taskspn-calendar-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  user-select: none;
+}
+
+.taskspn-calendar-filter-checkbox {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.taskspn-calendar-filter-label:hover {
+  color: #333;
+}
+
 .taskspn-calendar-header {
   margin-bottom: 30px;
   padding: 20px 0;
   border-bottom: 2px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .taskspn-calendar-view-selector {
@@ -80,6 +113,7 @@
   gap: 10px;
   justify-content: center;
   flex-wrap: wrap;
+  flex: 1;
 }
 
 .taskspn-calendar-view-btn {

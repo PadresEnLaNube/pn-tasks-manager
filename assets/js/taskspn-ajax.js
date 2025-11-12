@@ -71,8 +71,14 @@
         });
       });
 
-      $.post(ajax_url, data, function(response) {
-        var response_json = JSON.parse(response);
+      $.ajax({
+        url: ajax_url,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+          // jQuery will automatically parse JSON when dataType is 'json'
+          var response_json = response;
 
         if (response_json['error_key'] == 'taskspn_form_save_error_unlogged') {
           taskspn_get_main_message(taskspn_i18n.user_unlogged);
@@ -115,7 +121,13 @@
           $('.taskspn-' + data.taskspn_form_post_type + '-list-item[data-' + data.taskspn_form_post_type + '-id="' + data.taskspn_form_post_id + '"] .taskspn-check-wrapper i').text('radio_button_unchecked');
         }
 
-        taskspn_btn.removeClass('taskspn-link-disabled').siblings('.taskspn-waiting').addClass('taskspn-display-none')
+        taskspn_btn.removeClass('taskspn-link-disabled').siblings('.taskspn-waiting').addClass('taskspn-display-none');
+        },
+        error: function(xhr, status, error) {
+          console.error('AJAX error:', status, error);
+          taskspn_get_main_message(taskspn_i18n.an_error_has_occurred);
+          taskspn_btn.removeClass('taskspn-link-disabled').siblings('.taskspn-waiting').addClass('taskspn-display-none');
+        }
       });
 
       delete window['taskspn_window_vars'];
@@ -127,7 +139,10 @@
 
       var taskspn_btn = $(this);
       var taskspn_ajax_type = taskspn_btn.attr('data-taskspn-ajax-type');
-      var taskspn_task_id = taskspn_btn.closest('.taskspn-task').attr('data-taskspn_task-id');
+      // Try multiple ways to get the task ID
+      var taskspn_task_id = taskspn_btn.attr('data-taskspn_task-id') || 
+                            taskspn_btn.closest('.taskspn-task').attr('data-taskspn_task-id') ||
+                            taskspn_btn.closest('[data-taskspn_task-id]').attr('data-taskspn_task-id');
       var taskspn_popup_element = $('#' + taskspn_btn.attr('data-taskspn-popup-id'));
 
       TASKSPN_Popups.open(taskspn_popup_element, {
@@ -158,8 +173,22 @@
                   try {
                     response_json = JSON.parse(response);
                   } catch (parseError) {
+                    // Destroy existing tooltips before replacing content
+                    taskspn_popup_element.find('.taskspn-tooltip').each(function() {
+                      if ($(this).data('tooltipster')) {
+                        $(this).tooltipster('destroy');
+                      }
+                    });
+                    
                     // If parsing fails, assume it's HTML content
                     taskspn_popup_element.find('.taskspn-popup-content').html(response);
+                    
+                    // Initialize tooltips on new content
+                    taskspn_popup_element.find('.taskspn-tooltip').not('.tooltipstered').tooltipster({
+                      maxWidth: 300,
+                      delayTouch: [0, 4000],
+                      customClass: 'taskspn-tooltip'
+                    });
                     
                     // Initialize media uploaders if function exists
                     if (typeof initMediaUpload === 'function') {
@@ -177,16 +206,31 @@
                   }
                 }
 
-                // Handle JSON response
+                // Handle JSON response with error
                 if (response_json.error_key) {
-                  var errorMessage = response_json.error_message || taskspn_i18n.an_error_has_occurred;
+                  var errorMessage = response_json.error_content || response_json.error_message || taskspn_i18n.an_error_has_occurred;
                   taskspn_get_main_message(errorMessage);
+                  TASKSPN_Popups.close();
                   return;
                 }
 
                 // Handle successful JSON response with HTML content
                 if (response_json.html) {
+                  // Destroy existing tooltips before replacing content
+                  taskspn_popup_element.find('.taskspn-tooltip').each(function() {
+                    if ($(this).data('tooltipster')) {
+                      $(this).tooltipster('destroy');
+                    }
+                  });
+                  
                   taskspn_popup_element.find('.taskspn-popup-content').html(response_json.html);
+                  
+                  // Initialize tooltips on new content
+                  taskspn_popup_element.find('.taskspn-tooltip').not('.tooltipstered').tooltipster({
+                    maxWidth: 300,
+                    delayTouch: [0, 4000],
+                    customClass: 'taskspn-tooltip'
+                  });
                   
                   // Initialize media uploaders if function exists
                   if (typeof initMediaUpload === 'function') {
@@ -258,7 +302,8 @@
         };
 
         $.post(ajax_url, data, function(response) {
-          var response_json = JSON.parse(response);
+          // Handle response - jQuery may have already parsed JSON automatically
+          var response_json = typeof response === 'object' && response !== null ? response : JSON.parse(response);
 
           if (response_json['error_key'] != '') {
             taskspn_get_main_message(response_json['error_content']);
@@ -287,7 +332,8 @@
         };
 
         $.post(ajax_url, data, function(response) {
-          var response_json = JSON.parse(response);
+          // Handle response - jQuery may have already parsed JSON automatically
+          var response_json = typeof response === 'object' && response !== null ? response : JSON.parse(response);
          
           if (response_json['error_key'] != '') {
             taskspn_get_main_message(response_json['error_content']);

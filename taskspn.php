@@ -13,7 +13,7 @@
  * Plugin Name:       Tasks Manager - PN
  * Plugin URI:        https://padresenlanube.com/plugins/taskspn/
  * Description:       Manage your tasks and time tracking with this plugin. Create tasks, assign them to users, and track the time spent on each task.
- * Version:           1.0.11
+ * Version:           1.0.15
  * Requires at least: 3.0
  * Requires PHP:      7.2
  * Author:            Padres en la Nube
@@ -34,7 +34,7 @@ if (!defined('WPINC')) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('TASKSPN_VERSION', '1.0.11');
+define('TASKSPN_VERSION', '1.0.15');
 define('TASKSPN_DIR', plugin_dir_path(__FILE__));
 define('TASKSPN_URL', plugin_dir_url(__FILE__));
 define('TASKSPN_CPTS', [

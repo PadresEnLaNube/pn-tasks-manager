@@ -168,6 +168,7 @@ class TASKSPN_Ajax_Nopriv {
       $calendar_year = !empty($_POST['calendar_year']) ? intval(wp_unslash($_POST['calendar_year'])) : gmdate('Y');
       $calendar_month = !empty($_POST['calendar_month']) ? intval(wp_unslash($_POST['calendar_month'])) : gmdate('m');
       $calendar_day = !empty($_POST['calendar_day']) ? intval(wp_unslash($_POST['calendar_day'])) : gmdate('d');
+      $hide_others = !empty($_POST['hide_others']) ? (bool) intval(wp_unslash($_POST['hide_others'])) : false;
       
       switch ($taskspn_ajax_nopriv_type) {
         case 'taskspn_calendar_view':
@@ -176,7 +177,7 @@ class TASKSPN_Ajax_Nopriv {
           status_header(200);
           
           $plugin_calendar = new TASKSPN_Calendar();
-          $calendar_html = $plugin_calendar->taskspn_calendar_render_view_content($calendar_view, $calendar_year, $calendar_month, $calendar_day);
+          $calendar_html = $plugin_calendar->taskspn_calendar_render_view_content($calendar_view, $calendar_year, $calendar_month, $calendar_day, $hide_others);
           
           echo wp_json_encode([
             'error_key' => '', 
@@ -184,7 +185,8 @@ class TASKSPN_Ajax_Nopriv {
             'view' => $calendar_view,
             'year' => $calendar_year,
             'month' => $calendar_month,
-            'day' => $calendar_day
+            'day' => $calendar_day,
+            'hide_others' => $hide_others ? 1 : 0
           ]);
 
           exit;

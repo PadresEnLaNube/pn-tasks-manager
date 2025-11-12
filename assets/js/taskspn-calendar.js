@@ -19,6 +19,14 @@
         changeView(newView, currentYear, currentMonth, currentDay);
       });
 
+      // Filter checkbox handler (for admins)
+      $(document).on('change', '.taskspn-calendar-filter-checkbox', function(e) {
+        e.preventDefault();
+        var hideOthers = $(this).is(':checked');
+        showLoader();
+        changeView(currentView, currentYear, currentMonth, currentDay, hideOthers);
+      });
+
       // Navigation buttons
       $(document).on('click', '.taskspn-calendar-nav-btn', function(e) {
         e.preventDefault();
@@ -92,8 +100,9 @@
           var year = parseInt(url.searchParams.get('calendar_year')) || state.year || currentYear;
           var month = parseInt(url.searchParams.get('calendar_month')) || state.month || currentMonth;
           var day = parseInt(url.searchParams.get('calendar_day')) || state.day || currentDay;
+          var hideOthers = url.searchParams.get('hide_others') === '1' || (state.hide_others === true);
           
-          changeView(view, year, month, day);
+          changeView(view, year, month, day, hideOthers);
         } else {
           // Reload from URL params
           var url = new URL(window.location.href);
@@ -101,8 +110,9 @@
           var year = parseInt(url.searchParams.get('calendar_year')) || currentYear;
           var month = parseInt(url.searchParams.get('calendar_month')) || currentMonth;
           var day = parseInt(url.searchParams.get('calendar_day')) || currentDay;
+          var hideOthers = url.searchParams.get('hide_others') === '1';
           
-          changeView(view, year, month, day);
+          changeView(view, year, month, day, hideOthers);
         }
       });
 
@@ -126,8 +136,13 @@
         }
       }
 
-      function changeView(view, year, month, day) {
+      function changeView(view, year, month, day, hideOthers) {
         showLoader();
+        
+        // Get hide_others from parameter or from wrapper data attribute
+        if (typeof hideOthers === 'undefined') {
+          hideOthers = calendarWrapper.attr('data-hide-others') === '1';
+        }
         
         // Update URL without reloading
         var url = new URL(window.location.href);
@@ -135,13 +150,19 @@
         url.searchParams.set('calendar_year', year);
         url.searchParams.set('calendar_month', month);
         url.searchParams.set('calendar_day', day);
-        window.history.pushState({view: view, year: year, month: month, day: day}, '', url.toString());
+        if (hideOthers) {
+          url.searchParams.set('hide_others', '1');
+        } else {
+          url.searchParams.delete('hide_others');
+        }
+        window.history.pushState({view: view, year: year, month: month, day: day, hide_others: hideOthers}, '', url.toString());
         
         // Update data attributes
         calendarWrapper.attr('data-calendar-view', view);
         calendarWrapper.attr('data-calendar-year', year);
         calendarWrapper.attr('data-calendar-month', month);
         calendarWrapper.attr('data-calendar-day', day);
+        calendarWrapper.attr('data-hide-others', hideOthers ? '1' : '0');
         
         // Update current variables
         currentView = view;
@@ -152,6 +173,12 @@
         // Update active button
         $('.taskspn-calendar-view-btn').removeClass('active');
         $('.taskspn-calendar-view-btn[data-view="' + view + '"]').addClass('active');
+        
+        // Update filter checkbox if it exists
+        var filterCheckbox = calendarWrapper.find('.taskspn-calendar-filter-checkbox');
+        if (filterCheckbox.length) {
+          filterCheckbox.prop('checked', hideOthers);
+        }
         
         // Make AJAX request
         // Get AJAX URL from taskspn_ajax (if available) or taskspn_calendar_vars or use default
@@ -178,7 +205,8 @@
             calendar_view: view,
             calendar_year: year,
             calendar_month: month,
-            calendar_day: day
+            calendar_day: day,
+            hide_others: hideOthers ? 1 : 0
           };
           if (ajax_nonce) {
             ajaxData.taskspn_ajax_nopriv_nonce = ajax_nonce;
@@ -191,7 +219,8 @@
             calendar_view: view,
             calendar_year: year,
             calendar_month: month,
-            calendar_day: day
+            calendar_day: day,
+            hide_others: hideOthers ? 1 : 0
           };
         }
         
@@ -213,6 +242,11 @@
               
               if (response_json.html) {
                 var calendarContent = calendarWrapper.find('.taskspn-calendar-content');
+                
+                // Update hide_others if provided in response
+                if (typeof response_json.hide_others !== 'undefined') {
+                  calendarWrapper.attr('data-hide-others', response_json.hide_others ? '1' : '0');
+                }
                 
                 // Replace content with fade effect
                 calendarContent.fadeOut(100, function() {

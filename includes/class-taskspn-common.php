@@ -235,6 +235,11 @@ class TASKSPN_Common {
 			'select_option' => esc_html(__('Select option', 'taskspn')),
 			'select_options' => esc_html(__('Select options', 'taskspn')),
 			'copied' => esc_html(__('Copied', 'taskspn')),
+			'please_enter_category_name' => esc_html(__('Please enter a category name', 'taskspn')),
+			'error_creating_category' => esc_html(__('Error creating category', 'taskspn')),
+			'error_creating_category_try_again' => esc_html(__('Error creating category. Please try again.', 'taskspn')),
+			'category_created_successfully' => esc_html(__('Category created successfully', 'taskspn')),
+			'category_already_exists' => esc_html(__('Category already exists', 'taskspn')),
 
 			// Audio recorder translations
 			'ready_to_record' => esc_html(__('Ready to record', 'taskspn')),
