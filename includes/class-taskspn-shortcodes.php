@@ -157,45 +157,6 @@ class TASKSPN_Shortcodes {
         </ul>
       </div>
 
-      <script>
-      (function(){
-        var container = document.currentScript ? document.currentScript.previousElementSibling : null;
-        if(!container) return;
-        container.addEventListener('click', function(e){
-          var btn = e.target.closest('.taskspn-join-task-btn');
-          if(!btn) return;
-          e.preventDefault();
-          if(btn.dataset.loading === '1') return;
-          btn.dataset.loading = '1';
-          var taskId = btn.getAttribute('data-task-id');
-          var data = new FormData();
-          data.append('action', 'taskspn_ajax');
-          data.append('taskspn_ajax_type', 'taskspn_task_join');
-          data.append('taskspn_task_id', taskId);
-          data.append('taskspn_ajax_nonce', (window.taskspn_ajax && taskspn_ajax.taskspn_ajax_nonce) ? taskspn_ajax.taskspn_ajax_nonce : '');
-          fetch((window.taskspn_ajax && taskspn_ajax.ajax_url) ? taskspn_ajax.ajax_url : '/wp-admin/admin-ajax.php', {
-            method: 'POST',
-            credentials: 'same-origin',
-            body: data
-          }).then(function(r){ return r.json(); }).then(function(resp){
-            if(!resp || resp.error_key){
-              alert((window.taskspn_i18n && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error');
-            } else {
-              btn.replaceWith((function(){
-                var span = document.createElement('span');
-                span.className = 'taskspn-color-green';
-                span.textContent = (window.taskspn_i18n && taskspn_i18n.saved_successfully) ? taskspn_i18n.saved_successfully : 'Joined';
-                return span;
-              })());
-            }
-          }).catch(function(){
-            alert((window.taskspn_i18n && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error');
-          }).finally(function(){
-            btn.dataset.loading = '0';
-          });
-        });
-      })();
-      </script>
     <?php
     $taskspn_return_string = ob_get_contents();
     ob_end_clean();
@@ -281,41 +242,6 @@ class TASKSPN_Shortcodes {
       </div>
 
       <?php echo wp_kses_post( TASKSPN_Popups::open('<div id="taskspn-users-ranking-popup-content"></div>', ['id' => 'taskspn-users-ranking-popup']) ); ?>
-
-      <script>
-      (function(){
-        var popupId = 'taskspn-users-ranking-popup';
-        document.addEventListener('click', function(e){
-          var item = e.target.closest('.taskspn-users-ranking-item');
-          if(!item){ return; }
-          var userId = item.getAttribute('data-user-id');
-          if(!userId){ return; }
-          var data = new FormData();
-          data.append('action','taskspn_ajax');
-          data.append('taskspn_ajax_type','taskspn_users_ranking_user_tasks');
-          data.append('user_id', userId);
-          data.append('taskspn_ajax_nonce', (window.taskspn_ajax && taskspn_ajax.taskspn_ajax_nonce) ? taskspn_ajax.taskspn_ajax_nonce : '');
-          fetch((window.taskspn_ajax && taskspn_ajax.ajax_url) ? taskspn_ajax.ajax_url : '/wp-admin/admin-ajax.php', { method: 'POST', credentials: 'same-origin', body: data })
-            .then(function(r){ return r.json(); })
-            .then(function(resp){
-              if(!resp || resp.error_key){
-                alert((window.taskspn_i18n && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error');
-                return;
-              }
-              var popup = document.getElementById(popupId);
-              if(!popup){ return; }
-              var content = popup.querySelector('#taskspn-users-ranking-popup-content');
-              if(content){ content.innerHTML = resp.html; }
-              if (typeof TASKSPN_Popups !== 'undefined') {
-                // Pass popup id string so taskspn-popups.js resolves jQuery element correctly
-                TASKSPN_Popups.open(popupId);
-              }
-            }).catch(function(){
-              alert((window.taskspn_i18n && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error');
-            });
-        });
-      })();
-      </script>
     <?php
     $taskspn_return_string = ob_get_contents();
     ob_end_clean();

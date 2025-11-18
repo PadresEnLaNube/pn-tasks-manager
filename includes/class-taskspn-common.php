@@ -164,6 +164,7 @@ class TASKSPN_Common {
 		wp_enqueue_script($this->plugin_name . '-aux', TASKSPN_URL . 'assets/js/taskspn-aux.js', ['jquery'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
 		wp_enqueue_script($this->plugin_name . '-forms', TASKSPN_URL . 'assets/js/taskspn-forms.js', ['jquery'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
 		wp_enqueue_script($this->plugin_name . '-ajax', TASKSPN_URL . 'assets/js/taskspn-ajax.js', ['jquery'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
+		wp_enqueue_script($this->plugin_name . '-shortcodes', TASKSPN_URL . 'assets/js/taskspn-shortcodes.js', [$this->plugin_name . '-ajax'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
 
 		wp_localize_script($this->plugin_name . '-ajax', 'taskspn_ajax', [
 			'ajax_url' => admin_url('admin-ajax.php'),
