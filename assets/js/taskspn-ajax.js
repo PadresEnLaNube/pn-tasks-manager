@@ -124,7 +124,6 @@
         taskspn_btn.removeClass('taskspn-link-disabled').siblings('.taskspn-waiting').addClass('taskspn-display-none');
         },
         error: function(xhr, status, error) {
-          console.error('AJAX error:', status, error);
           taskspn_get_main_message(taskspn_i18n.an_error_has_occurred);
           taskspn_btn.removeClass('taskspn-link-disabled').siblings('.taskspn-waiting').addClass('taskspn-display-none');
         }
@@ -155,8 +154,6 @@
             taskspn_get_nonce: taskspn_action.taskspn_get_nonce,
             taskspn_task_id: taskspn_task_id ? taskspn_task_id : '',
           };
-
-          // Log the data being sent
 
           $.ajax({
             url: ajax_url,

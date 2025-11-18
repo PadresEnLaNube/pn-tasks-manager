@@ -68,6 +68,25 @@ class TASKSPN_Post_Type_Task {
   }
 
   /**
+   * Normalize task content through WordPress formatting filters.
+   *
+   * @param string $content Task content to filter.
+   * @return string
+   */
+  private static function taskspn_filter_task_content($content) {
+    if (empty($content)) {
+      return '';
+    }
+
+    $content = apply_filters('taskspn_task_content_pre', $content);
+
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- need core formatting and shortcode parsing.
+    $content = apply_filters('the_content', $content);
+
+    return apply_filters('taskspn_task_content', $content);
+  }
+
+  /**
    * Compose and send task assignment email to a single user (ID or email)
    */
   private static function taskspn_notify_assignment($task_id, $user_to) {
@@ -91,11 +110,10 @@ class TASKSPN_Post_Type_Task {
       $date_line = '<p><strong>' . esc_html__('Scheduled for', 'taskspn') . ':</strong> ' . esc_html($formatted) . '</p>';
     }
 
-    $taskspn_the_content_hook = 'the_content';
     $content = ''
       . '<h2>' . esc_html($title) . '</h2>'
       . $date_line
-      . (!empty($desc) ? wpautop(wp_kses_post(apply_filters($taskspn_the_content_hook, $desc))) : '')
+      . (!empty($desc) ? wpautop(wp_kses_post(self::taskspn_filter_task_content($desc))) : '')
       . '<p><a href="' . esc_url($calendar_url) . '">' . esc_html__('Open calendar', 'taskspn') . '</a></p>';
 
     self::taskspn_mailpn_send($user_to, $subject, $content, 'email_coded');
@@ -112,13 +130,12 @@ class TASKSPN_Post_Type_Task {
         'label' => __('Task title', 'taskspn'),
         'placeholder' => __('Task title', 'taskspn'),
       ];
-      $taskspn_the_content_hook = 'the_content';
       $taskspn_fields['taskspn_task_description'] = [
         'id' => 'taskspn_task_description',
         'class' => 'taskspn-input taskspn-width-100-percent',
         'input' => 'textarea',
         'required' => true,
-        'value' => !empty($task_id) ? (str_replace(']]>', ']]&gt;', apply_filters($taskspn_the_content_hook, get_post($task_id)->post_content))) : '',
+        'value' => !empty($task_id) ? (str_replace(']]>', ']]&gt;', self::taskspn_filter_task_content(get_post($task_id)->post_content))) : '',
         'label' => __('Task description', 'taskspn'),
         'placeholder' => __('Task description', 'taskspn'),
       ];
@@ -406,7 +423,7 @@ class TASKSPN_Post_Type_Task {
       'hierarchical'        => true,
       'public'              => false,
       'show_ui'             => true,
-      'show_in_menu'        => true,
+      'show_in_menu'        => 'taskspn_options',
       'show_in_nav_menus'   => false,
       'show_in_admin_bar'   => true,
       'menu_position'       => 5,
@@ -957,6 +974,7 @@ class TASKSPN_Post_Type_Task {
     }
     $scripts_output = ob_get_clean();
     if (!empty($scripts_output)) {
+      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- contains script tags printed by WordPress.
       echo $scripts_output;
     }
   }
@@ -1178,21 +1196,14 @@ class TASKSPN_Post_Type_Task {
   public function taskspn_task_view($task_id) {
     // Validate task ID
     if (empty($task_id) || !is_numeric($task_id)) {
-      error_log('TASKSPN: taskspn_task_view - Invalid task ID: ' . $task_id);
       return '<div class="taskspn_task-view taskspn-p-30"><p class="taskspn-text-align-center">' . esc_html__('Invalid task ID', 'taskspn') . '</p></div>';
     }
     
     // Check if task exists
     $task = get_post($task_id);
     if (!$task || $task->post_type !== 'taskspn_task') {
-      error_log('TASKSPN: taskspn_task_view - Task not found. ID: ' . $task_id . ', Task exists: ' . ($task ? 'YES' : 'NO') . ', Post type: ' . ($task ? $task->post_type : 'N/A'));
       return '<div class="taskspn_task-view taskspn-p-30"><p class="taskspn-text-align-center">' . esc_html__('Task not found', 'taskspn') . '</p></div>';
     }
-    
-    @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-      date('Y-m-d H:i:s') . " - taskspn_task_view - Task found. ID: $task_id, Title: " . get_the_title($task_id) . "\n", 
-      FILE_APPEND
-    );
 
     // Check if user is owner or administrator
     $current_user_id = get_current_user_id();
@@ -1220,10 +1231,8 @@ class TASKSPN_Post_Type_Task {
         self::taskspn_task_print_scripts();
       } catch (Exception $e) {
         // Silently continue if scripts can't be registered/printed
-        error_log('TASKSPN: Error registering/printing scripts in taskspn_task_view: ' . $e->getMessage());
       } catch (Error $e) {
         // Silently continue if scripts can't be registered/printed
-        error_log('TASKSPN: Fatal error registering/printing scripts in taskspn_task_view: ' . $e->getMessage());
       }
     }
     ?>
@@ -1233,13 +1242,12 @@ class TASKSPN_Post_Type_Task {
         
         <div class="taskspn-word-wrap-break-word taskspn-mb-30">
           <?php 
-          $taskspn_the_content_hook = 'the_content';
-          $task_content = '';
+          $taskspn_content = '';
           if ($task && !empty($task->post_content)) {
-            $task_content = str_replace(']]>', ']]&gt;', apply_filters($taskspn_the_content_hook, $task->post_content));
+            $taskspn_content = str_replace(']]>', ']]&gt;', self::taskspn_filter_task_content($task->post_content));
           }
-          if (!empty($task_content)) {
-            echo '<p>' . wp_kses($task_content, TASKSPN_KSES) . '</p>';
+          if (!empty($taskspn_content)) {
+            echo '<p>' . wp_kses($taskspn_content, TASKSPN_KSES) . '</p>';
           }
           ?>
         </div>
@@ -1249,9 +1257,7 @@ class TASKSPN_Post_Type_Task {
           try {
             $all_fields = self::taskspn_task_get_all_fields($task_id);
             
-            if (empty($all_fields) || !is_array($all_fields)) {
-              error_log('TASKSPN: taskspn_task_get_all_fields returned empty or invalid result for task ID: ' . $task_id);
-            } else {
+            if (!empty($all_fields) && is_array($all_fields)) {
               foreach ($all_fields as $taskspn_field): 
                 if (empty($taskspn_field) || !is_array($taskspn_field)) {
                   continue;
@@ -1313,10 +1319,8 @@ class TASKSPN_Post_Type_Task {
                       $field_has_value = !empty($field_value) && trim($field_value) !== '';
                     }
                   } catch (Exception $e) {
-                    error_log('TASKSPN: Exception getting field value for ' . $taskspn_field['id'] . ': ' . $e->getMessage());
                     continue;
                   } catch (Error $e) {
-                    error_log('TASKSPN: Fatal error getting field value for ' . $taskspn_field['id'] . ': ' . $e->getMessage());
                     continue;
                   }
                 }
@@ -1326,11 +1330,9 @@ class TASKSPN_Post_Type_Task {
                   try {
                     echo wp_kses(TASKSPN_Forms::taskspn_input_display_wrapper($taskspn_field, 'post', $task_id), TASKSPN_KSES);
                   } catch (Exception $e) {
-                    error_log('TASKSPN: Exception displaying field ' . $taskspn_field['id'] . ': ' . $e->getMessage());
                     // Continue with next field instead of breaking
                     continue;
                   } catch (Error $e) {
-                    error_log('TASKSPN: Fatal error displaying field ' . $taskspn_field['id'] . ': ' . $e->getMessage());
                     // Continue with next field instead of breaking
                     continue;
                   }
@@ -1338,12 +1340,8 @@ class TASKSPN_Post_Type_Task {
               endforeach;
             }
           } catch (Exception $e) {
-            error_log('TASKSPN: Exception in taskspn_task_view while loading fields: ' . $e->getMessage());
-            error_log('TASKSPN: Stack trace: ' . $e->getTraceAsString());
             echo '<p class="taskspn-text-align-center">' . esc_html__('Error loading task fields', 'taskspn') . '</p>';
           } catch (Error $e) {
-            error_log('TASKSPN: Fatal error in taskspn_task_view while loading fields: ' . $e->getMessage());
-            error_log('TASKSPN: Stack trace: ' . $e->getTraceAsString());
             echo '<p class="taskspn-text-align-center">' . esc_html__('Error loading task fields', 'taskspn') . '</p>';
           }
           ?>
@@ -1366,17 +1364,8 @@ class TASKSPN_Post_Type_Task {
     
     // If output is empty, return a basic error message
     if (empty($taskspn_return_string) || trim($taskspn_return_string) === '') {
-      error_log('TASKSPN: taskspn_task_view returned empty output for task ID: ' . $task_id);
       $taskspn_return_string = '<div class="taskspn_task-view taskspn-p-30"><p class="taskspn-text-align-center">' . esc_html__('Error loading task content', 'taskspn') . '</p></div>';
     }
-    
-    // Log return string info for debugging (use file_put_contents as fallback)
-    $return_length = strlen($taskspn_return_string);
-    $return_empty = empty($taskspn_return_string);
-    @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-      date('Y-m-d H:i:s') . " - taskspn_task_view - Return string length: $return_length, is_empty: " . ($return_empty ? 'YES' : 'NO') . "\n", 
-      FILE_APPEND
-    );
     
     return $taskspn_return_string;
   }

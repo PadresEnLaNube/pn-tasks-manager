@@ -17,11 +17,11 @@ class TASKSPN_Ajax {
    * @since    1.0.0
    */
   public function taskspn_ajax_server() {
-    // Log that we reached the handler - use error_log as well for immediate visibility
-    $log_msg = date('Y-m-d H:i:s') . " - taskspn_ajax_server called. POST action: " . (isset($_POST['action']) ? $_POST['action'] : 'NOT SET') . ", taskspn_ajax_type: " . (isset($_POST['taskspn_ajax_type']) ? $_POST['taskspn_ajax_type'] : 'NOT SET') . ", User logged in: " . (is_user_logged_in() ? 'YES' : 'NO') . "\n";
-    @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', $log_msg, FILE_APPEND);
-    error_log('TASKSPN: ' . $log_msg);
-    
+    $raw_action = isset($_POST['action']) ? wp_unslash($_POST['action']) : '';
+    $posted_action = $raw_action !== '' ? sanitize_text_field($raw_action) : '';
+    $raw_ajax_type = isset($_POST['taskspn_ajax_type']) ? wp_unslash($_POST['taskspn_ajax_type']) : '';
+    $sanitized_ajax_type = $raw_ajax_type !== '' ? TASKSPN_Forms::taskspn_sanitizer($raw_ajax_type) : '';
+
     // Clean any existing output buffers first
     while (ob_get_level() > 0) {
       ob_end_clean();
@@ -34,11 +34,7 @@ class TASKSPN_Ajax {
     }
     
     // Check if action matches (WordPress requires this)
-    if (!isset($_POST['action']) || $_POST['action'] !== 'taskspn_ajax') {
-      @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-        date('Y-m-d H:i:s') . " - taskspn_ajax_server: Action mismatch. Expected 'taskspn_ajax', got: " . (isset($_POST['action']) ? $_POST['action'] : 'NOT SET') . "\n", 
-        FILE_APPEND
-      );
+    if ($posted_action !== 'taskspn_ajax') {
       echo wp_json_encode([
         'error_key' => 'taskspn_ajax_action_error',
         'error_content' => esc_html(__('Invalid action.', 'taskspn')),
@@ -60,11 +56,6 @@ class TASKSPN_Ajax {
       $nonce_value = isset($_POST['taskspn_ajax_nonce']) ? sanitize_text_field(wp_unslash($_POST['taskspn_ajax_nonce'])) : '';
       $nonce_verified = wp_verify_nonce($nonce_value, 'taskspn-nonce');
       
-      @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-        date('Y-m-d H:i:s') . " - taskspn_ajax_server: Nonce verification. Nonce value: " . substr($nonce_value, 0, 10) . "... Verified: " . ($nonce_verified ? 'YES' : 'NO') . "\n", 
-        FILE_APPEND
-      );
-      
       if (!$nonce_verified) {
         echo wp_json_encode([
           'error_key' => 'taskspn_nonce_ajax_error_invalid',
@@ -74,7 +65,7 @@ class TASKSPN_Ajax {
         exit;
       }
 
-      $taskspn_ajax_type = isset($_POST['taskspn_ajax_type']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_ajax_type'])) : '';
+      $taskspn_ajax_type = $sanitized_ajax_type;
 
       $taskspn_ajax_keys = !empty($_POST['taskspn_ajax_keys']) && isset($_POST['taskspn_ajax_keys']) ? array_map(function($key) {
         return array(
@@ -312,41 +303,21 @@ class TASKSPN_Ajax {
               // Call taskspn_task_view - it uses its own output buffering internally
               $task_html = $plugin_post_type_taskpn->taskspn_task_view(intval($taskspn_task_id));
               
-              // Log task_html info for debugging
-              $task_html_length = strlen($task_html);
-              $task_html_empty = empty($task_html);
-              $task_html_preview = substr($task_html, 0, 200);
-              
-              // Use file_put_contents as a workaround if error_log doesn't work
-              @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-                date('Y-m-d H:i:s') . " - task_html length: $task_html_length, is_empty: " . ($task_html_empty ? 'YES' : 'NO') . ", preview: $task_html_preview\n", 
-                FILE_APPEND
-              );
-              
-              // Only use the HTML if it's not empty and doesn't contain error messages
-              if (!$task_html_empty && strpos($task_html, 'error crítico') === false && strpos($task_html, 'critical error') === false && strpos($task_html, 'Ha habido un error crítico') === false) {
-                $json_response = wp_json_encode([
-                  'error_key' => '', 
-                  'html' => $task_html, 
-                ]);
-                
-                if ($json_response !== false) {
-                  echo $json_response;
+              if (!empty($task_html) && strpos($task_html, 'error crítico') === false && strpos($task_html, 'critical error') === false && strpos($task_html, 'Ha habido un error crítico') === false) {
+                $response_payload = [
+                  'error_key' => '',
+                  'html' => $task_html,
+                ];
+
+                if (wp_json_encode($response_payload) !== false) {
+                  wp_send_json($response_payload);
                 } else {
-                  @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-                    date('Y-m-d H:i:s') . " - wp_json_encode failed\n", 
-                    FILE_APPEND
-                  );
                   echo wp_json_encode([
                     'error_key' => 'taskspn_task_view_error', 
                     'error_content' => esc_html(__('An error occurred while encoding the response.', 'taskspn')), 
                   ]);
                 }
               } else {
-                @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-                  date('Y-m-d H:i:s') . " - task_html is empty or contains errors. Length: $task_html_length, Content preview: $task_html_preview\n", 
-                  FILE_APPEND
-                );
                 echo wp_json_encode([
                   'error_key' => 'taskspn_task_view_error', 
                   'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
@@ -357,7 +328,6 @@ class TASKSPN_Ajax {
               while (ob_get_level() > 0) {
                 ob_end_clean();
               }
-              error_log('TASKSPN Exception in taskspn_task_view: ' . $e->getMessage());
               echo wp_json_encode([
                 'error_key' => 'taskspn_task_view_error', 
                 'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
@@ -367,7 +337,6 @@ class TASKSPN_Ajax {
               while (ob_get_level() > 0) {
                 ob_end_clean();
               }
-              error_log('TASKSPN Fatal Error in taskspn_task_view: ' . $e->getMessage());
               echo wp_json_encode([
                 'error_key' => 'taskspn_task_view_error', 
                 'error_content' => esc_html(__('An error occurred while showing the Task.', 'taskspn')), 
@@ -425,11 +394,6 @@ class TASKSPN_Ajax {
           exit;
           break;
         case 'taskspn_task_check':
-          @file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-            date('Y-m-d H:i:s') . " - taskspn_task_check case reached. Task ID: " . $taskspn_task_id . "\n", 
-            FILE_APPEND
-          );
-          
           // Ensure we have proper headers for JSON response
           if (!headers_sent()) {
             header('Content-Type: application/json; charset=utf-8');
@@ -447,13 +411,13 @@ class TASKSPN_Ajax {
               $task_html = $plugin_post_type_taskpn->taskspn_task_check(intval($taskspn_task_id));
               
               if (!empty($task_html)) {
-                $json_response = wp_json_encode([
-                  'error_key' => '', 
-                  'html' => $task_html, 
-                ]);
+                $response_payload = [
+                  'error_key' => '',
+                  'html' => $task_html,
+                ];
                 
-                if ($json_response !== false) {
-                  echo $json_response;
+                if (wp_json_encode($response_payload) !== false) {
+                  wp_send_json($response_payload);
                 } else {
                   echo wp_json_encode([
                     'error_key' => 'taskspn_task_check_error', 
@@ -629,7 +593,7 @@ class TASKSPN_Ajax {
   /**
    * Handle AJAX request for creating taxonomy terms
    * 
-   * @since    1.0.15
+   * @since    1.0.0
    */
   public function taskspn_create_taxonomy_term_ajax() {
     // Set proper headers for JSON response

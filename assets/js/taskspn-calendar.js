@@ -235,7 +235,6 @@
               var response_json = typeof response === 'object' ? response : JSON.parse(response);
               
               if (response_json.error_key) {
-                console.error('Calendar view error:', response_json.error_content || 'Unknown error');
                 // Don't reload page on error, just show error
                 return;
               }
@@ -269,22 +268,15 @@
                   });
                 });
               } else {
-                console.error('No HTML content in calendar response');
               }
             } catch (e) {
-              console.error('Error parsing calendar response:', e);
               hideLoader();
             }
           },
           error: function(xhr, status, error) {
-            console.error('AJAX error loading calendar view:', error, xhr);
-            console.error('Response:', xhr.responseText);
-            console.error('Status:', xhr.status);
-            console.error('Using nopriv handler:', useNoprivHandler);
             
             // If we got a 400 with "0" response and we were using logged in handler, try nopriv handler
             if ((xhr.responseText === '0' || xhr.status === 400) && !useNoprivHandler) {
-              console.log('Retrying calendar view with nopriv handler...');
               
               // Retry with nopriv handler
               var nopriv_nonce = '';
@@ -318,7 +310,6 @@
                     var response_json = typeof response === 'object' ? response : JSON.parse(response);
                     
                     if (response_json.error_key) {
-                      console.error('Calendar view error:', response_json.error_content || 'Unknown error');
                       return;
                     }
                     
@@ -346,15 +337,12 @@
                         });
                       });
                     } else {
-                      console.error('No HTML content in calendar response');
                     }
                   } catch (e) {
-                    console.error('Error parsing calendar response:', e);
                     hideLoader();
                   }
                 },
                 error: function(xhr2, status2, error2) {
-                  console.error('AJAX error loading calendar view with nopriv handler:', error2, xhr2);
                   hideLoader();
                   // Show error message instead of reloading
                   var errorMsg = 'Error loading calendar. Please try again.';
@@ -545,12 +533,9 @@
             
             TASKSPN_Popups.open(popupElement, {
               beforeShow: function() {
-                console.log('=== TASKSPN DEBUG: beforeShow callback ===');
                 // Add timestamp to prevent caching
                 var timestamp = new Date().getTime();
                 var ajaxUrlWithTimestamp = ajax_url + (ajax_url.indexOf('?') > -1 ? '&' : '?') + '_=' + timestamp;
-                console.log('AJAX URL with timestamp:', ajaxUrlWithTimestamp);
-                console.log('Sending POST request...');
                 
                 $.ajax({
                   url: ajaxUrlWithTimestamp,
@@ -559,23 +544,12 @@
                   dataType: 'json',
                   cache: false,
                   beforeSend: function(xhr) {
-                    console.log('=== TASKSPN DEBUG: beforeSend ===');
-                    console.log('Request headers:', xhr.getAllResponseHeaders ? 'Available' : 'Not available');
                   },
                   success: function(response, textStatus, xhr) {
-                    console.log('=== TASKSPN DEBUG: AJAX SUCCESS ===');
-                    console.log('Response received:', response);
-                    console.log('Response type:', typeof response);
-                    console.log('Text status:', textStatus);
-                    console.log('XHR status:', xhr.status);
-                    console.log('XHR statusText:', xhr.statusText);
-                    console.log('Response headers:', xhr.getAllResponseHeaders ? xhr.getAllResponseHeaders() : 'Not available');
-                    console.log('Response text (first 500 chars):', xhr.responseText ? xhr.responseText.substring(0, 500) : 'No response text');
                     
                     try {
                       // Handle JSON response (may already be parsed or a string)
                       var response_json = typeof response === 'object' ? response : JSON.parse(response);
-                      console.log('Parsed response JSON:', response_json);
                       
                       if (response_json.error_key) {
                         // If we tried to open check popup and got an error, try view popup with nopriv handler instead
@@ -643,67 +617,32 @@
                       }
                       
                       if (response_json && response_json.html) {
-                        console.log('Response HTML length:', response_json.html.length);
-                        console.log('Response HTML (first 500 chars):', response_json.html.substring(0, 500));
                         popupElement.find('.taskspn-popup-content').html(response_json.html);
-                        console.log('HTML inserted into popup');
                       } else {
-                        console.error('Response missing HTML property');
-                        console.error('Response keys:', Object.keys(response_json || {}));
                         var errorText = (typeof taskspn_i18n !== 'undefined' && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error loading task';
                         popupElement.find('.taskspn-popup-content').html('<div class="taskspn-text-align-center taskspn-p-30">' + errorText + '</div>');
                       }
                     } catch (e) {
-                      console.error('=== TASKSPN DEBUG: Error parsing response ===');
-                      console.error('Error:', e);
-                      console.error('Error message:', e.message);
-                      console.error('Error stack:', e.stack);
-                      console.error('Raw response:', response);
-                      console.error('Response text:', xhr.responseText);
                       var errorText = (typeof taskspn_i18n !== 'undefined' && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error loading task';
                       popupElement.find('.taskspn-popup-content').html('<div class="taskspn-text-align-center taskspn-p-30">' + errorText + '</div>');
                     }
                   },
                   error: function(xhr, status, error) {
-                    console.error('=== TASKSPN DEBUG: AJAX ERROR ===');
-                    console.error('Error:', error);
-                    console.error('Status:', status);
-                    console.error('XHR status:', xhr.status);
-                    console.error('XHR statusText:', xhr.statusText);
-                    console.error('Response text (full):', xhr.responseText);
-                    console.error('Response text length:', xhr.responseText ? xhr.responseText.length : 0);
-                    console.error('Response headers:', xhr.getAllResponseHeaders ? xhr.getAllResponseHeaders() : 'Not available');
-                    console.error('Data sent:', JSON.stringify(data, null, 2));
-                    console.error('Using nopriv handler:', useNoprivHandler);
-                    console.error('AJAX URL:', ajax_url);
-                    console.error('AJAX URL with timestamp:', ajaxUrlWithTimestamp);
-                    console.error('Ready state:', xhr.readyState);
-                    console.error('Response type:', xhr.responseType);
                     
                     // Try to parse response as JSON if possible
                     if (xhr.responseText) {
                       try {
                         var errorResponse = JSON.parse(xhr.responseText);
-                        console.error('Parsed error response:', errorResponse);
                       } catch (e) {
-                        console.error('Could not parse error response as JSON');
                       }
                     }
                     
                     // If we got a 400/500, it means user is not logged in or there's an error
                     // Try to fallback to view popup with nopriv handler
-                    console.log('=== TASKSPN DEBUG: Checking error retry conditions ===');
-                    console.log('xhr.responseText === "0":', xhr.responseText === '0');
-                    console.log('xhr.status === 400:', xhr.status === 400);
-                    console.log('xhr.status === 500:', xhr.status === 500);
-                    console.log('!useNoprivHandler:', !useNoprivHandler);
-                    console.log('Condition result:', (xhr.responseText === '0' || xhr.status === 400 || xhr.status === 500) && !useNoprivHandler);
                     
                     if ((xhr.responseText === '0' || xhr.status === 400 || xhr.status === 500) && !useNoprivHandler) {
-                      console.log('=== TASKSPN DEBUG: Attempting to switch to nopriv handler ===');
                       // Switch to view popup with nopriv handler (user is not logged in)
                       var viewPopupElement = $('#taskspn-popup-taskspn_task-view');
-                      console.log('View popup element found:', viewPopupElement.length > 0);
                       if (viewPopupElement.length) {
                         TASKSPN_Popups.close();
                         viewPopupElement.find('.taskspn-popup-content').html('<div class="taskspn-text-align-center taskspn-p-30">' + loadingText + '</div>');
@@ -757,15 +696,12 @@
                         });
                         return;
                       } else {
-                        console.error('=== TASKSPN DEBUG: View popup element not found ===');
                       }
                     } else {
-                      console.log('=== TASKSPN DEBUG: Retry conditions not met, showing error ===');
                     }
                     
                     // Legacy fallback (should not be reached if above works)
                     if ((xhr.responseText === '0' || xhr.status === 400 || xhr.status === 500) && !useNoprivHandler && ajaxType === 'taskspn_task_view') {
-                      console.log('=== TASKSPN DEBUG: Retrying with nopriv handler ===');
                       
                       // Retry with nopriv handler
                       var nopriv_nonce = '';
@@ -783,7 +719,6 @@
                         noprivData.taskspn_ajax_nopriv_nonce = nopriv_nonce;
                       }
                       
-                      console.log('Nopriv data to send:', JSON.stringify(noprivData, null, 2));
                       
                       // Retry with nopriv handler
                       $.ajax({
@@ -793,62 +728,38 @@
                         dataType: 'json',
                         cache: false,
                         success: function(response, textStatus2, xhr2) {
-                          console.log('=== TASKSPN DEBUG: NOPRIV AJAX SUCCESS ===');
-                          console.log('Response received:', response);
-                          console.log('XHR status:', xhr2.status);
-                          console.log('Response text (first 500 chars):', xhr2.responseText ? xhr2.responseText.substring(0, 500) : 'No response text');
                           
                           try {
                             var response_json = typeof response === 'object' ? response : JSON.parse(response);
-                            console.log('Parsed response JSON:', response_json);
                             
                             if (response_json.error_key) {
-                              console.error('Response contains error_key:', response_json.error_key);
-                              console.error('Error content:', response_json.error_content);
                               var errorMsg = response_json.error_content || 'An error occurred while loading the task.';
                               popupElement.find('.taskspn-popup-content').html('<div class="taskspn-text-align-center taskspn-p-30">' + errorMsg + '</div>');
                               return;
                             }
                             
                             if (response_json && response_json.html) {
-                              console.log('Response HTML length:', response_json.html.length);
                               popupElement.find('.taskspn-popup-content').html(response_json.html);
-                              console.log('HTML inserted into popup (nopriv)');
                             } else {
-                              console.error('Response missing HTML property (nopriv)');
                               var errorText = (typeof taskspn_i18n !== 'undefined' && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error loading task';
                               popupElement.find('.taskspn-popup-content').html('<div class="taskspn-text-align-center taskspn-p-30">' + errorText + '</div>');
                             }
                           } catch (e) {
-                            console.error('=== TASKSPN DEBUG: Error parsing nopriv response ===');
-                            console.error('Error:', e);
-                            console.error('Error message:', e.message);
-                            console.error('Raw response:', response);
-                            console.error('Response text:', xhr2.responseText);
                             var errorText = (typeof taskspn_i18n !== 'undefined' && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error loading task';
                             popupElement.find('.taskspn-popup-content').html('<div class="taskspn-text-align-center taskspn-p-30">' + errorText + '</div>');
                           }
                         },
                         error: function(xhr2, status2, error2) {
-                          console.error('=== TASKSPN DEBUG: NOPRIV AJAX ERROR ===');
-                          console.error('Error:', error2);
-                          console.error('Status:', status2);
-                          console.error('XHR status:', xhr2.status);
-                          console.error('XHR statusText:', xhr2.statusText);
-                          console.error('Response text (full):', xhr2.responseText);
-                          console.error('Response text length:', xhr2.responseText ? xhr2.responseText.length : 0);
                           
                           var errorText = (typeof taskspn_i18n !== 'undefined' && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error loading task';
                           
                           if (xhr2.responseText) {
                             try {
                               var errorResponse = JSON.parse(xhr2.responseText);
-                              console.error('Parsed error response (nopriv):', errorResponse);
                               if (errorResponse.error_content) {
                                 errorText = errorResponse.error_content;
                               }
                             } catch (e) {
-                              console.error('Could not parse error response as JSON (nopriv)');
                             }
                           }
                           
@@ -858,26 +769,22 @@
                       return; // Exit early, we're retrying
                     }
                     
-                    console.error('=== TASKSPN DEBUG: Not retrying, showing error ===');
                     var errorText = (typeof taskspn_i18n !== 'undefined' && taskspn_i18n.an_error_has_occurred) ? taskspn_i18n.an_error_has_occurred : 'Error loading task';
                     
                     // Try to parse error response if available
                     if (xhr.responseText && xhr.responseText !== '0') {
                       try {
                         var errorResponse = JSON.parse(xhr.responseText);
-                        console.error('Parsed final error response:', errorResponse);
                         if (errorResponse.error_content) {
                           errorText = errorResponse.error_content;
                         } else if (errorResponse.error_key) {
                           errorText = 'Error: ' + errorResponse.error_key;
                         }
                       } catch (e) {
-                        console.error('Could not parse final error response as JSON');
                       }
                     }
                     
                     popupElement.find('.taskspn-popup-content').html('<div class="taskspn-text-align-center taskspn-p-30">' + errorText + '</div>');
-                    console.log('=== TASKSPN DEBUG: openTaskView END ===');
                   }
                 });
               }

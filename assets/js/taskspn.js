@@ -533,7 +533,7 @@
         document.execCommand('copy');
         taskspn_get_main_message(taskspn_i18n.copied);
       } catch (err) {
-        console.error('Fallback: Unable to copy text', err);
+        taskspn_get_main_message(taskspn_i18n.an_error_has_occurred);
       }
       taskspn_temp.remove();
     }

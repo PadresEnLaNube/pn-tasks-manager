@@ -68,9 +68,11 @@ class TASKSPN_Ajax_Nopriv {
         }
       }
 
-      $taskspn_ajax_nopriv_type = isset($_POST['taskspn_ajax_nopriv_type']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_ajax_nopriv_type'])) : '';
+      $taskspn_ajax_nopriv_type = isset($_POST['taskspn_ajax_nopriv_type']) ? TASKSPN_Forms::taskspn_sanitizer(sanitize_text_field(wp_unslash($_POST['taskspn_ajax_nopriv_type']))) : '';
       
-      $taskspn_ajax_keys = !empty($_POST['taskspn_ajax_keys']) && isset($_POST['taskspn_ajax_keys']) ? array_map(function($key) {
+      $raw_taskspn_ajax_keys = isset($_POST['taskspn_ajax_keys']) ? wp_unslash($_POST['taskspn_ajax_keys']) : [];
+      $sanitized_taskspn_ajax_keys = is_array($raw_taskspn_ajax_keys) ? map_deep($raw_taskspn_ajax_keys, 'wp_kses_post') : [];
+      $taskspn_ajax_keys = !empty($sanitized_taskspn_ajax_keys) ? array_map(function($key) {
         $sanitized_key = wp_unslash($key);
         return array(
           'id' => sanitize_key($sanitized_key['id']),
@@ -79,7 +81,7 @@ class TASKSPN_Ajax_Nopriv {
           // keep original truthiness (can be true/false or 'true'/'false')
           'multiple' => isset($sanitized_key['multiple']) ? $sanitized_key['multiple'] : ''
         );
-      }, wp_unslash($_POST['taskspn_ajax_keys'])) : [];
+      }, $sanitized_taskspn_ajax_keys) : [];
 
       $taskspn_key_value = [];
 
@@ -89,6 +91,11 @@ class TASKSPN_Ajax_Nopriv {
           $raw_id = isset($taskspn_key['id']) ? $taskspn_key['id'] : '';
           $clear_key = str_replace('[]', '', $raw_id);
           $posted_value = isset($_POST[$clear_key]) && array_key_exists($clear_key, $_POST) ? wp_unslash($_POST[$clear_key]) : null;
+          if (is_array($posted_value)) {
+            $posted_value = map_deep($posted_value, 'wp_kses_post');
+          } elseif (!is_null($posted_value)) {
+            $posted_value = wp_kses_post($posted_value);
+          }
           $is_multiple_field = (
             $taskspn_key['multiple'] === 'true' ||
             $taskspn_key['multiple'] === true ||
@@ -147,6 +154,11 @@ class TASKSPN_Ajax_Nopriv {
           } else {
             $sanitized_key = sanitize_key($taskspn_key['id']);
             $unslashed_value = !empty($_POST[$sanitized_key]) && isset($_POST[$sanitized_key]) ? wp_unslash($_POST[$sanitized_key]) : '';
+            if (is_array($unslashed_value)) {
+              $unslashed_value = map_deep($unslashed_value, 'wp_kses_post');
+            } else {
+              $unslashed_value = wp_kses_post($unslashed_value);
+            }
             
             $taskspn_key_id = !empty($unslashed_value) ? 
               TASKSPN_Forms::taskspn_sanitizer(
@@ -161,7 +173,7 @@ class TASKSPN_Ajax_Nopriv {
         }
       }
 
-      $taskspn_task_id = !empty($_POST['taskspn_task_id']) && isset($_POST['taskspn_task_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_task_id'])) : 0;
+      $taskspn_task_id = !empty($_POST['taskspn_task_id']) && isset($_POST['taskspn_task_id']) ? absint(wp_unslash($_POST['taskspn_task_id'])) : 0;
       
       // Get calendar view parameters
       $calendar_view = !empty($_POST['calendar_view']) ? sanitize_text_field(wp_unslash($_POST['calendar_view'])) : 'month';
@@ -205,7 +217,7 @@ class TASKSPN_Ajax_Nopriv {
           
           // Get task ID from POST if not already set
           if (empty($taskspn_task_id)) {
-            $taskspn_task_id = !empty($_POST['taskspn_task_id']) && isset($_POST['taskspn_task_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_task_id'])) : 0;
+            $taskspn_task_id = !empty($_POST['taskspn_task_id']) && isset($_POST['taskspn_task_id']) ? absint(wp_unslash($_POST['taskspn_task_id'])) : 0;
           }
           
           if (!empty($taskspn_task_id)) {
@@ -214,13 +226,13 @@ class TASKSPN_Ajax_Nopriv {
               $task_html = $plugin_post_type_taskpn->taskspn_task_view(intval($taskspn_task_id));
               
               if (!empty($task_html)) {
-                $json_response = wp_json_encode([
-                  'error_key' => '', 
-                  'html' => $task_html, 
-                ]);
-                
-                if ($json_response !== false) {
-                  echo $json_response;
+                $response_payload = [
+                  'error_key' => '',
+                  'html' => $task_html,
+                ];
+
+                if (wp_json_encode($response_payload) !== false) {
+                  wp_send_json($response_payload);
                 } else {
                   echo wp_json_encode([
                     'error_key' => 'taskspn_task_view_error', 
@@ -262,14 +274,14 @@ class TASKSPN_Ajax_Nopriv {
           }
           break;
         case 'taskspn_form_save':
-          $taskspn_form_type = !empty($_POST['taskspn_form_type']) && isset($_POST['taskspn_form_type']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_form_type'])) : '';
+          $taskspn_form_type = !empty($_POST['taskspn_form_type']) && isset($_POST['taskspn_form_type']) ? sanitize_text_field(wp_unslash($_POST['taskspn_form_type'])) : '';
 
           if (!empty($taskspn_key_value) && !empty($taskspn_form_type)) {
-            $taskspn_form_id = !empty($_POST['taskspn_form_id']) && isset($_POST['taskspn_form_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_form_id'])) : 0;
-            $taskspn_form_subtype = !empty($_POST['taskspn_form_subtype']) && isset($_POST['taskspn_form_subtype']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_form_subtype'])) : '';
-            $user_id = !empty($_POST['taskspn_form_user_id']) && isset($_POST['taskspn_form_user_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_form_user_id'])) : 0;
-            $post_id = !empty($_POST['taskspn_form_post_id']) && isset($_POST['taskspn_form_post_id']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_form_post_id'])) : 0;
-            $post_type = !empty($_POST['taskspn_form_post_type']) && isset($_POST['taskspn_form_post_type']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['taskspn_form_post_type'])) : '';
+            $taskspn_form_id = !empty($_POST['taskspn_form_id']) && isset($_POST['taskspn_form_id']) ? sanitize_text_field(wp_unslash($_POST['taskspn_form_id'])) : 0;
+            $taskspn_form_subtype = !empty($_POST['taskspn_form_subtype']) && isset($_POST['taskspn_form_subtype']) ? sanitize_text_field(wp_unslash($_POST['taskspn_form_subtype'])) : '';
+            $user_id = !empty($_POST['taskspn_form_user_id']) && isset($_POST['taskspn_form_user_id']) ? absint(wp_unslash($_POST['taskspn_form_user_id'])) : 0;
+            $post_id = !empty($_POST['taskspn_form_post_id']) && isset($_POST['taskspn_form_post_id']) ? absint(wp_unslash($_POST['taskspn_form_post_id'])) : 0;
+            $post_type = !empty($_POST['taskspn_form_post_type']) && isset($_POST['taskspn_form_post_type']) ? sanitize_key(wp_unslash($_POST['taskspn_form_post_type'])) : '';
 
             if (($taskspn_form_type == 'user' && empty($user_id) && !in_array($taskspn_form_subtype, ['user_alt_new'])) || ($taskspn_form_type == 'post' && (empty($post_id) && !(!empty($taskspn_form_subtype) && in_array($taskspn_form_subtype, ['post_new', 'post_edit'])))) || ($taskspn_form_type == 'option' && !is_user_logged_in())) {
               session_start();
@@ -290,9 +302,9 @@ class TASKSPN_Ajax_Nopriv {
                   if (!in_array($taskspn_form_subtype, ['user_alt_new'])) {
                       if (empty($user_id)) {
                         if (TASKSPN_Functions_User::taskspn_user_is_admin(get_current_user_id())) {
-                          $user_login = !empty($_POST['user_login']) && isset($_POST['user_login']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['user_login'])) : 0;
-                          $user_password = !empty($_POST['user_password']) && isset($_POST['user_password']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['user_password'])) : 0;
-                          $user_email = !empty($_POST['user_email']) && isset($_POST['user_email']) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST['user_email'])) : 0;
+                          $user_login = !empty($_POST['user_login']) && isset($_POST['user_login']) ? sanitize_user(wp_unslash($_POST['user_login']), true) : '';
+                          $user_password = !empty($_POST['user_password']) && isset($_POST['user_password']) ? wp_unslash($_POST['user_password']) : '';
+                          $user_email = !empty($_POST['user_email']) && isset($_POST['user_email']) ? sanitize_email(wp_unslash($_POST['user_email'])) : '';
 
                         $user_id = TASKSPN_Functions_User::taskspn_user_insert($user_login, $user_password, $user_email);
                       }
@@ -321,10 +333,7 @@ class TASKSPN_Ajax_Nopriv {
                   do_action('taskspn_form_save', $user_id, $taskspn_key_value, $taskspn_form_type, $taskspn_form_subtype);
                   break;
                 case 'post':
-                  // Debug: Log post form save attempt
-                  // error_log('TASKSPN DEBUG - Post form save called. Subtype: ' . $taskspn_form_subtype . ', Post ID: ' . $post_id . ', Post Type: ' . $post_type);
-                  // error_log('TASKSPN DEBUG - Key value data: ' . print_r($taskspn_key_value, true));
-                  
+                 
                   if (empty($taskspn_form_subtype) || in_array($taskspn_form_subtype, ['post_new', 'post_edit', 'post_check'])) {
                     // For post_check, we don't need to create a new post or update title/description
                     if ($taskspn_form_subtype !== 'post_check') {
@@ -334,8 +343,8 @@ class TASKSPN_Ajax_Nopriv {
                           $post_functions = new TASKSPN_Functions_Post();
                           $title_key = $post_type . '_title';
                           $description_key = $post_type . '_description';
-                          $title = !empty($_POST[$title_key]) && isset($_POST[$title_key]) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST[$title_key])) : '';
-                          $description = !empty($_POST[$description_key]) && isset($_POST[$description_key]) ? TASKSPN_Forms::taskspn_sanitizer(wp_unslash($_POST[$description_key])) : '';
+                          $title = !empty($_POST[$title_key]) && isset($_POST[$title_key]) ? wp_kses_post(wp_unslash($_POST[$title_key])) : '';
+                          $description = !empty($_POST[$description_key]) && isset($_POST[$description_key]) ? wp_kses_post(wp_unslash($_POST[$description_key])) : '';
                           
                           $post_id = $post_functions->taskspn_insert_post($title, $description, '', sanitize_title($title), $post_type, 'publish', get_current_user_id());
                         }
@@ -383,18 +392,10 @@ class TASKSPN_Ajax_Nopriv {
                           update_post_meta($post_id, $taskspn_key, $taskspn_value);
                         }
                       }
-                    } else {
-                      // For post_check, ensure we have a post_id
-                      if (empty($post_id)) {
-                        // error_log('TASKSPN DEBUG - ERROR: post_check called but post_id is empty!');
-                      } else {
-                        // error_log('TASKSPN DEBUG - post_check: post_id is ' . $post_id . ', will trigger hook');
-                      }
                     }
 
                     // Always trigger the hook for all post subtypes, including post_check
                     do_action('taskspn_form_save', $post_id, $taskspn_key_value, $taskspn_form_type, $taskspn_form_subtype, $post_type);
-                    // error_log('TASKSPN DEBUG - Hook taskspn_form_save triggered with post_id: ' . $post_id);
                   }
                   break;
                 case 'option':

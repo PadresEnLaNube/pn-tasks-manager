@@ -52,7 +52,7 @@ class TASKSPN {
 		if (defined('TASKSPN_VERSION')) {
 			$this->taskspn_version = TASKSPN_VERSION;
 		} else {
-			$this->taskspn_version = '1.0.15';
+			$this->taskspn_version = '1.0.0';
 		}
 
 		$this->taskspn_plugin_name = 'taskspn';
@@ -381,24 +381,6 @@ class TASKSPN {
 		$plugin_ajax = new TASKSPN_Ajax();
 		$this->taskspn_loader->taskspn_add_action('wp_ajax_taskspn_ajax', $plugin_ajax, 'taskspn_ajax_server');
 		$this->taskspn_loader->taskspn_add_action('wp_ajax_taskspn_create_taxonomy_term', $plugin_ajax, 'taskspn_create_taxonomy_term_ajax');
-		
-		// Debug: Log that we're registering the action
-		@file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-			date('Y-m-d H:i:s') . " - Registering wp_ajax_taskspn_ajax action\n", 
-			FILE_APPEND
-		);
-		
-		// Debug: Add a hook to catch AJAX requests before WordPress processes them
-		// Use 'init' hook with high priority to catch AJAX requests early
-		// Note: We can't use anonymous functions with the loader, so we'll add the hook directly
-		add_action('init', function() {
-			if (defined('DOING_AJAX') && DOING_AJAX && isset($_POST['action']) && $_POST['action'] === 'taskspn_ajax') {
-				@file_put_contents(WP_CONTENT_DIR . '/debug-taskspn.log', 
-					date('Y-m-d H:i:s') . " - DOING_AJAX detected in init hook. Action: " . $_POST['action'] . ", User logged in: " . (is_user_logged_in() ? 'YES' : 'NO') . ", User ID: " . get_current_user_id() . "\n", 
-					FILE_APPEND
-				);
-			}
-		}, 1);
 	}
 
 	/**

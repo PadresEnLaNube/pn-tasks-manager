@@ -336,10 +336,10 @@ class TASKSPN_Calendar {
       'day' => gmdate('d'),
     ], $atts);
     
-    $current_year = isset($_GET['calendar_year']) ? intval(wp_unslash($_GET['calendar_year'])) : intval($a['year']);
-    $current_month = isset($_GET['calendar_month']) ? intval(wp_unslash($_GET['calendar_month'])) : intval($a['month']);
-    $current_day = isset($_GET['calendar_day']) ? intval(wp_unslash($_GET['calendar_day'])) : intval($a['day']);
-    $current_view = isset($_GET['calendar_view']) ? sanitize_text_field(wp_unslash($_GET['calendar_view'])) : $a['view'];
+    $current_year = isset($_GET['calendar_year']) ? intval(wp_unslash($_GET['calendar_year'])) : intval($a['year']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only calendar filters.
+    $current_month = isset($_GET['calendar_month']) ? intval(wp_unslash($_GET['calendar_month'])) : intval($a['month']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only calendar filters.
+    $current_day = isset($_GET['calendar_day']) ? intval(wp_unslash($_GET['calendar_day'])) : intval($a['day']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only calendar filters.
+    $current_view = isset($_GET['calendar_view']) ? sanitize_text_field(wp_unslash($_GET['calendar_view'])) : $a['view']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only calendar filters.
     
     // Register and enqueue scripts and styles
     wp_enqueue_style('taskspn-calendar', TASKSPN_URL . 'assets/css/taskspn-calendar.css', [], TASKSPN_VERSION);
@@ -363,7 +363,7 @@ class TASKSPN_Calendar {
     ?>
     <?php
     $is_admin = current_user_can('administrator') || current_user_can('manage_options');
-    $hide_others_default = isset($_GET['hide_others']) ? (bool) intval(wp_unslash($_GET['hide_others'])) : false;
+    $hide_others_default = isset($_GET['hide_others']) ? (bool) intval(wp_unslash($_GET['hide_others'])) : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only calendar filters.
     ?>
     <div class="taskspn-calendar-wrapper" data-calendar-view="<?php echo esc_attr($current_view); ?>" data-calendar-year="<?php echo esc_attr($current_year); ?>" data-calendar-month="<?php echo esc_attr($current_month); ?>" data-calendar-day="<?php echo esc_attr($current_day); ?>" data-hide-others="<?php echo $hide_others_default ? '1' : '0'; ?>">
       <div class="taskspn-calendar-header">
@@ -876,7 +876,7 @@ class TASKSPN_Calendar {
         }
         
         $task_title = $task['title'];
-        $task_description = !empty($task_post->post_content) ? strip_tags($task_post->post_content) : '';
+        $task_description = !empty($task_post->post_content) ? wp_strip_all_tags($task_post->post_content) : '';
         $task_date = $date;
         $task_time = !empty($task['time']) ? $task['time'] : '00:00';
         
@@ -1114,8 +1114,8 @@ class TASKSPN_Calendar {
     header('Cache-Control: no-cache, must-revalidate');
     header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 
-    // Output ICS content
-    echo $ics_content;
+    // Output ICS content with escaping to satisfy security standards while preserving plain text
+    echo wp_kses_post($ics_content);
     exit;
   }
 }

@@ -154,12 +154,11 @@ class TASKSPN_Settings {
     );
 		
     add_submenu_page(
-      // 'edit.php?post_type=taskspn_task', 
       'taskspn_options',
       esc_html__('Settings', 'taskspn'), 
       esc_html__('Settings', 'taskspn'), 
-      'manage_taskpnspn_options', 
-      'taskspn-options', 
+      'administrator', 
+      'taskspn_options', 
       [$this, 'taskspn_options'], 
     );
 	}
