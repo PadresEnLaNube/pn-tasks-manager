@@ -65,7 +65,28 @@ class PN_TASKS_MANAGER_Admin {
 	 * Show admin notice if MailPN is not active to inform about required email plugin
 	 */
 	public function pn_tasks_manager_mailpn_notice() {
-		if (!current_user_can('activate_plugins')) { return; }
+		// Only show this notice on the PN Tasks Manager settings page
+		if (!is_admin()) { 
+			return; 
+		}
+
+		// Check current screen (more reliable when available)
+		if (function_exists('get_current_screen')) {
+			$screen = get_current_screen();
+			if ($screen && $screen->id !== 'toplevel_page_pn_tasks_manager_options' && $screen->id !== 'pn_tasks_manager_page_pn_tasks_manager_options') {
+				return;
+			}
+		} else {
+			// Fallback to checking the "page" query arg
+			if (!isset($_GET['page']) || $_GET['page'] !== 'pn_tasks_manager_options') { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				return;
+			}
+		}
+
+		if (!current_user_can('activate_plugins')) { 
+			return; 
+		}
+		
 		// If MailPN available, no notice
 		if (class_exists('MAILPN_Mailing') || shortcode_exists('mailpn-sender')) { return; }
 

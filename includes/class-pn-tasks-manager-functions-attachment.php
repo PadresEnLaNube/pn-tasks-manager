@@ -29,20 +29,21 @@ class PN_TASKS_MANAGER_Functions_Attachment {
 	 * 
 	 * @since    1.0.0
 	 */
-	public function insert_attachment_from_url($url, $parent_post_id = null) {
-    if(!class_exists('WP_Http')){
-      require_once(ABSPATH . 'wp-includes/class-http.php'); 
-    }
+	public function pn_tasks_manager_insert_attachment_from_url($url, $parent_post_id = null) {
+    // Use the WordPress HTTP API helper instead of directly including HTTP classes.
+    $response = wp_remote_get( $url );
+    $file_extension = pathinfo( $url, PATHINFO_EXTENSION );
 
-    $http = new WP_Http();
-    $response = $http->request($url);
-    $file_extension = pathinfo($url, PATHINFO_EXTENSION);
-
-    if (is_wp_error($response)) {
+    if ( is_wp_error( $response ) ) {
       return false;
     }
 
-    $upload = wp_upload_bits(basename($url . '.' . $file_extension), null, $response['body']);
+    $body = wp_remote_retrieve_body( $response );
+    if ( empty( $body ) ) {
+      return false;
+    }
+
+    $upload = wp_upload_bits( basename( $url . '.' . $file_extension ), null, $body );
 
     if(!empty($upload['error'])) {
       return false;
@@ -63,7 +64,6 @@ class PN_TASKS_MANAGER_Functions_Attachment {
     ];
 
     $attach_id = wp_insert_attachment($post_info, $file_path, $parent_post_id);
-    require_once(ABSPATH . 'wp-admin/includes/file.php');
 
     return $attach_id;
   }
