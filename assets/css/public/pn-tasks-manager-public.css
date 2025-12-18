@@ -1,0 +1,20 @@
+/*Task templates*/
+.pn-tasks-manager-task-wrapper{
+    padding:50px;
+    max-width:1200px;
+    margin:auto;
+}
+#pn-tasks-manager-popup-player{
+    width:800px;
+}
+.pn-tasks-manager-carousel{
+    max-width:500px;
+    margin:auto;
+}
+.pn-tasks-manager-bordered{
+    border:4px solid;
+}
+.pn-tasks-manager-icon-new{
+    font-size:225px!important;
+    padding:50px 0;
+}

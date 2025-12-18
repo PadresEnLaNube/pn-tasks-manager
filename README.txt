@@ -1,4 +1,4 @@
-=== Tasks Manager - PN ===
+=== PN Tasks Manager ===
 Contributors: felixmartinez, hamlet237
 Donate link: https://padresenlanube.com/
 Tags: task, time manager, tasking, time tracking, performance
@@ -40,14 +40,14 @@ https://github.com/Alex-D/Trumbowyg/blob/develop/src/trumbowyg.js
 
 == Installation ==
 
-1. Upload `taskspn.php` to the `/wp-content/plugins/` directory
+1. Upload `pn-tasks-manager.php` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
-= How do I install the Tasks Manager - PN plugin? =
+= How do I install the PN Tasks Manager plugin? =
 
-To install the Tasks Manager - PN plugin, you can either upload the plugin files to the /wp-content/plugins/taskspn directory, or install the plugin through the WordPress plugins screen directly. After uploading, activate the plugin through the 'Plugins' screen in WordPress.
+To install the PN Tasks Manager plugin, you can either upload the plugin files to the /wp-content/plugins/pn-tasks-manager directory, or install the plugin through the WordPress plugins screen directly. After uploading, activate the plugin through the 'Plugins' screen in WordPress.
 
 = Can I customize the look and feel of my listings? =
 
@@ -63,11 +63,11 @@ To add a new Custom Post Type, go to the 'Task' section in the WordPress dashboa
 
 = Can I use this plugin with any WordPress theme? =
 
-Yes, the Tasks Manager - PN plugin is designed to be compatible with any WordPress theme. However, some themes may require additional customization to ensure the plugin's styles integrate seamlessly.
+Yes, the PN Tasks Manager plugin is designed to be compatible with any WordPress theme. However, some themes may require additional customization to ensure the plugin's styles integrate seamlessly.
 
 = Is the plugin translation-ready? =
 
-Yes, the Tasks Manager - PN plugin is fully translation-ready. You can use translation plugins such as Loco Translate to translate the plugin into your desired language.
+Yes, the PN Tasks Manager plugin is fully translation-ready. You can use translation plugins such as Loco Translate to translate the plugin into your desired language.
 
 = How do I update the plugin? =
 
@@ -85,17 +85,17 @@ The plugin don't include a built-in ratings and reviews system yet. You can inte
 
 To optimize your Task for SEO, ensure that you use relevant keywords in your Task titles, descriptions, and content. You can also use SEO plugins like Yoast SEO to further enhance your Task posts' search engine visibility.
 
-= How do I get support for the Tasks Manager - PN plugin? =
+= How do I get support for the PN Tasks Manager plugin? =
 
 For support, you can visit the plugin's support forum on the WordPress.org website or contact the plugin author directly through our contact information info@padresenlanube.com.
 
 = Is the plugin compatible with the latest version of WordPress? =
 
-The Tasks Manager - PN plugin is tested with the latest version of WordPress. However, it is always a good practice to check for any compatibility issues before updating WordPress or the plugin.
+The PN Tasks Manager plugin is tested with the latest version of WordPress. However, it is always a good practice to check for any compatibility issues before updating WordPress or the plugin.
 
 = How do I uninstall the plugin? =
 
-To uninstall the plugin, go to the 'Plugins' screen in WordPress, find the Tasks Manager - PN plugin, and click 'Deactivate'. After deactivating, you can click 'Delete' to remove the plugin and its files from your site. Note that this will not delete your Task, but you should back up your data before uninstalling any plugin.
+To uninstall the plugin, go to the 'Plugins' screen in WordPress, find the PN Tasks Manager plugin, and click 'Deactivate'. After deactivating, you can click 'Delete' to remove the plugin and its files from your site. Note that this will not delete your Task, but you should back up your data before uninstalling any plugin.
 
 
 == Changelog ==
