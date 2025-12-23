@@ -11,7 +11,89 @@ Manage your tasks and time tracking with this plugin. Create tasks, assign them 
 
 == Description ==
 
-Manage your tasks and time tracking with this plugin. Create tasks, assign them to users, and track the time spent on each task. This plugin is a simple and easy to use task and time tracking plugin.
+PN Tasks Manager is a comprehensive WordPress plugin designed to help you manage tasks, track time, and organize your team's workflow efficiently. Whether you're managing personal tasks, team projects, or community events, this plugin provides all the tools you need to stay organized and productive.
+
+= Core Features =
+
+* **Task Management**: Create, edit, and manage tasks with detailed information including titles, descriptions, dates, times, and estimated hours. Tasks support rich content editing with WordPress's built-in editor.
+
+* **User Assignment**: Assign tasks to one or multiple users, making it easy to distribute workload and track responsibilities across your team.
+
+* **Time Tracking**: Track estimated hours for each task and monitor completion status. The plugin calculates total hours per user for performance analysis.
+
+* **Interactive Calendar**: View your tasks in multiple calendar formats:
+  * Day view: Detailed view of tasks for a specific day
+  * Week view: Overview of tasks across a week
+  * Month view: Complete monthly calendar with task indicators
+  * Year view: Annual overview with task distribution
+
+* **Recurring Tasks**: Set up tasks that repeat automatically with customizable periodicity:
+  * Repeat every X days, weeks, or months
+  * Set an end date for recurring tasks
+  * Tasks are automatically generated based on your schedule
+
+* **Task Categories**: Organize tasks using hierarchical categories with custom icons and colors for easy visual identification.
+
+* **Public Tasks**: Create public tasks that any user can join, perfect for community events, volunteer opportunities, or collaborative projects.
+
+* **ICS Calendar Export**: Export your tasks to ICS format for seamless integration with Google Calendar, Outlook, Apple Calendar, and other calendar applications.
+
+* **User Ranking**: Track and display user rankings based on completed task hours, motivating team members and recognizing top contributors (admin-only feature).
+
+* **Email Notifications**: Automatically notify users when tasks are assigned to them (requires MailPN plugin for full functionality).
+
+* **Gutenberg Blocks**: Full integration with WordPress block editor. Use blocks to display:
+  * Calendar views
+  * Task lists
+  * Joinable tasks
+  * User rankings
+  * Individual tasks
+
+* **Shortcodes**: Flexible shortcode system for displaying plugin features anywhere on your site:
+  * `[pn-tasks-manager-calendar]` - Display interactive calendar
+  * `[pn-tasks-manager-task-list]` - Show task listings
+  * `[pn-tasks-manager-joinable-tasks]` - List tasks users can join
+  * `[pn-tasks-manager-users-ranking]` - Display user rankings
+  * `[pn-tasks-manager-task]` - Display individual tasks
+  * `[pn-tasks-manager-call-to-action]` - Create custom call-to-action elements
+
+* **Role-Based Permissions**: Flexible permission system that integrates with WordPress user roles. Control who can create, edit, delete, and manage tasks.
+
+* **Multilingual Support**: Fully translation-ready with support for multiple languages including Spanish, Catalan, Basque, Galician, Italian, and Portuguese. Compatible with Polylang for multilingual sites.
+
+* **AJAX-Powered Interface**: Fast, responsive interface with AJAX functionality for seamless user experience without page reloads.
+
+* **Customizable Styling**: Modern, clean interface with Material Design icons. Styles can be customized to match your theme.
+
+* **Task Status Tracking**: Mark tasks as completed and track progress through your workflow.
+
+* **Task Attachments**: Attach files and media to tasks for better collaboration and documentation.
+
+* **Task Locations**: Add location information to tasks for events and meetings.
+
+* **Task Icons and Colors**: Customize task appearance with icons and colors for quick visual identification.
+
+= Use Cases =
+
+* **Project Management**: Organize team projects with assigned tasks and deadlines
+* **Event Planning**: Schedule and manage events with recurring dates
+* **Community Management**: Create public tasks for community participation
+* **Time Tracking**: Monitor time spent on various activities and projects
+* **Team Collaboration**: Assign and track tasks across team members
+* **Personal Organization**: Manage personal tasks and schedules
+
+= Technical Features =
+
+* Custom Post Type implementation for tasks
+* Hierarchical taxonomy system for categories
+* REST API integration (with security controls)
+* WordPress coding standards compliant
+* Optimized database queries
+* Security-focused with nonce verification and capability checks
+* Compatible with WordPress 3.0 and higher
+* PHP 7.2+ required
+
+This plugin is perfect for WordPress sites that need a robust task management system without the complexity of external services. It integrates seamlessly with WordPress's native features and works with any WordPress theme.
 
 
 == Credits ==

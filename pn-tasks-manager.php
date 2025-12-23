@@ -12,7 +12,7 @@
  * @wordpress-plugin
  * Plugin Name:       PN Tasks Manager
  * Plugin URI:        https://padresenlanube.com/plugins/pn-tasks-manager/
- * Description:       Manage your tasks and time tracking with this plugin. Create tasks, assign them to users, and track the time spent on each task.
+ * Description:       Manage your tasks and time tracking with this plugin. Create tasks, assign them to users, and track the time spent on each task. Features include: interactive calendar views (day, week, month, year), recurring tasks with customizable periodicity, task categories for organization, public tasks that users can join, ICS calendar export, user ranking by completed hours, Gutenberg blocks integration, email notifications for task assignments, shortcodes for displaying calendars and task lists, multilingual support, and flexible role-based permissions.
  * Version:           1.0.0
  * Requires at least: 3.0
  * Requires PHP:      7.2
