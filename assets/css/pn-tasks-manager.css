@@ -1860,6 +1860,18 @@ header .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigati
       border-bottom: none;
   }
 
+  /* Section vertical line for code-folding style */
+  .pn-tasks-manager-section-wrapper {
+    position: relative;
+  }
+
+  /* Vertical line for code folding style. We don't depend on JS: the block itself is hidden with display:none when closed, so the border only shows when open. */
+  .pn-tasks-manager-section-wrapper > .pn-tasks-manager-toggle-content {
+    position: relative;
+    border-left: 2px solid var(--pn-tasks-manager-color-main);
+    padding-left: 18px; /* 20px original - 2px border */
+  }
+
   /* Responsive Design */
   @media (max-width: 768px) {
       .pn-tasks-manager-tags-display {
