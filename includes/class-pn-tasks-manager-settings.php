@@ -13,7 +13,36 @@
 class PN_TASKS_MANAGER_Settings {
   public function pn_tasks_manager_get_options() {
     $pn_tasks_manager_options = [];
-    // Colors section (first)
+    // Plugin Pages section (first)
+    $pn_tasks_manager_options['pn_tasks_manager_pages_section_start'] = [
+      'id' => 'pn_tasks_manager_pages_section_start',
+      'section' => 'start',
+      'label' => __('Plugin Pages', 'pn-tasks-manager'),
+      'description' => __('Create and manage the pages that display the plugin blocks.', 'pn-tasks-manager'),
+    ];
+
+    $pn_tasks_manager_options['pn_tasks_manager_page_task_list'] = [
+      'id' => 'pn_tasks_manager_page_task_list',
+      'input' => 'page_manager',
+      'label' => __('Task List', 'pn-tasks-manager'),
+      'block_name' => 'pn-tasks-manager/task-list',
+      'page_option' => 'pn_tasks_manager_page_task_list',
+    ];
+
+    $pn_tasks_manager_options['pn_tasks_manager_page_calendar'] = [
+      'id' => 'pn_tasks_manager_page_calendar',
+      'input' => 'page_manager',
+      'label' => __('Calendar', 'pn-tasks-manager'),
+      'block_name' => 'pn-tasks-manager/calendar',
+      'page_option' => 'pn_tasks_manager_page_calendar',
+    ];
+
+    $pn_tasks_manager_options['pn_tasks_manager_pages_section_end'] = [
+      'id' => 'pn_tasks_manager_pages_section_end',
+      'section' => 'end',
+    ];
+
+    // Colors section
     $pn_tasks_manager_options['pn_tasks_manager_colors_section_start'] = [
       'id' => 'pn_tasks_manager_colors_section_start',
       'section' => 'start',
@@ -27,7 +56,7 @@ class PN_TASKS_MANAGER_Settings {
       'input' => 'input',
       'type' => 'color',
       'label' => __('Primary color', 'pn-tasks-manager'),
-      'value' => '#d45500',
+      'value' => '#b84a00',
       'description' => __('Maps to --pn-tasks-manager-color-main', 'pn-tasks-manager'),
     ];
 
@@ -37,7 +66,7 @@ class PN_TASKS_MANAGER_Settings {
       'input' => 'input',
       'type' => 'color',
       'label' => __('Primary background', 'pn-tasks-manager'),
-      'value' => '#d45500',
+      'value' => '#b84a00',
       'description' => __('Maps to --pn-tasks-manager-bg-color-main', 'pn-tasks-manager'),
     ];
 
@@ -47,7 +76,7 @@ class PN_TASKS_MANAGER_Settings {
       'input' => 'input',
       'type' => 'color',
       'label' => __('Primary border', 'pn-tasks-manager'),
-      'value' => '#d45500',
+      'value' => '#b84a00',
       'description' => __('Maps to --pn-tasks-manager-border-color-main', 'pn-tasks-manager'),
     ];
 
@@ -105,7 +134,13 @@ class PN_TASKS_MANAGER_Settings {
       'id' => 'pn_tasks_manager_colors_section_end',
       'section' => 'end',
     ];
-    
+
+    $pn_tasks_manager_options['pn_tasks_manager_system_section_start'] = [
+      'id' => 'pn_tasks_manager_system_section_start',
+      'section' => 'start',
+      'label' => __('System', 'pn-tasks-manager'),
+    ];
+
     $pn_tasks_manager_options['pn-tasks-manager'] = [
       'id' => 'pn-tasks-manager',
       'class' => 'pn-tasks-manager-input pn-tasks-manager-width-100-percent',
@@ -123,6 +158,32 @@ class PN_TASKS_MANAGER_Settings {
       'label' => __('Remove plugin options on deactivation', 'pn-tasks-manager'),
       'description' => __('If you activate this option the plugin will remove all options on deactivation. Please, be careful. This process cannot be undone.', 'pn-tasks-manager'),
     ];
+
+    $pn_tasks_manager_options['pn_tasks_manager_system_section_end'] = [
+      'id' => 'pn_tasks_manager_system_section_end',
+      'section' => 'end',
+    ];
+
+    $pn_tasks_manager_options['pn_tasks_manager_role_section_start'] = [
+      'id' => 'pn_tasks_manager_role_section_start',
+      'section' => 'start',
+      'label' => __('User Roles', 'pn-tasks-manager'),
+      'description' => __('Manage user role assignments for this plugin.', 'pn-tasks-manager'),
+    ];
+
+    $pn_tasks_manager_options['pn_tasks_manager_role_selector_manager'] = [
+      'id' => 'pn_tasks_manager_role_selector_manager',
+      'input' => 'user_role_selector',
+      'label' => __('PN Tasks Manager', 'pn-tasks-manager'),
+      'role' => 'pn_tasks_manager_role_manager',
+      'role_label' => __('PN Tasks Manager', 'pn-tasks-manager'),
+    ];
+
+    $pn_tasks_manager_options['pn_tasks_manager_role_section_end'] = [
+      'id' => 'pn_tasks_manager_role_section_end',
+      'section' => 'end',
+    ];
+
     $pn_tasks_manager_options['pn_tasks_manager_nonce'] = [
       'id' => 'pn_tasks_manager_nonce',
       'input' => 'input',

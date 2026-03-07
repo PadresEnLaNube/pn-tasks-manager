@@ -726,4 +726,150 @@
 
     pn_tasks_manager_toggle.siblings('.pn-tasks-manager-toggle-content').fadeToggle();
   });
+  $(document).on('click', '.pn-tasks-manager-assign-role-btn, .pn-tasks-manager-remove-role-btn', function (e) {
+    e.preventDefault(); e.stopPropagation();
+    var $button = $(this), isAssign = $button.hasClass('pn-tasks-manager-assign-role-btn');
+    var inputId = $button.data('input-id'), $select = $('#pn_tasks_manager_user_select_' + inputId);
+    var $nonce = $button.closest('.pn-tasks-manager-role-actions').find('.pn-tasks-manager-role-nonce');
+    var selectedUsers = $select.val();
+    if (!selectedUsers || selectedUsers.length === 0) { showPnTasksManagerRoleMessage('Please select at least one user', 'error'); return; }
+    $button.prop('disabled', true);
+    $.ajax({
+      url: pn_tasks_manager_ajax.ajax_url, type: 'POST',
+      data: { action: 'pn_tasks_manager_ajax', pn_tasks_manager_ajax_type: 'pn_tasks_manager_assign_role', pn_tasks_manager_ajax_nonce: $('#pn_tasks_manager_nonce').val(), pn_tasks_manager_role_nonce: $nonce.val(), user_ids: selectedUsers, role: $select.data('role'), action_type: isAssign ? 'assign' : 'remove' },
+      success: function (response) {
+        try { var data = typeof response === 'string' ? JSON.parse(response) : response;
+          if (data.success) { showPnTasksManagerRoleMessage(data.message, 'success'); $select.find('option:selected').each(function () { var $option = $(this); if (isAssign) { if (!$option.text().includes('✓')) { $option.text($option.text() + ' ✓'); $option.attr('data-has-role', 'true'); } } else { $option.text($option.text().replace(' ✓', '')); $option.removeAttr('data-has-role'); } }); $select.val(null).trigger('change'); setTimeout(function () { location.reload(); }, 1500); }
+          else { showPnTasksManagerRoleMessage(data.message || data.error_content || 'An error occurred', 'error'); }
+        } catch (e) { showPnTasksManagerRoleMessage('Error parsing server response', 'error'); }
+      },
+      error: function () { showPnTasksManagerRoleMessage('Connection error. Please try again.', 'error'); },
+      complete: function () { $button.prop('disabled', false); }
+    });
+  });
+  // PAGE MANAGER: Create page
+  $(document).on('click', '.pn-tasks-manager-page-manager-create-btn', function (e) {
+    e.preventDefault(); e.stopPropagation();
+    var $btn = $(this), $wrapper = $btn.closest('.pn-tasks-manager-page-manager-wrapper');
+    var $input = $wrapper.find('.pn-tasks-manager-page-manager-title-input');
+    var $message = $wrapper.find('.pn-tasks-manager-page-manager-message');
+    var pageTitle = $input.val().trim();
+    var blockName = $wrapper.data('block-name');
+    var pageOption = $wrapper.data('page-option');
+
+    if (!pageTitle) {
+      $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-red">' + ((typeof pn_tasks_manager_i18n !== 'undefined' && pn_tasks_manager_i18n.please_enter_page_title) ? pn_tasks_manager_i18n.please_enter_page_title : 'Please enter a page title.') + '</p>');
+      setTimeout(function () { $message.addClass('pn-tasks-manager-display-none-soft'); }, 4000);
+      return;
+    }
+
+    $btn.prop('disabled', true);
+    $.ajax({
+      url: pn_tasks_manager_ajax.ajax_url, type: 'POST',
+      data: {
+        action: 'pn_tasks_manager_ajax',
+        pn_tasks_manager_ajax_type: 'pn_tasks_manager_create_plugin_page',
+        pn_tasks_manager_ajax_nonce: $('#pn_tasks_manager_nonce').val(),
+        page_title: pageTitle,
+        block_name: blockName,
+        page_option: pageOption
+      },
+      dataType: 'json',
+      success: function (response) {
+        try {
+          var data = typeof response === 'string' ? JSON.parse(response) : response;
+          if (data.success) {
+            $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-green">' + data.message + '</p>');
+            // Replace form with page info
+            $wrapper.find('.pn-tasks-manager-page-manager-create').replaceWith(
+              '<div class="pn-tasks-manager-page-manager-info">' +
+                '<div class="pn-tasks-manager-page-manager-status pn-tasks-manager-mb-10">' +
+                  '<i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-color-green">check_circle</i> ' +
+                  '<strong>' + data.page_title + '</strong>' +
+                  '<span class="pn-tasks-manager-page-manager-badge pn-tasks-manager-ml-10">Publish</span>' +
+                '</div>' +
+                '<div class="pn-tasks-manager-page-manager-actions">' +
+                  '<a href="' + data.page_url + '" target="_blank" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-btn-transparent pn-tasks-manager-mr-10"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">visibility</i> ' + ((typeof pn_tasks_manager_i18n !== 'undefined' && pn_tasks_manager_i18n.view) ? pn_tasks_manager_i18n.view : 'View') + '</a>' +
+                  '<a href="' + data.edit_url + '" target="_blank" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-btn-transparent pn-tasks-manager-mr-10"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">edit</i> ' + ((typeof pn_tasks_manager_i18n !== 'undefined' && pn_tasks_manager_i18n.edit) ? pn_tasks_manager_i18n.edit : 'Edit') + '</a>' +
+                  '<button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-btn-transparent pn-tasks-manager-page-manager-unlink-btn"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">link_off</i> ' + ((typeof pn_tasks_manager_i18n !== 'undefined' && pn_tasks_manager_i18n.unlink) ? pn_tasks_manager_i18n.unlink : 'Unlink') + '</button>' +
+                '</div>' +
+              '</div>'
+            );
+          } else {
+            $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-red">' + (data.message || 'An error occurred.') + '</p>');
+          }
+        } catch (err) {
+          $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-red">Error parsing server response.</p>');
+        }
+      },
+      error: function () {
+        $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-red">Connection error. Please try again.</p>');
+      },
+      complete: function () { $btn.prop('disabled', false); }
+    });
+  });
+
+  // PAGE MANAGER: Unlink page
+  $(document).on('click', '.pn-tasks-manager-page-manager-unlink-btn', function (e) {
+    e.preventDefault(); e.stopPropagation();
+    var $btn = $(this), $wrapper = $btn.closest('.pn-tasks-manager-page-manager-wrapper');
+    var $message = $wrapper.find('.pn-tasks-manager-page-manager-message');
+    var pageOption = $wrapper.data('page-option');
+    var label = $wrapper.closest('.pn-tasks-manager-input-wrapper').find('label').first().text().trim();
+
+    if (!confirm((typeof pn_tasks_manager_i18n !== 'undefined' && pn_tasks_manager_i18n.confirm_unlink_page) ? pn_tasks_manager_i18n.confirm_unlink_page : 'Are you sure you want to unlink this page? The page will not be deleted.')) return;
+
+    $btn.prop('disabled', true);
+    $.ajax({
+      url: pn_tasks_manager_ajax.ajax_url, type: 'POST',
+      data: {
+        action: 'pn_tasks_manager_ajax',
+        pn_tasks_manager_ajax_type: 'pn_tasks_manager_unlink_plugin_page',
+        pn_tasks_manager_ajax_nonce: $('#pn_tasks_manager_nonce').val(),
+        page_option: pageOption
+      },
+      dataType: 'json',
+      success: function (response) {
+        try {
+          var data = typeof response === 'string' ? JSON.parse(response) : response;
+          if (data.success) {
+            $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-green">' + data.message + '</p>');
+            // Replace info with create form
+            $wrapper.find('.pn-tasks-manager-page-manager-info').replaceWith(
+              '<div class="pn-tasks-manager-page-manager-create">' +
+                '<div class="pn-tasks-manager-page-manager-create-form">' +
+                  '<input type="text" class="pn-tasks-manager-input pn-tasks-manager-page-manager-title-input pn-tasks-manager-width-100-percent pn-tasks-manager-mb-10" placeholder="' + ((typeof pn_tasks_manager_i18n !== 'undefined' && pn_tasks_manager_i18n.page_title) ? pn_tasks_manager_i18n.page_title : 'Page title') + '" value="' + label + '">' +
+                  '<button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-page-manager-create-btn"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">add_circle</i> ' + ((typeof pn_tasks_manager_i18n !== 'undefined' && pn_tasks_manager_i18n.create_page) ? pn_tasks_manager_i18n.create_page : 'Create page') + '</button>' +
+                '</div>' +
+              '</div>'
+            );
+          } else {
+            $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-red">' + (data.message || 'An error occurred.') + '</p>');
+          }
+        } catch (err) {
+          $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-red">Error parsing server response.</p>');
+        }
+      },
+      error: function () {
+        $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="pn-tasks-manager-color-red">Connection error. Please try again.</p>');
+      },
+      complete: function () { $btn.prop('disabled', false); }
+    });
+  });
+
+  // PAGE MANAGER: Enter key on title input triggers create
+  $(document).on('keypress', '.pn-tasks-manager-page-manager-title-input', function (e) {
+    if (e.which === 13) {
+      e.preventDefault();
+      $(this).siblings('.pn-tasks-manager-page-manager-create-btn').click();
+    }
+  });
+
+  $(document).on('mousedown', '.pn-tasks-manager-user-role-select', function (e) { e.stopPropagation(); });
+  function showPnTasksManagerRoleMessage(message, type) {
+    var $message = $('.pn-tasks-manager-role-message');
+    var className = type === 'error' ? 'pn-tasks-manager-color-red' : 'pn-tasks-manager-color-green';
+    $message.removeClass('pn-tasks-manager-display-none-soft').html('<p class="' + className + '">' + message + '</p>');
+    setTimeout(function () { $message.addClass('pn-tasks-manager-display-none-soft'); }, 5000);
+  }
 })(jQuery);

@@ -1,3 +1,24 @@
 #adminmenu #menu-posts-pn_tasks_manager_task .wp-menu-image img, #adminmenu #toplevel_page_taskpnspn_options .wp-menu-image img{
     padding:5px 0 0;
 }
+
+/* USER ROLE SELECTOR */
+.pn-tasks-manager-users-with-role-box { background: #f0f0f1; border-radius: 4px; }
+.pn-tasks-manager-users-with-role-box h4 { margin-top: 0; }
+.pn-tasks-manager-role-badge { background: var(--pn-tasks-manager-bg-color-main); color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-left: 5px; }
+.pn-tasks-manager-user-role-item { padding: 5px 0; border-bottom: 1px solid #ddd; }
+.pn-tasks-manager-user-role-item .material-icons-outlined { font-size: 16px; vertical-align: middle; color: var(--pn-tasks-manager-color-main); }
+.pn-tasks-manager-user-role-item span { font-size: 13px; }
+.pn-tasks-manager-p-15 { padding: 15px; }
+.pn-tasks-manager-mt-5 { margin-top: 5px; }
+.pn-tasks-manager-color-gray { color: #666; }
+/* END USER ROLE SELECTOR */
+
+/* PAGE MANAGER */
+.pn-tasks-manager-page-manager-wrapper { padding: 5px 0; }
+.pn-tasks-manager-page-manager-status { display: flex; align-items: center; gap: 5px; }
+.pn-tasks-manager-page-manager-badge { background: var(--pn-tasks-manager-bg-color-main); color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px; }
+.pn-tasks-manager-page-manager-actions { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.pn-tasks-manager-page-manager-create-form { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.pn-tasks-manager-page-manager-create-form .pn-tasks-manager-page-manager-title-input { max-width: 300px; }
+/* END PAGE MANAGER */

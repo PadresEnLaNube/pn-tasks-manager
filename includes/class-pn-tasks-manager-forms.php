@@ -428,7 +428,7 @@ class PN_TASKS_MANAGER_Forms {
           <div class="pn-tasks-manager-field pn-tasks-manager-html-multi-wrapper pn-tasks-manager-mb-50" <?php echo wp_kses_post($pn_tasks_manager_parent_block); ?>>
             <?php if ($html_multi_fields_length): ?>
               <?php foreach (range(0, ($html_multi_fields_length - 1)) as $length_index): ?>
-                <div class="pn-tasks-manager-html-multi-group pn-tasks-manager-display-table pn-tasks-manager-width-100-percent pn-tasks-manager-mb-30">
+                <div class="pn-tasks-manager-html-multi-group pn-tasks-manager-display-table pn-tasks-manager-width-100-percent">
                   <div class="pn-tasks-manager-display-inline-table pn-tasks-manager-width-90-percent">
                     <?php foreach ($pn_tasks_manager_input['html_multi_fields'] as $index => $html_multi_field): ?>
                       <?php if (isset($html_multi_field['label']) && !empty($html_multi_field['label'])): ?>
@@ -685,6 +685,84 @@ class PN_TASKS_MANAGER_Forms {
         </div>
         <?php
         break;
+      case 'page_manager':
+        if (!current_user_can('manage_options')) {
+          ?><div class="pn-tasks-manager-field"><p class="pn-tasks-manager-color-error"><?php esc_html_e('You do not have permission to manage plugin pages.', 'pn-tasks-manager'); ?></p></div><?php
+          break;
+        }
+        $page_option = isset($pn_tasks_manager_input['page_option']) ? $pn_tasks_manager_input['page_option'] : '';
+        $block_name = isset($pn_tasks_manager_input['block_name']) ? $pn_tasks_manager_input['block_name'] : '';
+        $page_id = !empty($page_option) ? intval(get_option($page_option)) : 0;
+        $page = $page_id ? get_post($page_id) : null;
+        $page_exists = $page && $page->post_status !== 'trash';
+        ?>
+        <div class="pn-tasks-manager-page-manager-wrapper" data-page-option="<?php echo esc_attr($page_option); ?>" data-block-name="<?php echo esc_attr($block_name); ?>">
+          <?php if ($page_exists): ?>
+            <div class="pn-tasks-manager-page-manager-info">
+              <div class="pn-tasks-manager-page-manager-status pn-tasks-manager-mb-10">
+                <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-color-green">check_circle</i>
+                <strong><?php echo esc_html($page->post_title); ?></strong>
+                <span class="pn-tasks-manager-page-manager-badge pn-tasks-manager-ml-10"><?php echo esc_html(ucfirst($page->post_status)); ?></span>
+              </div>
+              <div class="pn-tasks-manager-page-manager-actions">
+                <a href="<?php echo esc_url(get_permalink($page_id)); ?>" target="_blank" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-btn-transparent pn-tasks-manager-mr-10"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">visibility</i> <?php esc_html_e('View', 'pn-tasks-manager'); ?></a>
+                <a href="<?php echo esc_url(get_edit_post_link($page_id)); ?>" target="_blank" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-btn-transparent pn-tasks-manager-mr-10"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">edit</i> <?php esc_html_e('Edit', 'pn-tasks-manager'); ?></a>
+                <button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-btn-transparent pn-tasks-manager-page-manager-unlink-btn"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">link_off</i> <?php esc_html_e('Unlink', 'pn-tasks-manager'); ?></button>
+              </div>
+            </div>
+          <?php else: ?>
+            <div class="pn-tasks-manager-page-manager-create">
+              <div class="pn-tasks-manager-page-manager-create-form">
+                <input type="text" class="pn-tasks-manager-input pn-tasks-manager-page-manager-title-input pn-tasks-manager-width-100-percent pn-tasks-manager-mb-10" placeholder="<?php esc_attr_e('Page title', 'pn-tasks-manager'); ?>" value="<?php echo esc_attr(isset($pn_tasks_manager_input['label']) ? $pn_tasks_manager_input['label'] : ''); ?>">
+                <button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-page-manager-create-btn"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">add_circle</i> <?php esc_html_e('Create page', 'pn-tasks-manager'); ?></button>
+              </div>
+            </div>
+          <?php endif; ?>
+          <div class="pn-tasks-manager-page-manager-message pn-tasks-manager-mt-10 pn-tasks-manager-display-none-soft"></div>
+        </div>
+        <?php
+        break;
+      case 'user_role_selector':
+        if (!current_user_can('manage_options')) {
+          ?><div class="pn-tasks-manager-field"><p class="pn-tasks-manager-color-error"><?php esc_html_e('You do not have permission to manage user roles.', 'pn-tasks-manager'); ?></p></div><?php
+          break;
+        }
+        $users = get_users(['orderby' => 'display_name', 'order' => 'ASC']);
+        $target_role = isset($pn_tasks_manager_input['role']) ? $pn_tasks_manager_input['role'] : 'pn_tasks_manager_role_manager';
+        $role_label = isset($pn_tasks_manager_input['role_label']) ? $pn_tasks_manager_input['role_label'] : __('PN Tasks Manager', 'pn-tasks-manager');
+        $users_with_role = array_filter($users, function ($user) use ($target_role) { return in_array($target_role, (array) $user->roles); });
+        ?>
+        <div class="pn-tasks-manager-user-role-selector-wrapper" <?php echo wp_kses_post($pn_tasks_manager_parent_block); ?>>
+          <?php if (!empty($users_with_role)): ?>
+            <div class="pn-tasks-manager-mb-20 pn-tasks-manager-p-15 pn-tasks-manager-users-with-role-box">
+              <h4 class="pn-tasks-manager-mb-10"><?php echo esc_html(sprintf(__('Users with %s Role', 'pn-tasks-manager'), $role_label)); ?> <span class="pn-tasks-manager-role-badge"><?php echo count($users_with_role); ?></span></h4>
+              <div class="pn-tasks-manager-users-with-role-list">
+                <?php foreach ($users_with_role as $user): ?>
+                  <div class="pn-tasks-manager-user-role-item"><i class="material-icons-outlined">person</i> <strong><?php echo esc_html($user->display_name); ?></strong> <span class="pn-tasks-manager-color-gray">(<?php echo esc_html($user->user_email); ?>)</span></div>
+                <?php endforeach; ?>
+              </div>
+            </div>
+          <?php else: ?>
+            <div class="pn-tasks-manager-mb-20 pn-tasks-manager-p-15 pn-tasks-manager-alert-warning"><p><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">info</i> <?php echo esc_html(sprintf(__('No users currently have the %s role.', 'pn-tasks-manager'), $role_label)); ?></p></div>
+          <?php endif; ?>
+          <div class="pn-tasks-manager-mb-20">
+            <label for="pn_tasks_manager_user_select_<?php echo esc_attr($pn_tasks_manager_input['id']); ?>" class="pn-tasks-manager-mb-10 pn-tasks-manager-display-block"><?php esc_html_e('Select Users', 'pn-tasks-manager'); ?></label>
+            <select id="pn_tasks_manager_user_select_<?php echo esc_attr($pn_tasks_manager_input['id']); ?>" class="pn-tasks-manager-select pn-tasks-manager-width-100-percent pn-tasks-manager-user-role-select" multiple size="10" data-role="<?php echo esc_attr($target_role); ?>" data-role-label="<?php echo esc_attr($role_label); ?>">
+              <?php foreach ($users as $user): $has_role = in_array($target_role, (array) $user->roles); ?>
+                <option value="<?php echo esc_attr($user->ID); ?>" <?php echo $has_role ? 'data-has-role="true"' : ''; ?>><?php echo esc_html($user->display_name . ' (' . $user->user_email . ')'); ?><?php if ($has_role): ?> ✓<?php endif; ?></option>
+              <?php endforeach; ?>
+            </select>
+            <p class="pn-tasks-manager-font-size-small pn-tasks-manager-color-gray pn-tasks-manager-mt-5"><?php esc_html_e('Hold Ctrl (Windows) or Cmd (Mac) to select multiple users. Users with ✓ already have this role.', 'pn-tasks-manager'); ?></p>
+          </div>
+          <div class="pn-tasks-manager-role-actions pn-tasks-manager-mb-20">
+            <input type="hidden" class="pn-tasks-manager-role-nonce" value="<?php echo esc_attr(wp_create_nonce('pn-tasks-manager-role-assignment')); ?>">
+            <div class="pn-tasks-manager-display-inline-block pn-tasks-manager-mr-10"><button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-assign-role-btn" data-input-id="<?php echo esc_attr($pn_tasks_manager_input['id']); ?>"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">person_add</i> <?php echo esc_html(sprintf(__('Assign %s Role', 'pn-tasks-manager'), $role_label)); ?></button></div>
+            <div class="pn-tasks-manager-display-inline-block"><button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-remove-role-btn" data-input-id="<?php echo esc_attr($pn_tasks_manager_input['id']); ?>"><i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">person_remove</i> <?php echo esc_html(sprintf(__('Remove %s Role', 'pn-tasks-manager'), $role_label)); ?></button></div>
+          </div>
+          <div class="pn-tasks-manager-role-message pn-tasks-manager-mt-20 pn-tasks-manager-display-none-soft"></div>
+        </div>
+        <?php
+        break;
     }
   }
 
@@ -692,11 +770,7 @@ class PN_TASKS_MANAGER_Forms {
     ?>
       <?php if (array_key_exists('section', $input_array) && !empty($input_array['section'])): ?>      
         <?php if ($input_array['section'] == 'start'): ?>
-          <div class="pn-tasks-manager-toggle-wrapper pn-tasks-manager-section-wrapper pn-tasks-manager-position-relative pn-tasks-manager-mb-30 <?php echo array_key_exists('class', $input_array) ? esc_attr($input_array['class']) : ''; ?>" id="<?php echo array_key_exists('id', $input_array) ? esc_attr($input_array['id']) : ''; ?>">
-            <?php if (array_key_exists('description', $input_array) && !empty($input_array['description'])): ?>
-              <i class="material-icons-outlined pn-tasks-manager-section-helper pn-tasks-manager-color-main-0 pn-tasks-manager-tooltip" title="<?php echo wp_kses_post($input_array['description']); ?>">help</i>
-            <?php endif ?>
-
+          <div class="pn-tasks-manager-toggle-wrapper pn-tasks-manager-section-wrapper pn-tasks-manager-position-relative <?php echo array_key_exists('class', $input_array) ? esc_attr($input_array['class']) : ''; ?>" id="<?php echo array_key_exists('id', $input_array) ? esc_attr($input_array['id']) : ''; ?>">
             <a href="#" class="pn-tasks-manager-toggle pn-tasks-manager-width-100-percent pn-tasks-manager-text-decoration-none">
               <div class="pn-tasks-manager-display-table pn-tasks-manager-width-100-percent pn-tasks-manager-mb-20">
                 <div class="pn-tasks-manager-display-inline-table pn-tasks-manager-width-90-percent">
@@ -709,12 +783,18 @@ class PN_TASKS_MANAGER_Forms {
             </a>
 
             <div class="pn-tasks-manager-content pn-tasks-manager-pl-10 pn-tasks-manager-toggle-content pn-tasks-manager-mb-20 pn-tasks-manager-display-none-soft">
+              <?php if (array_key_exists('description', $input_array) && !empty($input_array['description'])): ?>
+                <div class="pn-tasks-manager-section-info-block pn-tasks-manager-mb-20">
+                  <i class="material-icons-outlined pn-tasks-manager-section-info-icon">info_outline</i>
+                  <small><?php echo wp_kses_post($input_array['description']); ?></small>
+                </div>
+              <?php endif ?>
         <?php elseif ($input_array['section'] == 'end'): ?>
             </div>
           </div>
         <?php endif ?>
       <?php else: ?>
-        <div class="pn-tasks-manager-input-wrapper <?php echo esc_attr($input_array['id']); ?> <?php echo !empty($input_array['tabs']) ? 'pn-tasks-manager-input-tabbed' : ''; ?> pn-tasks-manager-input-field-<?php echo esc_attr($input_array['input']); ?> <?php echo (!empty($input_array['required']) && $input_array['required'] == true) ? 'pn-tasks-manager-input-field-required' : ''; ?> <?php echo ($disabled) ? 'pn-tasks-manager-input-field-disabled' : ''; ?> pn-tasks-manager-mb-30">
+        <div class="pn-tasks-manager-input-wrapper <?php echo esc_attr($input_array['id']); ?> <?php echo !empty($input_array['tabs']) ? 'pn-tasks-manager-input-tabbed' : ''; ?> pn-tasks-manager-input-field-<?php echo esc_attr($input_array['input']); ?> <?php echo (!empty($input_array['required']) && $input_array['required'] == true) ? 'pn-tasks-manager-input-field-required' : ''; ?> <?php echo ($disabled) ? 'pn-tasks-manager-input-field-disabled' : ''; ?>">
           <?php if (array_key_exists('label', $input_array) && !empty($input_array['label'])): ?>
             <div class="pn-tasks-manager-display-inline-table <?php echo (($pn_tasks_manager_format == 'half' && !(array_key_exists('type', $input_array) && $input_array['type'] == 'submit')) ? 'pn-tasks-manager-width-40-percent' : 'pn-tasks-manager-width-100-percent'); ?> pn-tasks-manager-tablet-display-block pn-tasks-manager-tablet-width-100-percent pn-tasks-manager-vertical-align-top">
               <div class="pn-tasks-manager-p-10 <?php echo (array_key_exists('parent', $input_array) && !empty($input_array['parent']) && $input_array['parent'] != 'this') ? 'pn-tasks-manager-pl-30' : ''; ?>">
@@ -755,11 +835,7 @@ class PN_TASKS_MANAGER_Forms {
     ?>
     <?php if (array_key_exists('section', $input_array) && !empty($input_array['section'])): ?>      
       <?php if ($input_array['section'] == 'start'): ?>
-        <div class="pn-tasks-manager-toggle-wrapper pn-tasks-manager-section-wrapper pn-tasks-manager-position-relative pn-tasks-manager-mb-30 <?php echo array_key_exists('class', $input_array) ? esc_attr($input_array['class']) : ''; ?>" id="<?php echo array_key_exists('id', $input_array) ? esc_attr($input_array['id']) : ''; ?>">
-          <?php if (array_key_exists('description', $input_array) && !empty($input_array['description'])): ?>
-            <i class="material-icons-outlined pn-tasks-manager-section-helper pn-tasks-manager-color-main-0 pn-tasks-manager-tooltip" title="<?php echo wp_kses_post($input_array['description']); ?>">help</i>
-          <?php endif ?>
-
+        <div class="pn-tasks-manager-toggle-wrapper pn-tasks-manager-section-wrapper pn-tasks-manager-position-relative <?php echo array_key_exists('class', $input_array) ? esc_attr($input_array['class']) : ''; ?>" id="<?php echo array_key_exists('id', $input_array) ? esc_attr($input_array['id']) : ''; ?>">
           <a href="#" class="pn-tasks-manager-toggle pn-tasks-manager-width-100-percent pn-tasks-manager-text-decoration-none">
             <div class="pn-tasks-manager-display-table pn-tasks-manager-width-100-percent pn-tasks-manager-mb-20">
               <div class="pn-tasks-manager-display-inline-table pn-tasks-manager-width-90-percent">
@@ -772,12 +848,18 @@ class PN_TASKS_MANAGER_Forms {
           </a>
 
           <div class="pn-tasks-manager-content pn-tasks-manager-pl-10 pn-tasks-manager-toggle-content pn-tasks-manager-mb-20 pn-tasks-manager-display-none-soft">
+            <?php if (array_key_exists('description', $input_array) && !empty($input_array['description'])): ?>
+              <div class="pn-tasks-manager-section-info-block pn-tasks-manager-mb-20">
+                <i class="material-icons-outlined pn-tasks-manager-section-info-icon">info_outline</i>
+                <small><?php echo wp_kses_post($input_array['description']); ?></small>
+              </div>
+            <?php endif ?>
       <?php elseif ($input_array['section'] == 'end'): ?>
           </div>
         </div>
       <?php endif ?>
     <?php else: ?>
-      <div class="pn-tasks-manager-input-wrapper <?php echo esc_attr($input_array['id']); ?> pn-tasks-manager-input-display-<?php echo esc_attr($input_array['input']); ?> <?php echo (!empty($input_array['required']) && $input_array['required'] == true) ? 'pn-tasks-manager-input-field-required' : ''; ?> pn-tasks-manager-mb-30">
+      <div class="pn-tasks-manager-input-wrapper <?php echo esc_attr($input_array['id']); ?> pn-tasks-manager-input-display-<?php echo esc_attr($input_array['input']); ?> <?php echo (!empty($input_array['required']) && $input_array['required'] == true) ? 'pn-tasks-manager-input-field-required' : ''; ?>">
         <?php if (array_key_exists('label', $input_array) && !empty($input_array['label'])): ?>
           <div class="pn-tasks-manager-display-inline-table <?php echo ($pn_tasks_manager_format == 'half' ? 'pn-tasks-manager-width-40-percent' : 'pn-tasks-manager-width-100-percent'); ?> pn-tasks-manager-tablet-display-block pn-tasks-manager-tablet-width-100-percent pn-tasks-manager-vertical-align-top">
             <div class="pn-tasks-manager-p-10 <?php echo (array_key_exists('parent', $input_array) && !empty($input_array['parent']) && $input_array['parent'] != 'this') ? 'pn-tasks-manager-pl-30' : ''; ?>">
@@ -872,10 +954,10 @@ class PN_TASKS_MANAGER_Forms {
                 break;
 
               case 'color':
-                $color_value = !empty($current_value) ? trim($current_value) : '#d45500';
+                $color_value = !empty($current_value) ? trim($current_value) : '#b84a00';
                 // Ensure color value is valid hex color
                 if (!preg_match('/^#[a-fA-F0-9]{6}$/', $color_value)) {
-                  $color_value = '#d45500';
+                  $color_value = '#b84a00';
                 }
                 ?>
                   <div class="pn-tasks-manager-color-display">
@@ -1059,7 +1141,7 @@ class PN_TASKS_MANAGER_Forms {
               <div class="pn-tasks-manager-html-multi-content">
                 <?php if ($html_multi_fields_length): ?>
                   <?php foreach (range(0, ($html_multi_fields_length - 1)) as $length_index): ?>
-                    <div class="pn-tasks-manager-html-multi-group pn-tasks-manager-display-table pn-tasks-manager-width-100-percent pn-tasks-manager-mb-30">
+                    <div class="pn-tasks-manager-html-multi-group pn-tasks-manager-display-table pn-tasks-manager-width-100-percent">
                       <?php foreach ($pn_tasks_manager_input['html_multi_fields'] as $index => $html_multi_field): ?>
                           <div class="pn-tasks-manager-display-inline-table pn-tasks-manager-width-60-percent">
                             <label><?php echo esc_html($html_multi_field['label']); ?></label>

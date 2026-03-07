@@ -177,7 +177,7 @@ class PN_TASKS_MANAGER_Calendar {
           $task_icon = !empty($category_style['icon']) ? $category_style['icon'] : get_post_meta($task_id, 'pn_tasks_manager_task_icon', true);
           $task_color = !empty($category_style['color']) ? $category_style['color'] : get_post_meta($task_id, 'pn_tasks_manager_task_color', true);
           if (empty($task_color)) {
-            $task_color = get_option('pn_tasks_manager_color_main') ?: '#d45500'; // Default color from settings
+            $task_color = get_option('pn_tasks_manager_color_main') ?: '#b84a00'; // Default color from settings
           }
           if (empty($task_icon)) {
             $task_icon = 'event'; // Default icon
@@ -249,7 +249,7 @@ class PN_TASKS_MANAGER_Calendar {
               $task_icon = !empty($category_style['icon']) ? $category_style['icon'] : get_post_meta($task_id, 'pn_tasks_manager_task_icon', true);
               $task_color = !empty($category_style['color']) ? $category_style['color'] : get_post_meta($task_id, 'pn_tasks_manager_task_color', true);
               if (empty($task_color)) {
-                $task_color = get_option('pn_tasks_manager_color_main') ?: '#d45500'; // Default color from settings
+                $task_color = get_option('pn_tasks_manager_color_main') ?: '#b84a00'; // Default color from settings
               }
               if (empty($task_icon)) {
                 $task_icon = 'event'; // Default icon
@@ -552,7 +552,7 @@ class PN_TASKS_MANAGER_Calendar {
               echo '<div class="pn-tasks-manager-calendar-day-tasks">';
               foreach ($day_tasks as $task) {
                 $task_icon = isset($task['icon']) ? $task['icon'] : 'event';
-                $task_color = isset($task['color']) ? $task['color'] : (get_option('pn_tasks_manager_color_main') ?: '#d45500');
+                $task_color = isset($task['color']) ? $task['color'] : (get_option('pn_tasks_manager_color_main') ?: '#b84a00');
                 $task_title = esc_html($task['title']);
                 $task_time = !empty($task['time']) ? esc_html($task['time']) : '';
                 $tooltip_text = $task_title;
@@ -637,7 +637,7 @@ class PN_TASKS_MANAGER_Calendar {
           if (!empty($day_tasks)) {
             foreach ($day_tasks as $task) {
               $task_icon = isset($task['icon']) ? $task['icon'] : 'event';
-              $task_color = isset($task['color']) ? $task['color'] : (get_option('pn_tasks_manager_color_main') ?: '#d45500');
+              $task_color = isset($task['color']) ? $task['color'] : (get_option('pn_tasks_manager_color_main') ?: '#b84a00');
               echo '<div class="pn-tasks-manager-calendar-task-item pn-tasks-manager-calendar-task-item-week" data-task-id="' . esc_attr($task['id']) . '">';
               echo '<span class="pn-tasks-manager-calendar-task-icon-week" style="color: ' . esc_attr($task_color) . ';">';
               echo '<i class="material-icons-outlined">' . esc_html($task_icon) . '</i>';
@@ -690,7 +690,7 @@ class PN_TASKS_MANAGER_Calendar {
           <div class="pn-tasks-manager-calendar-day-tasks-list">
             <?php foreach ($day_tasks as $task): 
               $task_icon = isset($task['icon']) ? $task['icon'] : 'event';
-              $task_color = isset($task['color']) ? $task['color'] : (get_option('pn_tasks_manager_color_main') ?: '#d45500');
+              $task_color = isset($task['color']) ? $task['color'] : (get_option('pn_tasks_manager_color_main') ?: '#b84a00');
             ?>
               <div class="pn-tasks-manager-calendar-task-item pn-tasks-manager-calendar-task-item-day" data-task-id="<?php echo esc_attr($task['id']); ?>">
                 <div class="pn-tasks-manager-calendar-task-icon-day" style="color: <?php echo esc_attr($task_color); ?>;">
@@ -814,7 +814,7 @@ class PN_TASKS_MANAGER_Calendar {
               echo '<div class="pn-tasks-manager-calendar-year-day-icons">';
               foreach ($day_tasks as $task) {
                 $task_icon = isset($task['icon']) ? $task['icon'] : 'event';
-                $task_color = isset($task['color']) ? $task['color'] : (get_option('pn_tasks_manager_color_main') ?: '#d45500');
+                $task_color = isset($task['color']) ? $task['color'] : (get_option('pn_tasks_manager_color_main') ?: '#b84a00');
                 $task_title = esc_html($task['title']);
                 $task_time = !empty($task['time']) ? esc_html($task['time']) : '';
                 $tooltip_text = $task_title;

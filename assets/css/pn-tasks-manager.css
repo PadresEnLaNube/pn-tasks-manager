@@ -1,7 +1,7 @@
 :root {
-  --pn-tasks-manager-color-main:#d45500;
-  --pn-tasks-manager-bg-color-main:#d45500;
-  --pn-tasks-manager-border-color-main:#d45500;
+  --pn-tasks-manager-color-main:#b84a00;
+  --pn-tasks-manager-bg-color-main:#b84a00;
+  --pn-tasks-manager-border-color-main:#b84a00;
   --pn-tasks-manager-color-main-alt:#232323;
   --pn-tasks-manager-bg-color-main-alt:#232323;
   --pn-tasks-manager-border-color-main-alt:#232323;
@@ -796,7 +796,6 @@ input:checked + .pn-tasks-manager-slider:before{
 .pn-tasks-manager-btn{
   background-color:var(--pn-tasks-manager-color-main);
   color:#fff;
-  text-shadow:0 0 20px var(--pn-tasks-manager-color-main);
   display:inline-block;
   margin:auto;
   font-size:var(--wp--preset--font-size--normal);
@@ -808,7 +807,7 @@ input:checked + .pn-tasks-manager-slider:before{
   box-shadow:none;
   line-height:20px;
   border:none;
-  padding:5px 20px;
+  padding:15px 35px;
   -webkit-transition:all 0.5s ease-in-out;
   -moz-transition:all 0.5s ease-in-out;
   -ms-transition:all 0.5s ease-in-out;
@@ -819,10 +818,21 @@ input:checked + .pn-tasks-manager-slider:before{
 }
 .pn-tasks-manager-btn:hover{
   background-color:var(--pn-tasks-manager-bg-color-main-alt);
+  transform:translateY(-2px);
 }
 .pn-tasks-manager-btn-mini{
   line-height:20px!important;
   padding:5px 30px!important;
+}
+.pn-tasks-manager-btn-transparent{
+  background-color:transparent;
+  color:var(--pn-tasks-manager-color-main);
+  border:1px solid var(--pn-tasks-manager-color-main);
+}
+.pn-tasks-manager-btn-transparent:hover{
+  background-color:var(--pn-tasks-manager-bg-color-main-alt);
+  color:var(--pn-tasks-manager-color-main-alt);
+  border:1px solid var(--pn-tasks-manager-color-main-alt);
 }
 .pn-tasks-manager-cursor-pointer{
   cursor:pointer;
@@ -1914,6 +1924,9 @@ header .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigati
           background-color: #3c3c3c;
       }
   } 
+  .pn-tasks-manager-input-wrapper .pn-tasks-manager-p-10:has(> label) {
+    padding-bottom: 0;
+  }
 /* END PN TASKS MANAGER FORMS */
 
 /* PN TASKS MANAGER SWITCH */

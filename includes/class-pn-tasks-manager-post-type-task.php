@@ -305,7 +305,7 @@ class PN_TASKS_MANAGER_Post_Type_Task {
         'type' => 'color',
         'label' => __('Task color', 'pn-tasks-manager'),
         'placeholder' => __('Task color', 'pn-tasks-manager'),
-        'value' => !empty($task_id) ? (get_post_meta($task_id, 'pn_tasks_manager_task_color', true) ?: (get_option('pn_tasks_manager_color_main') ?: '#d45500')) : (get_option('pn_tasks_manager_color_main') ?: '#d45500'),
+        'value' => !empty($task_id) ? (get_post_meta($task_id, 'pn_tasks_manager_task_color', true) ?: (get_option('pn_tasks_manager_color_main') ?: '#b84a00')) : (get_option('pn_tasks_manager_color_main') ?: '#b84a00'),
       ];
       $pn_tasks_manager_fields_meta['pn_tasks_manager_task_multimedia'] = [
         'id' => 'pn_tasks_manager_task_multimedia',
@@ -799,38 +799,27 @@ class PN_TASKS_MANAGER_Post_Type_Task {
               }
               break;
             case 'post_new':
-              if (!empty($key_value)) {
-                foreach ($key_value as $key => $value) {
-                  if (strpos((string)$key, 'pn_tasks_manager_') !== false) {
-                    ${$key} = $value;
-                    delete_post_meta($element_id, $key);
-                  }
-                }
-              }
-
-              $post_functions = new PN_TASKS_MANAGER_Functions_Post();
+              // The post and its meta are already created by the generic handler in ajax-nopriv.php.
+              // This hook only handles task-specific logic (taxonomy, owners, notifications).
+              $task_id = $element_id;
               $current_user_id = get_current_user_id();
-              $task_id = $post_functions->pn_tasks_manager_insert_post(esc_html($pn_tasks_manager_task_title), $pn_tasks_manager_task_description, '', sanitize_title(esc_html($pn_tasks_manager_task_title)), 'pn_tasks_task', 'publish', $current_user_id);
 
+              // Handle taxonomy assignment
               if (!empty($key_value)) {
                 foreach ($key_value as $key => $value) {
-                  // Handle taxonomy separately
                   if ($key === 'pn_tasks_manager_task_category') {
-                    $taxonomy = 'pn_tasks_manager_task_category';
                     $term_id = !empty($value) ? intval($value) : 0;
                     if ($term_id > 0) {
-                      wp_set_post_terms($task_id, [$term_id], $taxonomy, false);
+                      wp_set_post_terms($task_id, [$term_id], 'pn_tasks_manager_task_category', false);
                     }
-                  } else {
-                    update_post_meta($task_id, $key, $value);
                   }
                 }
               }
-              
+
               // Set default owner if not set or empty
               $pn_tasks_manager_owners = get_post_meta($task_id, 'pn_tasks_manager_task_owners', true);
               $owners_empty = false;
-              
+
               if (empty($pn_tasks_manager_owners)) {
                 $owners_empty = true;
               } elseif (is_array($pn_tasks_manager_owners)) {
@@ -842,12 +831,11 @@ class PN_TASKS_MANAGER_Post_Type_Task {
                   $owners_empty = true;
                 }
               }
-              
+
               if ($owners_empty) {
                 update_post_meta($task_id, 'pn_tasks_manager_task_owners', [$current_user_id]);
               }
 
-              // Repeated tasks are now calculated dynamically in the calendar
               // Notify all assigned users about the new task
               $owners = $this->pn_tasks_manager_task_owners($task_id);
               if (!empty($owners)) {
@@ -857,32 +845,22 @@ class PN_TASKS_MANAGER_Post_Type_Task {
               }
               break;
             case 'post_edit':
-              if (!empty($key_value)) {
-                foreach ($key_value as $key => $value) {
-                  if (strpos((string)$key, 'pn_tasks_manager_') !== false) {
-                    ${$key} = $value;
-                    delete_post_meta($element_id, $key);
-                  }
-                }
-              }
-
+              // The post meta is already updated by the generic handler in ajax-nopriv.php.
+              // This hook only handles task-specific logic (taxonomy, owners, notifications).
               $task_id = $element_id;
+
               // Capture previous owners before updating
               $previous_owners = $this->pn_tasks_manager_task_owners($task_id);
               $task = get_post($task_id);
-              wp_update_post(['ID' => $task_id, 'post_title' => $pn_tasks_manager_task_title, 'post_content' => $pn_tasks_manager_task_description,]);
 
+              // Handle taxonomy assignment
               if (!empty($key_value)) {
                 foreach ($key_value as $key => $value) {
-                  // Handle taxonomy separately
                   if ($key === 'pn_tasks_manager_task_category') {
-                    $taxonomy = 'pn_tasks_manager_task_category';
                     $term_id = !empty($value) ? intval($value) : 0;
                     if ($term_id > 0) {
-                      wp_set_post_terms($task_id, [$term_id], $taxonomy, false);
+                      wp_set_post_terms($task_id, [$term_id], 'pn_tasks_manager_task_category', false);
                     }
-                  } else {
-                    update_post_meta($task_id, $key, $value);
                   }
                 }
               }
@@ -1071,7 +1049,7 @@ class PN_TASKS_MANAGER_Post_Type_Task {
               
               // Final fallback for color if still empty
               if (empty($task_color)) {
-                $task_color = get_option('pn_tasks_manager_color_main') ?: '#d45500'; // Default color from settings
+                $task_color = get_option('pn_tasks_manager_color_main') ?: '#b84a00'; // Default color from settings
               }
             ?>
             <li class="pn-tasks-manager-task pn-tasks-manager-pn_tasks_task-list-item pn-tasks-manager-mb-10 <?php echo $is_completed ? 'pn-tasks-manager-completed' : ''; ?>" data-pn_tasks_manager_task-id="<?php echo esc_attr($task_id); ?>">
@@ -1079,7 +1057,7 @@ class PN_TASKS_MANAGER_Post_Type_Task {
                 <div class="pn-tasks-manager-display-inline-table pn-tasks-manager-width-80-percent">
                   <a href="#" class="pn-tasks-manager-popup-open-ajax pn-tasks-manager-text-decoration-none" data-pn-tasks-manager-popup-id="pn-tasks-manager-popup-pn_tasks_task-view" data-pn-tasks-manager-ajax-type="pn_tasks_manager_task_view" data-pn_tasks_manager_task-id="<?php echo esc_attr($task_id); ?>">
                     <?php if (!empty($task_icon)): ?>
-                      <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-mr-10" style="color: <?php echo esc_attr($task_color); ?>;"><?php echo esc_html($task_icon); ?></i>
+                      <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-mr-10" style="color: <?php echo esc_attr($task_color); ?> !important;"><?php echo esc_html($task_icon); ?></i>
                     <?php endif; ?>
                     <span><?php echo esc_html(get_the_title($task_id)); ?></span>
                   </a>
@@ -1975,7 +1953,7 @@ class PN_TASKS_MANAGER_Post_Type_Task {
     $terms = wp_get_post_terms($task_id, $taxonomy, ['fields' => 'ids']);
     
     $icon = 'event'; // Default icon
-    $color = get_option('pn_tasks_manager_color_main') ?: '#d45500'; // Default color
+    $color = get_option('pn_tasks_manager_color_main') ?: '#b84a00'; // Default color
     
     if (!empty($terms) && !is_wp_error($terms)) {
       $term_id = $terms[0]; // Get first term

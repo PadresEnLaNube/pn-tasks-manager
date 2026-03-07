@@ -126,6 +126,69 @@ class PN_TASKS_MANAGER_Ajax {
       }
 
       switch ($pn_tasks_manager_ajax_type) {
+        case 'pn_tasks_manager_assign_role':
+          if (!current_user_can('manage_options')) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html(__('You do not have permission to manage user roles.', 'pn-tasks-manager')),
+            ]);
+            exit;
+          }
+
+          $role_nonce = !empty($_POST['pn_tasks_manager_role_nonce']) ? sanitize_text_field(wp_unslash($_POST['pn_tasks_manager_role_nonce'])) : '';
+          if (!wp_verify_nonce($role_nonce, 'pn-tasks-manager-role-assignment')) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html(__('Security check failed for role assignment.', 'pn-tasks-manager')),
+            ]);
+            exit;
+          }
+
+          $user_ids = !empty($_POST['user_ids']) ? array_map('intval', (array) $_POST['user_ids']) : [];
+          $role = !empty($_POST['role']) ? sanitize_text_field(wp_unslash($_POST['role'])) : '';
+          $action_type = !empty($_POST['action_type']) ? sanitize_text_field(wp_unslash($_POST['action_type'])) : '';
+
+          $plugin_roles = ['pn_tasks_manager_role_manager'];
+          if (!in_array($role, $plugin_roles)) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html(__('Invalid role specified.', 'pn-tasks-manager')),
+            ]);
+            exit;
+          }
+
+          $role_labels = ['pn_tasks_manager_role_manager' => __('PN Tasks Manager', 'pn-tasks-manager')];
+
+          // Ensure role exists in WordPress
+          if (!get_role($role)) {
+            add_role($role, $role_labels[$role], ['read' => true]);
+          }
+
+          $processed = 0;
+          foreach ($user_ids as $uid) {
+            $user = get_userdata($uid);
+            if (!$user) continue;
+            if ($action_type === 'assign') {
+              $user->add_role($role);
+            } else {
+              $user->remove_role($role);
+            }
+            $processed++;
+          }
+
+          $label = $role_labels[$role];
+          if ($action_type === 'assign') {
+            $message = sprintf(__('%s role assigned to %d user(s) successfully.', 'pn-tasks-manager'), $label, $processed);
+          } else {
+            $message = sprintf(__('%s role removed from %d user(s) successfully.', 'pn-tasks-manager'), $label, $processed);
+          }
+
+          echo wp_json_encode([
+            'success' => true,
+            'message' => esc_html($message),
+          ]);
+          exit;
+          break;
         case 'pn_tasks_manager_task_toggle_completed':
           if (!is_user_logged_in()) {
             echo wp_json_encode([
@@ -579,6 +642,93 @@ class PN_TASKS_MANAGER_Ajax {
             'term_id' => $term_result['term_id'],
             'message' => __('Category created successfully.', 'pn-tasks-manager')
           ]);
+          break;
+        case 'pn_tasks_manager_create_plugin_page':
+          if (!current_user_can('manage_options')) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html(__('You do not have permission to create pages.', 'pn-tasks-manager')),
+            ]);
+            exit;
+          }
+
+          $page_title = !empty($_POST['page_title']) ? sanitize_text_field(wp_unslash($_POST['page_title'])) : '';
+          $block_name = !empty($_POST['block_name']) ? sanitize_text_field(wp_unslash($_POST['block_name'])) : '';
+          $page_option = !empty($_POST['page_option']) ? sanitize_key(wp_unslash($_POST['page_option'])) : '';
+
+          if (empty($page_title) || empty($block_name) || empty($page_option)) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html(__('Missing required fields.', 'pn-tasks-manager')),
+            ]);
+            exit;
+          }
+
+          $allowed_options = ['pn_tasks_manager_page_task_list', 'pn_tasks_manager_page_calendar'];
+          if (!in_array($page_option, $allowed_options, true)) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html(__('Invalid page option.', 'pn-tasks-manager')),
+            ]);
+            exit;
+          }
+
+          $block_content = '<!-- wp:' . esc_attr($block_name) . ' /-->';
+
+          $post_id = wp_insert_post([
+            'post_title'   => $page_title,
+            'post_content' => $block_content,
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+          ]);
+
+          if (is_wp_error($post_id)) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html($post_id->get_error_message()),
+            ]);
+            exit;
+          }
+
+          update_option($page_option, $post_id);
+
+          echo wp_json_encode([
+            'success' => true,
+            'message' => esc_html(__('Page created successfully.', 'pn-tasks-manager')),
+            'page_id' => $post_id,
+            'page_title' => esc_html($page_title),
+            'page_url' => esc_url(get_permalink($post_id)),
+            'edit_url' => esc_url(get_edit_post_link($post_id, 'raw')),
+          ]);
+          exit;
+          break;
+        case 'pn_tasks_manager_unlink_plugin_page':
+          if (!current_user_can('manage_options')) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html(__('You do not have permission to manage pages.', 'pn-tasks-manager')),
+            ]);
+            exit;
+          }
+
+          $page_option = !empty($_POST['page_option']) ? sanitize_key(wp_unslash($_POST['page_option'])) : '';
+
+          $allowed_options = ['pn_tasks_manager_page_task_list', 'pn_tasks_manager_page_calendar'];
+          if (empty($page_option) || !in_array($page_option, $allowed_options, true)) {
+            echo wp_json_encode([
+              'success' => false,
+              'message' => esc_html(__('Invalid page option.', 'pn-tasks-manager')),
+            ]);
+            exit;
+          }
+
+          delete_option($page_option);
+
+          echo wp_json_encode([
+            'success' => true,
+            'message' => esc_html(__('Page unlinked successfully.', 'pn-tasks-manager')),
+          ]);
+          exit;
           break;
       }
 
