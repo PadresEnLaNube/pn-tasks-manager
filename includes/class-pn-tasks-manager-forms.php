@@ -490,7 +490,7 @@ class PN_TASKS_MANAGER_Forms {
             <div class="pn-tasks-manager-audio-recorder-controls">
               <div class="pn-tasks-manager-display-table pn-tasks-manager-width-100-percent">
                 <div class="pn-tasks-manager-display-inline-table pn-tasks-manager-width-50-percent pn-tasks-manager-tablet-display-block pn-tasks-manager-tablet-width-100-percent pn-tasks-manager-text-align-center pn-tasks-manager-mb-20">
-                  <button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-primary pn-tasks-manager-start-recording" <?php echo (((array_key_exists('disabled', $pn_tasks_manager_input) && $pn_tasks_manager_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>>
+                  <button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-transparent pn-tasks-manager-start-recording" <?php echo (((array_key_exists('disabled', $pn_tasks_manager_input) && $pn_tasks_manager_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>>
                     <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">mic</i>
                     <?php esc_html_e('Start recording', 'pn-tasks-manager'); ?>
                   </button>
@@ -531,7 +531,7 @@ class PN_TASKS_MANAGER_Forms {
 
             <div class="pn-tasks-manager-audio-transcription-controls pn-tasks-manager-display-none-soft pn-tasks-manager-display-table pn-tasks-manager-width-100-percent pn-tasks-manager-mb-20">
               <div class="pn-tasks-manager-display-inline-table pn-tasks-manager-width-50-percent pn-tasks-manager-tablet-display-block pn-tasks-manager-tablet-width-100-percent pn-tasks-manager-text-align-center">
-                <button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-primary pn-tasks-manager-transcribe-audio" <?php echo (((array_key_exists('disabled', $pn_tasks_manager_input) && $pn_tasks_manager_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>>
+                <button type="button" class="pn-tasks-manager-btn pn-tasks-manager-btn-transparent pn-tasks-manager-transcribe-audio" <?php echo (((array_key_exists('disabled', $pn_tasks_manager_input) && $pn_tasks_manager_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>>
                   <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle">translate</i>
                   <?php esc_html_e('Transcribe Audio', 'pn-tasks-manager'); ?>
                 </button>
@@ -675,7 +675,7 @@ class PN_TASKS_MANAGER_Forms {
               />
               <button 
                 type="button" 
-                class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-taxonomy-add-btn"
+                class="pn-tasks-manager-btn pn-tasks-manager-btn-mini pn-tasks-manager-btn-transparent pn-tasks-manager-taxonomy-add-btn"
                 <?php echo (((array_key_exists('disabled', $pn_tasks_manager_input) && $pn_tasks_manager_input['disabled'] == 'true') || $disabled) ? 'disabled' : ''); ?>
               >
                 <?php esc_html_e('Add', 'pn-tasks-manager'); ?>

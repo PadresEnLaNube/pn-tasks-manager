@@ -2420,3 +2420,32 @@ header .wp-block-navigation .wp-block-navigation-item__content.wp-block-navigati
   border-radius: 8px;
 }
 /* END TASK COMMENTS STYLES */
+
+/* TASK LIST META (date, time, owner) */
+.pn-tasks-manager-task-list-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 4px;
+  padding-left: 34px;
+}
+
+.pn-tasks-manager-task-list-meta small {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  color: #6c757d;
+  line-height: 1.4;
+}
+
+.pn-tasks-manager-completed .pn-tasks-manager-task-list-meta small {
+  opacity: 0.5;
+}
+/* END TASK LIST META */
+
+/* Task list toggle completed link - remove underline */
+.pn-tasks-manager-toggle-completed {
+  text-decoration: none !important;
+  box-shadow: none !important;
+}

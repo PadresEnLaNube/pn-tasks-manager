@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PN Tasks Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-31 14:21+0000\n"
-"PO-Revision-Date: 2025-11-12 10:47+0000\n"
+"PO-Revision-Date: 2026-03-07 22:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: Basque\n"
 "Language: eu\n"
@@ -21,11 +21,21 @@ msgstr ""
 msgid "%s is required."
 msgstr "%s beharrezkoa da."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1527
+#: includes/class-pn-tasks-manager-ajax.php:181
+#, php-format
+msgid "%s role assigned to %d user(s) successfully."
+msgstr "%s rola %d erabiltzaileri esleitu zaie arrakastaz."
+
+#: includes/class-pn-tasks-manager-ajax.php:183
+#, php-format
+msgid "%s role removed from %d user(s) successfully."
+msgstr "%s rola %d erabiltzaileei kendu zaie arrakastaz."
+
+#: includes/class-pn-tasks-manager-post-type-task.php:1512
 msgid "Access Denied"
 msgstr "Sarbidea ukatuta"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:969
+#: includes/class-pn-tasks-manager-post-type-task.php:966
 msgid "Access denied"
 msgstr "Sarbidea ukatuta"
 
@@ -33,7 +43,7 @@ msgstr "Sarbidea ukatuta"
 msgid "Add"
 msgstr "Gehitu"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1412
+#: includes/class-pn-tasks-manager-post-type-task.php:1380
 msgid "Add a comment about this task execution..."
 msgstr "Gehitu iruzkin bat zeregin honen exekuzioari buruz..."
 
@@ -65,13 +75,13 @@ msgstr "Gehitu irudia"
 msgid "Add images"
 msgstr "Gehitu irudiak"
 
-#: includes/class-pn-tasks-manager-calendar.php:391
-#: includes/class-pn-tasks-manager-calendar.php:396
-#: includes/class-pn-tasks-manager-post-type-task.php:391
-#: includes/class-pn-tasks-manager-post-type-task.php:392
-#: includes/class-pn-tasks-manager-post-type-task.php:987
-#: includes/class-pn-tasks-manager-post-type-task.php:1153
-#: includes/class-pn-tasks-manager-post-type-task.php:1537
+#: includes/class-pn-tasks-manager-post-type-task.php:408
+#: includes/class-pn-tasks-manager-post-type-task.php:409
+#: includes/class-pn-tasks-manager-post-type-task.php:984
+#: includes/class-pn-tasks-manager-post-type-task.php:1150
+#: includes/class-pn-tasks-manager-post-type-task.php:1522
+#: includes/class-pn-tasks-manager-calendar.php:450
+#: includes/class-pn-tasks-manager-calendar.php:455
 msgid "Add new Task"
 msgstr "Gehitu zeregin berria"
 
@@ -79,7 +89,7 @@ msgstr "Gehitu zeregin berria"
 msgid "Add New Task category"
 msgstr "Gehitu zeregin-kategoria berria"
 
-#: templates/public/archive-pn_tasks_manager_task.php:64
+#: templates/public/archive-pn-tasks-manager_task.php:64
 msgid "Add task"
 msgstr "Gehitu zeregina"
 
@@ -91,11 +101,11 @@ msgstr "Gehitu bideoa"
 msgid "Add videos"
 msgstr "Gehitu bideoak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:237
+#: includes/class-pn-tasks-manager-post-type-task.php:254
 msgid "Alarm"
 msgstr "Alarma"
 
-#: includes/class-pn-tasks-manager-calendar.php:644
+#: includes/class-pn-tasks-manager-calendar.php:703
 msgid "All day"
 msgstr "Egun osoan"
 
@@ -103,53 +113,62 @@ msgstr "Egun osoan"
 msgid "All Task categories"
 msgstr "Zeregin-kategoria guztiak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:389
+#: includes/class-pn-tasks-manager-post-type-task.php:406
 msgid "All Tasks"
 msgstr "Zeregin guztiak"
 
-#: includes/class-pn-tasks-manager-settings.php:69
+#: includes/class-pn-tasks-manager-settings.php:98
 msgid "Alternate background"
 msgstr "Atzeko plano alternatiboa"
 
-#: includes/class-pn-tasks-manager-settings.php:79
+#: includes/class-pn-tasks-manager-settings.php:108
 msgid "Alternate border"
 msgstr "Ertz alternatiboa"
 
-#: includes/class-pn-tasks-manager-settings.php:59
+#: includes/class-pn-tasks-manager-settings.php:88
 msgid "Alternate color"
 msgstr "Kolore alternatiboa"
 
-#: includes/class-pn-tasks-manager-common.php:213
+#: includes/class-pn-tasks-manager-common.php:222
 msgid "An error has occurred. Please try again in a few minutes."
 msgstr "Akats bat gertatu da. Mesedez, saiatu berriro minutu batzuk barru."
 
-#: includes/class-pn-tasks-manager-ajax.php:466 includes/class-pn-tasks-manager-ajax.php:475
-#: includes/class-pn-tasks-manager-ajax.php:483
+#: includes/class-pn-tasks-manager-ajax.php:493
+#: includes/class-pn-tasks-manager-ajax.php:502
+#: includes/class-pn-tasks-manager-ajax.php:510
 msgid "An error occurred while checking the Task."
 msgstr "Errore bat gertatu da zeregina egiaztatzean."
 
-#: includes/class-pn-tasks-manager-ajax.php:513
+#: includes/class-pn-tasks-manager-ajax.php:540
 msgid "An error occurred while duplicating the Task."
 msgstr "Errore bat gertatu da zeregina bikoiztean."
 
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:225
-#: includes/class-pn-tasks-manager-ajax.php:342 includes/class-pn-tasks-manager-ajax.php:460
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:239
+#: includes/class-pn-tasks-manager-ajax.php:380
+#: includes/class-pn-tasks-manager-ajax.php:487
 msgid "An error occurred while encoding the response."
 msgstr "Errore bat gertatu da erantzuna kodetzean."
 
-#: includes/class-pn-tasks-manager-ajax.php:534
+#: includes/class-pn-tasks-manager-ajax.php:561
 msgid "An error occurred while removing the Task."
 msgstr "Errore bat gertatu da zeregina kentzean."
 
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:231
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:240
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:248
-#: includes/class-pn-tasks-manager-ajax.php:352 includes/class-pn-tasks-manager-ajax.php:363
-#: includes/class-pn-tasks-manager-ajax.php:373 includes/class-pn-tasks-manager-ajax.php:403
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:245
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:254
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:262
+#: includes/class-pn-tasks-manager-ajax.php:386
+#: includes/class-pn-tasks-manager-ajax.php:396
+#: includes/class-pn-tasks-manager-ajax.php:405
+#: includes/class-pn-tasks-manager-ajax.php:435
 msgid "An error occurred while showing the Task."
 msgstr "Errore bat gertatu da zeregina erakustean."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:211
+#: includes/class-pn-tasks-manager-forms.php:759
+#, php-format
+msgid "Assign %s Role"
+msgstr "%s rola esleitu"
+
+#: includes/class-pn-tasks-manager-post-type-task.php:228
 msgid "Assigned to"
 msgstr "Esleituta"
 
@@ -157,35 +176,39 @@ msgstr "Esleituta"
 msgid "Atleast 8 Character"
 msgstr "Gutxienez 8 karaktere"
 
-#: templates/public/archive-pn_tasks_manager_task.php:31
+#: templates/public/archive-pn-tasks-manager_task.php:31
 msgid "Base CPT"
 msgstr "Errezetak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:253
+#: includes/class-pn-tasks-manager-post-type-task.php:270
 msgid "Beach"
 msgstr "Hondartza"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:275
+#: includes/class-pn-tasks-manager-post-type-task.php:292
 msgid "Bike"
 msgstr "Bizikleta"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:251
+#: includes/class-pn-tasks-manager-post-type-task.php:268
 msgid "Book"
 msgstr "Liburua"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:273
+#: includes/class-pn-tasks-manager-post-type-task.php:290
 msgid "Bus"
 msgstr "Autobusa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:254
+#: includes/class-pn-tasks-manager-post-type-task.php:271
 msgid "Cake"
 msgstr "Tarta"
+
+#: includes/class-pn-tasks-manager-settings.php:35
+msgid "Calendar"
+msgstr "Egutegia"
 
 #: includes/class-pn-tasks-manager-blocks.php:29
 msgid "Calendar (PN Tasks Manager)"
 msgstr "Egutegia (PN Tasks Manager)"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:239
+#: includes/class-pn-tasks-manager-post-type-task.php:256
 msgid "Calendar Today"
 msgstr "Gaurko egutegia"
 
@@ -193,35 +216,37 @@ msgstr "Gaurko egutegia"
 msgid "Cancel"
 msgstr "Utzi"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:247
+#: includes/class-pn-tasks-manager-post-type-task.php:264
 msgid "Car"
 msgstr "Autoa"
 
-#: includes/class-pn-tasks-manager-common.php:242
+#: includes/class-pn-tasks-manager-common.php:251
 msgid "Category already exists"
 msgstr "Kategoria dagoeneko existitzen da"
 
-#: includes/class-pn-tasks-manager-ajax.php:601 includes/class-pn-tasks-manager-ajax.php:660
+#: includes/class-pn-tasks-manager-ajax.php:630
+#: includes/class-pn-tasks-manager-ajax.php:776
 msgid "Category already exists."
 msgstr "Kategoria dagoeneko existitzen da."
 
-#: includes/class-pn-tasks-manager-common.php:241
+#: includes/class-pn-tasks-manager-common.php:250
 msgid "Category created successfully"
 msgstr "Kategoria behar bezala sortu da"
 
-#: includes/class-pn-tasks-manager-ajax.php:614 includes/class-pn-tasks-manager-ajax.php:673
+#: includes/class-pn-tasks-manager-ajax.php:643
+#: includes/class-pn-tasks-manager-ajax.php:789
 msgid "Category created successfully."
 msgstr "Kategoria arrakastaz sortu da."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:281
+#: includes/class-pn-tasks-manager-post-type-task.php:298
 msgid "Celebration"
 msgstr "Ospakizuna"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:259
+#: includes/class-pn-tasks-manager-post-type-task.php:276
 msgid "Check Circle"
 msgstr "Zirkulu-egiaztapena"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:255
+#: includes/class-pn-tasks-manager-post-type-task.php:272
 msgid "Child Care"
 msgstr "Haurtzaindegia"
 
@@ -229,107 +254,126 @@ msgstr "Haurtzaindegia"
 msgid "Clear"
 msgstr "Garbitu"
 
-#: includes/class-pn-tasks-manager-shortcodes.php:268
+#: includes/class-pn-tasks-manager-shortcodes.php:229
 msgid "Click to view completed tasks"
 msgstr "Egin klik osatutako zereginak ikusteko"
 
-#: includes/class-pn-tasks-manager-calendar.php:488
-#: includes/class-pn-tasks-manager-calendar.php:744
+#: includes/class-pn-tasks-manager-calendar.php:547
+#: includes/class-pn-tasks-manager-calendar.php:811
 msgid "Click to view day"
 msgstr "Egin klik eguna ikusteko"
 
-#: includes/class-pn-tasks-manager-calendar.php:714
+#: includes/class-pn-tasks-manager-calendar.php:773
 msgid "Click to view month"
 msgstr "Egin klik hilabetea ikusteko"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1411
+#: includes/class-pn-tasks-manager-post-type-task.php:1379
 msgid "Comments"
 msgstr "Iruzkinak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1093
+#: includes/class-pn-tasks-manager-post-type-task.php:1090
 msgid "Complete Task"
 msgstr "Zeregina osatu"
 
-#: includes/class-pn-tasks-manager-ajax.php:222
+#: includes/class-pn-tasks-manager-ajax.php:276
 msgid "Completed tasks"
 msgstr "Osatutako zereginak"
 
-#: includes/class-pn-tasks-manager-settings.php:21
+#: includes/class-pn-tasks-manager-settings.php:50
 msgid "Configure the colors used in the main CSS :root."
 msgstr "Konfiguratu CSS nagusian erabilitako koloreak :root."
 
-#: includes/class-pn-tasks-manager-common.php:256
+#: includes/class-pn-tasks-manager-common.php:265
 msgid "Connection error"
 msgstr "Konexio-errorea"
 
-#: includes/class-pn-tasks-manager-common.php:257
+#: includes/class-pn-tasks-manager-common.php:266
 msgid "Connection error: Could not connect to server"
 msgstr "Konexio errorea: Ezin izan da zerbitzarira konektatu"
 
-#: includes/class-pn-tasks-manager-common.php:237
+#: includes/class-pn-tasks-manager-common.php:246
 msgid "Copied"
 msgstr "Kopiatu da"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:969
+#: includes/class-pn-tasks-manager-post-type-task.php:966
 msgid "Create account"
 msgstr "Sortu kontua"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1545
+#: includes/class-pn-tasks-manager-settings.php:21
+msgid "Create and manage the pages that display the plugin blocks."
+msgstr "Pluginaren blokeak erakusten dituzten orriak sortu eta kudeatu."
+
+#: includes/class-pn-tasks-manager-forms.php:717
+msgid "Create page"
+msgstr "Orria sortu"
+
+#: includes/class-pn-tasks-manager-post-type-task.php:1530
 msgid "Create Task"
 msgstr "Zeregina sortu"
 
-#: includes/class-pn-tasks-manager-calendar.php:321
+#: includes/class-pn-tasks-manager-calendar.php:372
 msgid "Day"
 msgstr "Eguna"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:190
+#: includes/class-pn-tasks-manager-post-type-task.php:207
 msgid "Days"
 msgstr "Egunak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:233
+#: includes/class-pn-tasks-manager-post-type-task.php:250
 msgid "Default (event)"
 msgstr "Lehenetsia (gertaera)"
 
-#: includes/class-pn-tasks-manager-calendar.php:403
+#: includes/class-pn-tasks-manager-calendar.php:462
 msgid "Download ICS"
 msgstr "Deskargatu ICS"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1117
+#: includes/class-pn-tasks-manager-post-type-task.php:1114
 msgid "Duplicate Task"
 msgstr "Zeregin bikoiztua"
 
-#: includes/class-pn-tasks-manager-common.php:226 includes/class-pn-tasks-manager-forms.php:369
+#: includes/class-pn-tasks-manager-forms.php:709
+msgid "Edit"
+msgstr "Editatu"
+
+#: includes/class-pn-tasks-manager-forms.php:369
+#: includes/class-pn-tasks-manager-common.php:235
 msgid "Edit audio"
 msgstr "Editatu audioa"
 
-#: includes/class-pn-tasks-manager-common.php:227 includes/class-pn-tasks-manager-forms.php:369
+#: includes/class-pn-tasks-manager-forms.php:369
+#: includes/class-pn-tasks-manager-common.php:236
 msgid "Edit audios"
 msgstr "Editatu audioak"
 
-#: includes/class-pn-tasks-manager-common.php:230 includes/class-pn-tasks-manager-forms.php:390
+#: includes/class-pn-tasks-manager-forms.php:390
+#: includes/class-pn-tasks-manager-common.php:239
 msgid "Edit file"
 msgstr "Editatu fitxategia"
 
-#: includes/class-pn-tasks-manager-common.php:231 includes/class-pn-tasks-manager-forms.php:390
+#: includes/class-pn-tasks-manager-forms.php:390
+#: includes/class-pn-tasks-manager-common.php:240
 msgid "Edit files"
 msgstr "Editatu fitxategiak"
 
-#: includes/class-pn-tasks-manager-common.php:218 includes/class-pn-tasks-manager-forms.php:327
+#: includes/class-pn-tasks-manager-forms.php:327
+#: includes/class-pn-tasks-manager-common.php:227
 msgid "Edit image"
 msgstr "Editatu irudia"
 
-#: includes/class-pn-tasks-manager-common.php:219 includes/class-pn-tasks-manager-forms.php:327
+#: includes/class-pn-tasks-manager-forms.php:327
+#: includes/class-pn-tasks-manager-common.php:228
 msgid "Edit images"
 msgstr "Editatu irudiak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:393
-#: includes/class-pn-tasks-manager-post-type-task.php:1105
-#: includes/class-pn-tasks-manager-post-type-task.php:1353
+#: includes/class-pn-tasks-manager-post-type-task.php:410
+#: includes/class-pn-tasks-manager-post-type-task.php:1102
+#: includes/class-pn-tasks-manager-post-type-task.php:1330
+#: includes/class-pn-tasks-manager-post-type-task.php:1497
 msgid "Edit Task"
 msgstr "Editatu zeregina"
 
-#: templates/public/single-pn_tasks_manager_task.php:52
-#: templates/public/archive-pn_tasks_manager_task.php:50
+#: templates/public/single-pn-tasks-manager_task.php:52
+#: templates/public/archive-pn-tasks-manager_task.php:50
 msgid "Edit task"
 msgstr "Editatu zeregina"
 
@@ -337,113 +381,126 @@ msgstr "Editatu zeregina"
 msgid "Edit Task category"
 msgstr "Editatu zereginen kategoria"
 
-#: includes/class-pn-tasks-manager-common.php:222 includes/class-pn-tasks-manager-forms.php:348
+#: includes/class-pn-tasks-manager-forms.php:348
+#: includes/class-pn-tasks-manager-common.php:231
 msgid "Edit video"
 msgstr "Editatu bideoa"
 
-#: includes/class-pn-tasks-manager-common.php:223 includes/class-pn-tasks-manager-forms.php:348
+#: includes/class-pn-tasks-manager-forms.php:348
+#: includes/class-pn-tasks-manager-common.php:232
 msgid "Edit videos"
 msgstr "Editatu bideoak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1563
+#: includes/class-pn-tasks-manager-post-type-task.php:1548
 msgid "Editing Task"
 msgstr "Editatzeko zeregina"
 
-#: templates/public/single-pn_tasks_manager_task.php:131
+#: templates/public/single-pn-tasks-manager_task.php:131
 msgid "Elaboration steps"
 msgstr "Elaborazio-urratsak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:264
+#: includes/class-pn-tasks-manager-post-type-task.php:281
 msgid "Email"
 msgstr "Posta elektronikoa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:262
+#: includes/class-pn-tasks-manager-post-type-task.php:279
 msgid "Error"
 msgstr "Errorea"
 
-#: includes/class-pn-tasks-manager-common.php:239
+#: includes/class-pn-tasks-manager-common.php:248
 msgid "Error creating category"
 msgstr "Kategoria sortzean errore bat gertatu da"
 
-#: includes/class-pn-tasks-manager-common.php:240
+#: includes/class-pn-tasks-manager-common.php:249
 msgid "Error creating category. Please try again."
 msgstr "Errorea kategoria sortzean. Saiatu berriro."
 
-#: includes/class-pn-tasks-manager-common.php:255
+#: includes/class-pn-tasks-manager-common.php:264
 msgid "Error in transcription"
 msgstr "Transkripzioan egindako errorea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1370
+#: includes/class-pn-tasks-manager-post-type-task.php:1346
 msgid "Error loading task content"
 msgstr "Errorea zereginaren edukia kargatzean"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1343
-#: includes/class-pn-tasks-manager-post-type-task.php:1347
+#: includes/class-pn-tasks-manager-post-type-task.php:1322
+#: includes/class-pn-tasks-manager-post-type-task.php:1324
 msgid "Error loading task fields"
 msgstr "Errorea zereginen eremuak kargatzean"
 
-#: includes/class-pn-tasks-manager-common.php:261
+#: includes/class-pn-tasks-manager-common.php:270
 msgid "Error processing audio"
 msgstr "Errorea audioa prozesatzean"
 
-#: includes/class-pn-tasks-manager-common.php:249
+#: includes/class-pn-tasks-manager-common.php:258
 msgid "Error: Could not access microphone"
 msgstr "Errorea: Ezin izan da mikrofonora sartu"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:157
+#: includes/class-pn-tasks-manager-post-type-task.php:174
 msgid "Estimated hours"
 msgstr "Ordu estimatuak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:158
+#: includes/class-pn-tasks-manager-post-type-task.php:175
 msgid "Estimated hours (e.g., 1.5)"
 msgstr "Ordu estimatuak (adibidez, 1,5)"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:234
+#: includes/class-pn-tasks-manager-post-type-task.php:251
 msgid "Event"
 msgstr "Gertaera"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:257
+#: includes/class-pn-tasks-manager-post-type-task.php:274
 msgid "Favorite"
 msgstr "Gogokoena"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:973
+#: includes/class-pn-tasks-manager-post-type-task.php:970
 msgid "Filter..."
 msgstr "Iragazi..."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:248
+#: includes/class-pn-tasks-manager-post-type-task.php:265
 msgid "Fitness"
 msgstr "Fitnessa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:246
+#: includes/class-pn-tasks-manager-post-type-task.php:263
 msgid "Flight"
 msgstr "Hegaldia"
 
-#: includes/class-pn-tasks-manager-calendar.php:459
+#: includes/class-pn-tasks-manager-calendar.php:518
+#: includes/class-pn-tasks-manager-calendar.php:786
 msgid "Fri"
 msgstr "Ostirala"
 
-#: includes/class-pn-tasks-manager-calendar.php:450
+#: includes/class-pn-tasks-manager-calendar.php:509
 msgid "Friday"
 msgstr "Ostirala"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:270
+#: includes/class-pn-tasks-manager-post-type-task.php:287
 msgid "Grocery Store"
 msgstr "Janari-denda"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:242
+#: includes/class-pn-tasks-manager-calendar.php:388
+msgid "Hide tasks from others"
+msgstr "Zereginak besteei ezkutatu"
+
+#: includes/class-pn-tasks-manager-forms.php:755
+msgid ""
+"Hold Ctrl (Windows) or Cmd (Mac) to select multiple users. Users with ✓ "
+"already have this role."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:259
 msgid "Home"
 msgstr "Etxea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:245
+#: includes/class-pn-tasks-manager-post-type-task.php:262
 msgid "Hospital"
 msgstr "Ospitalea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:272
+#: includes/class-pn-tasks-manager-post-type-task.php:289
 msgid "Hotel"
 msgstr "Hotela"
 
-#: includes/class-pn-tasks-manager-ajax.php:239
-#: templates/public/single-pn_tasks_manager_task.php:140
+#: includes/class-pn-tasks-manager-ajax.php:293
+#: templates/public/single-pn-tasks-manager_task.php:140
 msgid "hours"
 msgstr "orduak"
 
@@ -455,7 +512,7 @@ msgstr "https://padresenlanube.com/"
 msgid "https://padresenlanube.com/plugins/pn-tasks-manager/"
 msgstr "https://padresenlanube.com/plugins/pn-tasks-manager/"
 
-#: includes/class-pn-tasks-manager-settings.php:124
+#: includes/class-pn-tasks-manager-settings.php:159
 msgid ""
 "If you activate this option the plugin will remove all options on "
 "deactivation. Please, be careful. This process cannot be undone."
@@ -463,44 +520,54 @@ msgstr ""
 "Aukera hau aktibatzen baduzu, pluginak desaktibatzeko aukera guztiak kenduko "
 "ditu. Mesedez, kontuz. Prozesu hau ezin da desegin."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:260
+#: includes/class-pn-tasks-manager-post-type-task.php:277
 msgid "Info"
 msgstr "Informazioa"
 
-#: templates/public/single-pn_tasks_manager_task.php:106
+#: templates/public/single-pn-tasks-manager_task.php:106
 msgid "Ingredients"
 msgstr "Osagaiak"
 
-#: includes/admin/class-pn-tasks-manager-admin.php:82
+#: includes/admin/class-pn-tasks-manager-admin.php:103
 msgid "Install MailPN"
 msgstr "Instalatu MailPN"
 
-#: includes/class-pn-tasks-manager-ajax.php:44
+#: includes/class-pn-tasks-manager-ajax.php:40
 msgid "Invalid action."
 msgstr "Ekintza baliogabea."
+
+#: includes/class-pn-tasks-manager-ajax.php:671
+#: includes/class-pn-tasks-manager-ajax.php:720
+msgid "Invalid page option."
+msgstr "Orri-aukera baliogabea."
+
+#: includes/class-pn-tasks-manager-ajax.php:155
+msgid "Invalid role specified."
+msgstr "Zehaztutako rola baliogabea."
 
 #: includes/class-pn-tasks-manager-validation.php:157
 msgid "Invalid selection format."
 msgstr "Hautapen formatu baliogabea."
 
-#: includes/class-pn-tasks-manager-common.php:252
+#: includes/class-pn-tasks-manager-common.php:261
 msgid "Invalid server response"
 msgstr "Zerbitzariaren erantzun baliogabea"
 
-#: includes/class-pn-tasks-manager-common.php:251
+#: includes/class-pn-tasks-manager-common.php:260
 msgid "Invalid server response format"
 msgstr "Zerbitzariaren erantzun formatu baliogabea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1182
-#: includes/class-pn-tasks-manager-post-type-task.php:1440
+#: includes/class-pn-tasks-manager-post-type-task.php:1178
+#: includes/class-pn-tasks-manager-post-type-task.php:1408
 msgid "Invalid task ID"
 msgstr "Zereginaren ID baliogabea"
 
-#: includes/class-pn-tasks-manager-ajax.php:152 includes/class-pn-tasks-manager-ajax.php:268
+#: includes/class-pn-tasks-manager-ajax.php:206
+#: includes/class-pn-tasks-manager-ajax.php:322
 msgid "Invalid task."
 msgstr "Zeregin baliogabea."
 
-#: includes/class-pn-tasks-manager-ajax.php:170
+#: includes/class-pn-tasks-manager-ajax.php:224
 msgid "Invalid user."
 msgstr "Erabiltzaile baliogabea."
 
@@ -512,15 +579,15 @@ msgstr "Zereginari batu"
 msgid "Joinable Tasks (PN Tasks Manager)"
 msgstr "Batu daitezkeen zereginak (PN Tasks Manager)"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:278
+#: includes/class-pn-tasks-manager-post-type-task.php:295
 msgid "Library"
 msgstr "Liburutegia"
 
-#: includes/class-pn-tasks-manager-common.php:217
+#: includes/class-pn-tasks-manager-common.php:226
 msgid "Loading..."
 msgstr "Kargatzen..."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:969
+#: includes/class-pn-tasks-manager-post-type-task.php:966
 msgid "Log in or create an account to create and manage tasks."
 msgstr "Hasi saioa edo sortu kontu bat zereginak sortu eta kudeatzeko."
 
@@ -532,100 +599,112 @@ msgstr "Hasi saioa sartzeko"
 msgid "Lowercase & Uppercase"
 msgstr "Maiuskulak eta minuskulak"
 
-#: includes/class-pn-tasks-manager-settings.php:20
+#: includes/class-pn-tasks-manager-settings.php:49
 msgid "Main colors"
 msgstr "Kolore nagusiak"
+
+#: includes/class-pn-tasks-manager-settings.php:171
+msgid "Manage user role assignments for this plugin."
+msgstr "Kudeatu plugin honetarako erabiltzaile-rolen esleipenak."
 
 #. Description of the plugin
 msgid ""
 "Manage your tasks and time tracking with this plugin. Create tasks, assign "
-"them to users, and track the time spent on each task."
+"them to users, and track the time spent on each task. Features include: "
+"interactive calendar views (day, week, month, year), recurring tasks with "
+"customizable periodicity, task categories for organization, public tasks "
+"that users can join, ICS calendar export, user ranking by completed hours, "
+"Gutenberg blocks integration, email notifications for task assignments, "
+"shortcodes for displaying calendars and task lists, multilingual support, "
+"and flexible role-based permissions."
 msgstr ""
-"Kudeatu zure zereginak eta denboraren jarraipena plugin honekin. Sortu "
-"zereginak, esleitu erabiltzaileei eta jarraitu zeregin bakoitzean emandako "
-"denbora."
 
-#: includes/class-pn-tasks-manager-settings.php:41
+#: includes/class-pn-tasks-manager-settings.php:70
 msgid "Maps to --pn-tasks-manager-bg-color-main"
 msgstr "--pn-tasks-manager-bg-color-main-era mapatzen da"
 
-#: includes/class-pn-tasks-manager-settings.php:71
+#: includes/class-pn-tasks-manager-settings.php:100
 msgid "Maps to --pn-tasks-manager-bg-color-main-alt"
 msgstr "--pn-tasks-manager-bg-color-main-alt-era mapatzen du"
 
-#: includes/class-pn-tasks-manager-settings.php:51
+#: includes/class-pn-tasks-manager-settings.php:80
 msgid "Maps to --pn-tasks-manager-border-color-main"
 msgstr "--pn-tasks-manager-border-color-main-era mapatzen da"
 
-#: includes/class-pn-tasks-manager-settings.php:81
+#: includes/class-pn-tasks-manager-settings.php:110
 msgid "Maps to --pn-tasks-manager-border-color-main-alt"
 msgstr "--pn-tasks-manager-border-color-main-alt-erako mapak"
 
-#: includes/class-pn-tasks-manager-settings.php:31
+#: includes/class-pn-tasks-manager-settings.php:60
 msgid "Maps to --pn-tasks-manager-color-main"
 msgstr "--pn-tasks-manager-color-main-era mapatzen da"
 
-#: includes/class-pn-tasks-manager-settings.php:61
+#: includes/class-pn-tasks-manager-settings.php:90
 msgid "Maps to --pn-tasks-manager-color-main-alt"
 msgstr "--pn-tasks-manager-color-main-alt-era mapatzen du"
 
-#: includes/class-pn-tasks-manager-settings.php:91
+#: includes/class-pn-tasks-manager-settings.php:120
 msgid "Maps to --pn-tasks-manager-color-main-blue"
 msgstr "--pn-tasks-manager-color-main-blue-ra mapatzen da"
 
-#: includes/class-pn-tasks-manager-settings.php:101
+#: includes/class-pn-tasks-manager-settings.php:130
 msgid "Maps to --pn-tasks-manager-color-main-grey"
 msgstr "--pn-tasks-manager-color-main-grey-rako mapak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1402
+#: includes/class-pn-tasks-manager-post-type-task.php:1370
 msgid "Mark as completed"
 msgstr "Markatu osatutzat"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1070
+#: includes/class-pn-tasks-manager-post-type-task.php:1067
 msgid "Mark as done"
 msgstr "Markatu eginda gisa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1070
+#: includes/class-pn-tasks-manager-post-type-task.php:1067
 msgid "Mark as not done"
 msgstr "Markatu egin gabe gisa"
 
-#: templates/public/single-pn_tasks_manager_task.php:140
+#: templates/public/single-pn-tasks-manager_task.php:140
 msgid "minutes"
 msgstr "minutu"
 
-#: includes/class-pn-tasks-manager-calendar.php:455
+#: includes/class-pn-tasks-manager-ajax.php:662
+msgid "Missing required fields."
+msgstr "Beharrezko eremuak falta dira."
+
+#: includes/class-pn-tasks-manager-calendar.php:514
+#: includes/class-pn-tasks-manager-calendar.php:782
 msgid "Mon"
 msgstr "Astelehena"
 
-#: includes/class-pn-tasks-manager-calendar.php:446
+#: includes/class-pn-tasks-manager-calendar.php:505
 msgid "Monday"
 msgstr "Astelehena"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:268
+#: includes/class-pn-tasks-manager-post-type-task.php:285
 msgid "Money"
 msgstr "Dirua"
 
-#: includes/class-pn-tasks-manager-calendar.php:327
+#: includes/class-pn-tasks-manager-calendar.php:378
 msgid "Month"
 msgstr "Hilabetea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:192
+#: includes/class-pn-tasks-manager-post-type-task.php:209
 msgid "Months"
 msgstr "Hilabeteak"
 
-#: templates/public/single-pn_tasks_manager_task.php:48
+#: templates/public/single-pn-tasks-manager_task.php:48
 msgid "More tasks"
 msgstr "Zeregin gehiago"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:249
+#: includes/class-pn-tasks-manager-post-type-task.php:266
 msgid "Movie"
 msgstr "Filma"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:279
+#: includes/class-pn-tasks-manager-post-type-task.php:296
 msgid "Museum"
 msgstr "Museoa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:250
+#: includes/class-pn-tasks-manager-post-type-task.php:267
 msgid "Music"
 msgstr "Musika"
 
@@ -634,7 +713,7 @@ msgid "New category name"
 msgstr "Kategoria izen berria"
 
 #. %s: Task title
-#: includes/class-pn-tasks-manager-post-type-task.php:84
+#: includes/class-pn-tasks-manager-post-type-task.php:103
 #, php-format
 msgid "New task assigned: %s"
 msgstr "Zeregin berria esleitu da: %s"
@@ -643,23 +722,23 @@ msgstr "Zeregin berria esleitu da: %s"
 msgid "New Task category"
 msgstr "Zeregin-kategoria berria"
 
-#: templates/public/single-pn_tasks_manager_task.php:197
+#: templates/public/single-pn-tasks-manager_task.php:197
 msgid "Next"
 msgstr "Hurrengoa"
 
-#: includes/class-pn-tasks-manager-forms.php:856
+#: includes/class-pn-tasks-manager-forms.php:938
 msgid "No"
 msgstr "Ez"
 
-#: includes/class-pn-tasks-manager-common.php:250
+#: includes/class-pn-tasks-manager-common.php:259
 msgid "No audio to transcribe"
 msgstr "Ez dago transkribatzeko audiorik"
 
-#: includes/class-pn-tasks-manager-shortcodes.php:263
+#: includes/class-pn-tasks-manager-shortcodes.php:224
 msgid "No completed hours found."
 msgstr "Ez da aurkitu osatutako ordurik."
 
-#: includes/class-pn-tasks-manager-ajax.php:224
+#: includes/class-pn-tasks-manager-ajax.php:278
 msgid "No completed tasks found for this user."
 msgstr "Ez da aurkitu erabiltzaile honentzat osatutako zereginik."
 
@@ -667,11 +746,11 @@ msgstr "Ez da aurkitu erabiltzaile honentzat osatutako zereginik."
 msgid "No file found"
 msgstr "Ez da fitxategirik aurkitu"
 
-#: includes/class-pn-tasks-manager-forms.php:848
+#: includes/class-pn-tasks-manager-forms.php:930
 msgid "No file uploaded"
 msgstr "Ez da fitxategirik igo"
 
-#: includes/class-pn-tasks-manager-forms.php:1030
+#: includes/class-pn-tasks-manager-forms.php:1112
 msgid "No images uploaded"
 msgstr "Ez da irudirik igo"
 
@@ -687,28 +766,33 @@ msgstr ""
 msgid "No tasks found"
 msgstr "Ez da zereginik aurkitu"
 
-#: includes/class-pn-tasks-manager-calendar.php:662
+#: includes/class-pn-tasks-manager-calendar.php:721
 msgid "No tasks scheduled for this day."
 msgstr "Ez dago zereginik egun honetarako programatuta."
 
-#: includes/class-pn-tasks-manager-common.php:254
+#: includes/class-pn-tasks-manager-common.php:263
 msgid "No transcription received from server"
 msgstr "Ez da transkripziorik jaso zerbitzaritik"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:396
+#: includes/class-pn-tasks-manager-forms.php:746
+#, php-format
+msgid "No users currently have the %s role."
+msgstr "Une honetan ez dauka inongo erabiltzailek %s rola."
+
+#: includes/class-pn-tasks-manager-post-type-task.php:413
 msgid "Not Task found"
 msgstr "Ez da zereginik aurkitu"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:397
+#: includes/class-pn-tasks-manager-post-type-task.php:414
 #| msgid "Not Base CPT found in Trash"
 msgid "Not Task found in Trash"
 msgstr "Ez da zereginik aurkitu zaborrontzian"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:263
+#: includes/class-pn-tasks-manager-post-type-task.php:280
 msgid "Notifications"
 msgstr "Jakinarazpenak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:179
+#: includes/class-pn-tasks-manager-post-type-task.php:196
 msgid "Number"
 msgstr "Zenbakia"
 
@@ -728,15 +812,16 @@ msgstr "Zenbakia gutxienez %s izan behar da."
 msgid "Number must be at most %s."
 msgstr "Zenbakia gehienez %s izan behar da."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:99
+#: includes/class-pn-tasks-manager-post-type-task.php:117
 msgid "Open calendar"
 msgstr "Ireki egutegia"
 
-#: includes/class-pn-tasks-manager-forms.php:442 includes/class-pn-tasks-manager-forms.php:458
+#: includes/class-pn-tasks-manager-forms.php:442
+#: includes/class-pn-tasks-manager-forms.php:458
 msgid "Order element"
 msgstr "Agindu elementua"
 
-#: includes/class-pn-tasks-manager-common.php:234
+#: includes/class-pn-tasks-manager-common.php:243
 msgid "Ordered element"
 msgstr "Ordenatutako elementua"
 
@@ -744,7 +829,19 @@ msgstr "Ordenatutako elementua"
 msgid "Padres en la Nube"
 msgstr "Aitak Hodeian"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:388
+#: includes/class-pn-tasks-manager-ajax.php:697
+msgid "Page created successfully."
+msgstr "Orria arrakastaz sortu da."
+
+#: includes/class-pn-tasks-manager-forms.php:716
+msgid "Page title"
+msgstr "Orriaren izenburua"
+
+#: includes/class-pn-tasks-manager-ajax.php:729
+msgid "Page unlinked successfully."
+msgstr "Orria arrakastaz desestekatu da."
+
+#: includes/class-pn-tasks-manager-post-type-task.php:405
 msgid "Parent Task"
 msgstr "Gurasoen zeregina"
 
@@ -760,23 +857,23 @@ msgstr "Gurasoentzako zereginen kategoria:"
 msgid "Password strength checker"
 msgstr "Pasahitzaren indarra egiaztatzailea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:187
+#: includes/class-pn-tasks-manager-post-type-task.php:204
 msgid "Period"
 msgstr "Aldia"
 
-#: includes/class-pn-tasks-manager-common.php:258
+#: includes/class-pn-tasks-manager-common.php:267
 msgid "Permission error: Security verification failed"
 msgstr "Baimen-errorea: Segurtasun-egiaztapena huts egin du"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:256
+#: includes/class-pn-tasks-manager-post-type-task.php:273
 msgid "Pets"
 msgstr "Maskotak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:265
+#: includes/class-pn-tasks-manager-post-type-task.php:282
 msgid "Phone"
 msgstr "Telefonoa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:267
+#: includes/class-pn-tasks-manager-post-type-task.php:284
 msgid "Photo"
 msgstr "Argazkia"
 
@@ -784,16 +881,16 @@ msgstr "Argazkia"
 msgid "Play audio"
 msgstr "Erreproduzitu audioa"
 
-#: templates/public/single-pn_tasks_manager_task.php:134
+#: templates/public/single-pn-tasks-manager_task.php:134
 msgid "Play task"
 msgstr "Erreproduzitu zeregina"
 
-#: includes/class-pn-tasks-manager-common.php:214
+#: includes/class-pn-tasks-manager-common.php:223
 msgid "Please create a new user or login to save the information."
-msgstr ""
+msgstr "Mesedez, sortu erabiltzaile berri bat edo hasi saioa informazioa gordetzeko."
 "Mesedez, sortu erabiltzaile berri bat edo saioa hasi informazioa gordetzeko."
 
-#: includes/class-pn-tasks-manager-common.php:238
+#: includes/class-pn-tasks-manager-common.php:247
 msgid "Please enter a category name"
 msgstr "Mesedez, sartu kategoria-izen bat"
 
@@ -821,67 +918,92 @@ msgstr "Mesedez, hautatu aukera baliodun bat."
 msgid "Please select valid options."
 msgstr "Mesedez, hautatu aukera baliodunak."
 
-#: includes/class-pn-tasks-manager-settings.php:170
+#: includes/class-pn-tasks-manager-settings.php:230
 msgid "Plugin main Banner"
 msgstr "Pluginaren banner nagusia"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:276
+#: includes/class-pn-tasks-manager-settings.php:20
+msgid "Plugin Pages"
+msgstr "Pluginaren orriak"
+
+#. Name of the plugin
+#: includes/class-pn-tasks-manager-forms.php:732
+#: includes/class-pn-tasks-manager-activator.php:33
+#: includes/class-pn-tasks-manager-ajax.php:160
+#: includes/class-pn-tasks-manager-blocks.php:21
+#: includes/class-pn-tasks-manager-settings.php:177
+#: includes/class-pn-tasks-manager-settings.php:179
+#: includes/class-pn-tasks-manager-settings.php:209
+#: includes/class-pn-tasks-manager-settings.php:210
+msgid "PN Tasks Manager"
+msgstr "Zereginen kudeatzailea - PN"
+
+#: includes/admin/class-pn-tasks-manager-admin.php:98
+msgid "PN Tasks Manager notice:"
+msgstr "PN Tasks Manager oharra:"
+
+#: includes/class-pn-tasks-manager-settings.php:231
+msgid "PN Tasks Manager Settings"
+msgstr "Zereginen kudeatzailea - PN ezarpenak"
+
+#: includes/class-pn-tasks-manager-post-type-task.php:293
 msgid "Pool"
 msgstr "Igerilekua"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:385
+#: includes/class-pn-tasks-manager-post-type-task.php:402
 #| msgid "Base CPT"
 msgctxt "Post Type general name"
 msgid "Task"
 msgstr "Zeregina"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:386
+#: includes/class-pn-tasks-manager-post-type-task.php:403
 #| msgid "Recipe"
 msgctxt "Post Type singular name"
 msgid "Task"
 msgstr "Zeregina"
 
-#: templates/public/single-pn_tasks_manager_task.php:194
+#: templates/public/single-pn-tasks-manager_task.php:194
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1485
+#: includes/class-pn-tasks-manager-post-type-task.php:1465
 msgid "Previous comments"
 msgstr "Aurreko iruzkinak"
 
-#: includes/class-pn-tasks-manager-settings.php:39
+#: includes/class-pn-tasks-manager-settings.php:68
 msgid "Primary background"
 msgstr "Atzeko plano nagusia"
 
-#: includes/class-pn-tasks-manager-settings.php:89
+#: includes/class-pn-tasks-manager-settings.php:118
 msgid "Primary blue"
 msgstr "Lehen mailako urdina"
 
-#: includes/class-pn-tasks-manager-settings.php:49
+#: includes/class-pn-tasks-manager-settings.php:78
 msgid "Primary border"
 msgstr "Lehen mailako muga"
 
-#: includes/class-pn-tasks-manager-settings.php:29
+#: includes/class-pn-tasks-manager-settings.php:58
 msgid "Primary color"
 msgstr "Kolore nagusia"
 
-#: includes/class-pn-tasks-manager-settings.php:99
+#: includes/class-pn-tasks-manager-settings.php:128
 msgid "Primary gray"
 msgstr "Gris nagusia"
 
-#: includes/class-pn-tasks-manager-common.php:245 includes/class-pn-tasks-manager-forms.php:486
+#: includes/class-pn-tasks-manager-forms.php:486
+#: includes/class-pn-tasks-manager-common.php:254
 msgid "Ready to record"
 msgstr "Grabatzeko prest"
 
-#: includes/class-pn-tasks-manager-common.php:248
+#: includes/class-pn-tasks-manager-common.php:257
 msgid "Recording completed. Ready to transcribe."
 msgstr "Grabaketa amaituta. Transkripziorako prest."
 
-#: includes/class-pn-tasks-manager-common.php:247
+#: includes/class-pn-tasks-manager-common.php:256
 msgid "Recording stopped. Ready to play or transcribe."
 msgstr "Grabaketa gelditu da. Erreproduzitzeko edo transkribatzeko prest."
 
-#: includes/class-pn-tasks-manager-common.php:246
+#: includes/class-pn-tasks-manager-common.php:255
 msgid "Recording..."
 msgstr "Grabatzen..."
 
@@ -893,85 +1015,93 @@ msgstr "kentzea"
 msgid "Remove"
 msgstr "Kendu"
 
-#: includes/class-pn-tasks-manager-forms.php:446 includes/class-pn-tasks-manager-forms.php:462
+#: includes/class-pn-tasks-manager-forms.php:760
+#, php-format
+msgid "Remove %s Role"
+msgstr "%s rola kendu"
+
+#: includes/class-pn-tasks-manager-forms.php:446
+#: includes/class-pn-tasks-manager-forms.php:462
 msgid "Remove element"
 msgstr "Kendu elementua"
 
-#: includes/class-pn-tasks-manager-settings.php:123
+#: includes/class-pn-tasks-manager-settings.php:158
 msgid "Remove plugin options on deactivation"
 msgstr "Kendu plugin-aukerak desaktibatzeko"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1129
+#: includes/class-pn-tasks-manager-post-type-task.php:1126
 msgid "Remove Task"
 msgstr "Kendu zeregina"
 
-#: includes/class-pn-tasks-manager-common.php:216
+#: includes/class-pn-tasks-manager-common.php:225
 msgid "Removed successfully"
 msgstr "Arrakastaz kendu da"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:178
+#: includes/class-pn-tasks-manager-post-type-task.php:195
 msgid "Repeat every"
 msgstr "Errepikatu bakoitza"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:166
-#: includes/class-pn-tasks-manager-post-type-task.php:167
+#: includes/class-pn-tasks-manager-post-type-task.php:183
+#: includes/class-pn-tasks-manager-post-type-task.php:184
 msgid "Repeat task"
 msgstr "Errepikatu zeregina"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:202
-#: includes/class-pn-tasks-manager-post-type-task.php:203
+#: includes/class-pn-tasks-manager-post-type-task.php:219
+#: includes/class-pn-tasks-manager-post-type-task.php:220
 msgid "Repeat until"
 msgstr "Errepikatu arte"
 
-#: includes/class-pn-tasks-manager-forms.php:721 includes/class-pn-tasks-manager-forms.php:786
+#: includes/class-pn-tasks-manager-forms.php:801
+#: includes/class-pn-tasks-manager-forms.php:868
 msgid "Required field"
 msgstr "Beharrezko eremua"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:244
+#: includes/class-pn-tasks-manager-post-type-task.php:261
 msgid "Restaurant"
 msgstr "Jatetxea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:271
+#: includes/class-pn-tasks-manager-post-type-task.php:288
 msgid "Restaurant Menu"
 msgstr "Jatetxearen menua"
 
-#: includes/class-pn-tasks-manager-calendar.php:460
+#: includes/class-pn-tasks-manager-calendar.php:519
+#: includes/class-pn-tasks-manager-calendar.php:787
 msgid "Sat"
 msgstr "Larunbata"
 
-#: includes/class-pn-tasks-manager-calendar.php:451
+#: includes/class-pn-tasks-manager-calendar.php:510
 msgid "Saturday"
 msgstr "Larunbata"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1515
+#: includes/class-pn-tasks-manager-post-type-task.php:1500
 msgid "Save"
 msgstr "Gorde"
 
-#: includes/class-pn-tasks-manager-settings.php:135
+#: includes/class-pn-tasks-manager-settings.php:196
 msgid "Save options"
 msgstr "Gorde aukerak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1573
+#: includes/class-pn-tasks-manager-post-type-task.php:1558
 msgid "Save Task"
 msgstr "Gorde zeregina"
 
-#: includes/class-pn-tasks-manager-common.php:215
+#: includes/class-pn-tasks-manager-common.php:224
 msgid "Saved successfully"
 msgstr "Behar bezala gorde da"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:238
+#: includes/class-pn-tasks-manager-post-type-task.php:255
 msgid "Schedule"
 msgstr "Ordutegia"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:91
+#: includes/class-pn-tasks-manager-post-type-task.php:110
 msgid "Scheduled for"
 msgstr "Aurreikusita"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:240
+#: includes/class-pn-tasks-manager-post-type-task.php:257
 msgid "School"
 msgstr "Eskola"
 
-#: includes/admin/class-pn-tasks-manager-admin.php:83
+#: includes/admin/class-pn-tasks-manager-admin.php:104
 msgid "Search in plugins"
 msgstr "Bilatu pluginetan"
 
@@ -979,33 +1109,38 @@ msgstr "Bilatu pluginetan"
 msgid "Search Task categories"
 msgstr "Bilatu zereginen kategoriak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:395
-#: includes/class-pn-tasks-manager-post-type-task.php:982
+#: includes/class-pn-tasks-manager-post-type-task.php:412
+#: includes/class-pn-tasks-manager-post-type-task.php:979
 msgid "Search Tasks"
 msgstr "Bilaketa-zereginak"
 
-#: includes/class-pn-tasks-manager-ajax.php:586 includes/class-pn-tasks-manager-ajax.php:645
+#: includes/class-pn-tasks-manager-ajax.php:142
+msgid "Security check failed for role assignment."
+msgstr "Segurtasun-egiaztapenak huts egin du rol-esleipenean."
+
+#: includes/class-pn-tasks-manager-ajax.php:615
+#: includes/class-pn-tasks-manager-ajax.php:761
 msgid "Security check failed."
 msgstr "Segurtasun-egiaztapena huts egin du."
 
 #: includes/class-pn-tasks-manager-ajax-nopriv.php:52
 #: includes/class-pn-tasks-manager-ajax-nopriv.php:63
-#: includes/class-pn-tasks-manager-post-type-task.php:522
-#: includes/class-pn-tasks-manager-ajax.php:71
+#: includes/class-pn-tasks-manager-post-type-task.php:540
+#: includes/class-pn-tasks-manager-ajax.php:62
 msgid "Security check failed: Invalid nonce."
 msgstr "Segurtasun-egiaztapena huts egin du: baliogabeko ezegonkortasuna."
 
 #: includes/class-pn-tasks-manager-ajax-nopriv.php:43
-#: includes/class-pn-tasks-manager-post-type-task.php:513
-#: includes/class-pn-tasks-manager-ajax.php:54
+#: includes/class-pn-tasks-manager-post-type-task.php:531
+#: includes/class-pn-tasks-manager-ajax.php:50
 msgid "Security check failed: Nonce is required."
 msgstr "Segurtasun-egiaztapena huts egin du: Nonce beharrezkoa da."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:340
+#: includes/class-pn-tasks-manager-post-type-task.php:357
 msgid "Select a category"
 msgstr "Hautatu kategoria bat"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:341
+#: includes/class-pn-tasks-manager-post-type-task.php:358
 msgid ""
 "Select a category for this task. Categories help organize and color-code "
 "tasks in the calendar."
@@ -1013,7 +1148,7 @@ msgstr ""
 "Hautatu kategoria bat zeregin honetarako. Kategoriek egutegian zereginak "
 "antolatzen eta koloreztatzen laguntzen dute."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:231
+#: includes/class-pn-tasks-manager-post-type-task.php:248
 msgid ""
 "Select a Material Icons icon to display in the calendar view. Leave empty to "
 "use default."
@@ -1021,86 +1156,90 @@ msgstr ""
 "Hautatu Material ikonoen ikono bat egutegiaren ikuspegian bistaratzeko. Utzi "
 "hutsik lehenetsitako balioa erabiltzeko."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:229
+#: includes/class-pn-tasks-manager-post-type-task.php:246
 msgid "Select an icon"
 msgstr "Hautatu ikono bat"
 
-#: includes/class-pn-tasks-manager-common.php:228
+#: includes/class-pn-tasks-manager-common.php:237
 msgid "Select audio"
 msgstr "Hautatu audioa"
 
-#: includes/class-pn-tasks-manager-common.php:229
+#: includes/class-pn-tasks-manager-common.php:238
 msgid "Select audios"
 msgstr "Aukeratu audioak"
 
-#: includes/class-pn-tasks-manager-common.php:232
+#: includes/class-pn-tasks-manager-common.php:241
 msgid "Select file"
 msgstr "Hautatu fitxategia"
 
-#: includes/class-pn-tasks-manager-common.php:233
+#: includes/class-pn-tasks-manager-common.php:242
 msgid "Select files"
 msgstr "Hautatu fitxategiak"
 
-#: includes/class-pn-tasks-manager-common.php:220
+#: includes/class-pn-tasks-manager-common.php:229
 msgid "Select image"
 msgstr "Hautatu irudia"
 
-#: includes/class-pn-tasks-manager-common.php:221
+#: includes/class-pn-tasks-manager-common.php:230
 msgid "Select images"
 msgstr "Aukeratu irudiak"
 
-#: includes/class-pn-tasks-manager-common.php:235
+#: includes/class-pn-tasks-manager-common.php:244
 msgid "Select option"
 msgstr "Hautatu aukera"
 
-#: includes/class-pn-tasks-manager-common.php:236
+#: includes/class-pn-tasks-manager-common.php:245
 msgid "Select options"
 msgstr "Aukeratu aukerak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:188
+#: includes/class-pn-tasks-manager-post-type-task.php:205
 msgid "Select period"
 msgstr "Hautatu epea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:212
+#: includes/class-pn-tasks-manager-forms.php:749
+msgid "Select Users"
+msgstr "Erabiltzaileak hautatu"
+
+#: includes/class-pn-tasks-manager-post-type-task.php:229
 msgid "Select users"
 msgstr "Hautatu erabiltzaileak"
 
-#: includes/class-pn-tasks-manager-common.php:224
+#: includes/class-pn-tasks-manager-common.php:233
 msgid "Select video"
 msgstr "Hautatu bideoa"
 
-#: includes/class-pn-tasks-manager-common.php:225
+#: includes/class-pn-tasks-manager-common.php:234
 msgid "Select videos"
 msgstr "Hautatu bideoak"
 
-#: includes/class-pn-tasks-manager-common.php:259
+#: includes/class-pn-tasks-manager-common.php:268
 msgid "Server error: Internal server problem"
 msgstr "Zerbitzariaren errorea: Barne zerbitzariaren arazoa"
 
-#: includes/class-pn-tasks-manager-settings.php:159
-#: includes/class-pn-tasks-manager-settings.php:160
-#: includes/class-pn-tasks-manager-settings.php:230
+#: includes/class-pn-tasks-manager-settings.php:219
+#: includes/class-pn-tasks-manager-settings.php:220
+#: includes/class-pn-tasks-manager-settings.php:290
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:243
+#: includes/class-pn-tasks-manager-post-type-task.php:260
 msgid "Shopping"
 msgstr "Erosketak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:269
+#: includes/class-pn-tasks-manager-post-type-task.php:286
 msgid "Shopping Bag"
 msgstr "Erosketa-poltsa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:221
-#: includes/class-pn-tasks-manager-post-type-task.php:222
+#: includes/class-pn-tasks-manager-post-type-task.php:238
+#: includes/class-pn-tasks-manager-post-type-task.php:239
 msgid "Show task in public calendar"
 msgstr "Erakutsi zeregina egutegi publikoan"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:984
+#: includes/class-pn-tasks-manager-post-type-task.php:981
 msgid "Sort alphabetically"
 msgstr "Ordenatu alfabetikoki"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:277
+#: includes/class-pn-tasks-manager-post-type-task.php:294
 msgid "Spa"
 msgstr "Spa"
 
@@ -1108,11 +1247,11 @@ msgstr "Spa"
 msgid "Special Character (!@#$%^&*)"
 msgstr "Karaktere berezia (!@#$%^&*)"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:252
+#: includes/class-pn-tasks-manager-post-type-task.php:269
 msgid "Sports"
 msgstr "Kirolak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:258
+#: includes/class-pn-tasks-manager-post-type-task.php:275
 msgid "Star"
 msgstr "Izarra"
 
@@ -1128,19 +1267,24 @@ msgstr "Gelditu audioa"
 msgid "Stop recording"
 msgstr "Gelditu grabaketa"
 
-#: templates/public/single-pn_tasks_manager_task.php:206
+#: templates/public/single-pn-tasks-manager_task.php:206
 msgid "Suggestions"
 msgstr "Iradokizunak"
 
-#: includes/class-pn-tasks-manager-calendar.php:461
+#: includes/class-pn-tasks-manager-calendar.php:520
+#: includes/class-pn-tasks-manager-calendar.php:788
 msgid "Sun"
 msgstr "Eguzkia"
 
-#: includes/class-pn-tasks-manager-calendar.php:452
+#: includes/class-pn-tasks-manager-calendar.php:511
 msgid "Sunday"
 msgstr "Igandea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:235
+#: includes/class-pn-tasks-manager-settings.php:141
+msgid "System"
+msgstr "Sistema"
+
+#: includes/class-pn-tasks-manager-post-type-task.php:252
 msgid "Task"
 msgstr "Zeregina"
 
@@ -1148,12 +1292,12 @@ msgstr "Zeregina"
 msgid "Task (PN Tasks Manager)"
 msgstr "Zeregina (PN Tasks Manager)"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:236
+#: includes/class-pn-tasks-manager-post-type-task.php:253
 msgid "Task Alt"
 msgstr "Zereginaren Alt"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:319
-#: includes/class-pn-tasks-manager-post-type-task.php:320
+#: includes/class-pn-tasks-manager-post-type-task.php:336
+#: includes/class-pn-tasks-manager-post-type-task.php:337
 msgid "Task audio url"
 msgstr "Zereginaren audioaren URLa"
 
@@ -1161,105 +1305,96 @@ msgstr "Zereginaren audioaren URLa"
 msgid "Task categories"
 msgstr "Zeregin-kategoriak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:339
+#: includes/class-pn-tasks-manager-post-type-task.php:356
 msgid "Task category"
 msgstr "Zeregin-kategoria"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:289
-#: includes/class-pn-tasks-manager-post-type-task.php:290
+#: includes/class-pn-tasks-manager-post-type-task.php:306
+#: includes/class-pn-tasks-manager-post-type-task.php:307
 msgid "Task color"
 msgstr "Zereginaren kolorea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:139
-#: includes/class-pn-tasks-manager-post-type-task.php:140
+#: includes/class-pn-tasks-manager-post-type-task.php:156
+#: includes/class-pn-tasks-manager-post-type-task.php:157
 msgid "Task date"
 msgstr "Zereginaren data"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:122
-#: includes/class-pn-tasks-manager-post-type-task.php:123
-#: includes/class-pn-tasks-manager-post-type-task.php:404
+#: includes/class-pn-tasks-manager-post-type-task.php:139
+#: includes/class-pn-tasks-manager-post-type-task.php:140
+#: includes/class-pn-tasks-manager-post-type-task.php:421
 #| msgid "Step description"
 msgid "Task description"
 msgstr "Zereginaren deskribapena"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:434
+#: includes/class-pn-tasks-manager-post-type-task.php:452
 msgid "Task details"
 msgstr "Zereginaren xehetasunak"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:228
+#: includes/class-pn-tasks-manager-post-type-task.php:245
 msgid "Task icon"
 msgstr "Zereginaren ikonoa"
 
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:256
-#: includes/class-pn-tasks-manager-ajax.php:381 includes/class-pn-tasks-manager-ajax.php:491
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:270
+#: includes/class-pn-tasks-manager-ajax.php:413
+#: includes/class-pn-tasks-manager-ajax.php:518
 msgid "Task ID is required."
 msgstr "Zereginaren IDa beharrezkoa da."
+
+#: includes/class-pn-tasks-manager-settings.php:27
+msgid "Task List"
+msgstr "Zereginen zerrenda"
 
 #: includes/class-pn-tasks-manager-blocks.php:31
 msgid "Task List (PN Tasks Manager)"
 msgstr "Zereginen zerrenda (PN Tasks Manager)"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:299
-#: includes/class-pn-tasks-manager-post-type-task.php:300
+#: includes/class-pn-tasks-manager-post-type-task.php:316
+#: includes/class-pn-tasks-manager-post-type-task.php:317
 msgid "Task multimedia content"
 msgstr "Zeregin multimedia edukia"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1189
-#: includes/class-pn-tasks-manager-post-type-task.php:1446
+#: includes/class-pn-tasks-manager-post-type-task.php:1184
+#: includes/class-pn-tasks-manager-post-type-task.php:1414
 msgid "Task not found"
 msgstr "Zeregina ez da aurkitu"
 
-#: includes/class-pn-tasks-manager-settings.php:114
-#: includes/class-pn-tasks-manager-settings.php:115
+#: includes/class-pn-tasks-manager-settings.php:149
+#: includes/class-pn-tasks-manager-settings.php:150
 msgid "Task slug"
 msgstr "Zeregin-barra"
 
-#: includes/class-pn-tasks-manager-activator.php:55
-#: includes/class-pn-tasks-manager-activator.php:67
+#: includes/class-pn-tasks-manager-activator.php:58
+#: includes/class-pn-tasks-manager-activator.php:70
 msgid "Task Test"
 msgstr "Zeregin-proba"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:147
-#: includes/class-pn-tasks-manager-post-type-task.php:148
+#: includes/class-pn-tasks-manager-post-type-task.php:164
+#: includes/class-pn-tasks-manager-post-type-task.php:165
 msgid "Task time"
 msgstr "Zereginaren denbora"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:112
-#: includes/class-pn-tasks-manager-post-type-task.php:113
+#: includes/class-pn-tasks-manager-post-type-task.php:130
+#: includes/class-pn-tasks-manager-post-type-task.php:131
 msgid "Task title"
 msgstr "Zereginaren izenburua"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:309
-#: includes/class-pn-tasks-manager-post-type-task.php:310
+#: includes/class-pn-tasks-manager-post-type-task.php:326
+#: includes/class-pn-tasks-manager-post-type-task.php:327
 msgid "Task url"
 msgstr "Zereginaren URLa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:329
-#: includes/class-pn-tasks-manager-post-type-task.php:330
+#: includes/class-pn-tasks-manager-post-type-task.php:346
+#: includes/class-pn-tasks-manager-post-type-task.php:347
 msgid "Task video url"
 msgstr "Zereginaren bideoaren URLa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:387
-#: includes/class-pn-tasks-manager-post-type-task.php:403
+#: includes/class-pn-tasks-manager-post-type-task.php:404
+#: includes/class-pn-tasks-manager-post-type-task.php:420
 msgid "Tasks"
 msgstr "Zereginak"
 
-#. Name of the plugin
-#: includes/class-pn-tasks-manager-activator.php:33 includes/class-pn-tasks-manager-blocks.php:21
-#: includes/class-pn-tasks-manager-settings.php:148
-#: includes/class-pn-tasks-manager-settings.php:149
-msgid "PN Tasks Manager"
-msgstr "Zereginen kudeatzailea - PN"
-
-#: includes/class-pn-tasks-manager-settings.php:171
-msgid "PN Tasks Manager Settings"
-msgstr "Zereginen kudeatzailea - PN ezarpenak"
-
-#: includes/admin/class-pn-tasks-manager-admin.php:77
-msgid "PN Tasks Manager notice:"
-msgstr "PN Tasks Manager oharra:"
-
-#: includes/class-pn-tasks-manager-ajax.php:593 includes/class-pn-tasks-manager-ajax.php:652
+#: includes/class-pn-tasks-manager-ajax.php:622
+#: includes/class-pn-tasks-manager-ajax.php:768
 msgid "Taxonomy and term name are required."
 msgstr "Taxonomia eta terminoaren izena beharrezkoak dira."
 
@@ -1284,7 +1419,7 @@ msgstr "Testuak gutxienez %d karaktere izan behar ditu."
 msgid "Text must be at most %d characters long."
 msgstr "Testuak gehienez %d karaktere izan behar ditu."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:280
+#: includes/class-pn-tasks-manager-post-type-task.php:297
 msgid "Theater"
 msgstr "Antzerkia"
 
@@ -1292,7 +1427,7 @@ msgstr "Antzerkia"
 msgid "This field"
 msgstr "Eremu hau"
 
-#: includes/class-pn-tasks-manager-settings.php:116
+#: includes/class-pn-tasks-manager-settings.php:151
 #| msgid ""
 #| "This option sets the slug of the main recipes archive page, and the "
 #| "recipe pages. By default they will be:"
@@ -1303,24 +1438,25 @@ msgstr ""
 "Aukera honek Zereginen artxibo orri nagusiaren eta Zereginen orrialdeen slug-"
 "a ezartzen du. Berez, hauek izango dira:"
 
-#: includes/class-pn-tasks-manager-calendar.php:458
+#: includes/class-pn-tasks-manager-calendar.php:517
+#: includes/class-pn-tasks-manager-calendar.php:785
 msgid "Thu"
 msgstr "Osteguna"
 
-#: includes/class-pn-tasks-manager-calendar.php:449
+#: includes/class-pn-tasks-manager-calendar.php:508
 msgid "Thursday"
 msgstr "Osteguna"
 
-#: includes/admin/class-pn-tasks-manager-admin.php:78
+#: includes/admin/class-pn-tasks-manager-admin.php:99
 msgid "To send task assignment emails, please install and activate"
-msgstr ""
+msgstr "Zereginen esleipen-mezuak bidaltzeko, mesedez instalatu eta aktibatu"
 "Zereginen esleipen mezu elektronikoak bidaltzeko, instalatu eta aktibatu"
 
-#: templates/public/single-pn_tasks_manager_task.php:140
+#: templates/public/single-pn-tasks-manager_task.php:140
 msgid "Total time"
 msgstr "Denbora osoa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:274
+#: includes/class-pn-tasks-manager-post-type-task.php:291
 msgid "Train"
 msgstr "Trena"
 
@@ -1332,27 +1468,32 @@ msgstr "Audioa transkribatu"
 msgid "Transcribed text will appear here..."
 msgstr "Transkripzio testua hemen agertuko da..."
 
-#: includes/class-pn-tasks-manager-common.php:253
+#: includes/class-pn-tasks-manager-common.php:262
 msgid "Transcription completed"
 msgstr "Transkripzioa amaituta"
 
-#: includes/class-pn-tasks-manager-calendar.php:456
+#: includes/class-pn-tasks-manager-calendar.php:515
+#: includes/class-pn-tasks-manager-calendar.php:783
 msgid "Tue"
 msgstr "Asteartea"
 
-#: includes/class-pn-tasks-manager-calendar.php:447
+#: includes/class-pn-tasks-manager-calendar.php:506
 msgid "Tuesday"
 msgstr "Asteartea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1493
+#: includes/class-pn-tasks-manager-post-type-task.php:1473
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: includes/class-pn-tasks-manager-common.php:260
+#: includes/class-pn-tasks-manager-common.php:269
 msgid "Unknown error"
 msgstr "Errore ezezaguna"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:394
+#: includes/class-pn-tasks-manager-forms.php:710
+msgid "Unlink"
+msgstr "Desestekatu"
+
+#: includes/class-pn-tasks-manager-post-type-task.php:411
 msgid "Update Task"
 msgstr "Eguneratu zeregina"
 
@@ -1360,45 +1501,59 @@ msgstr "Eguneratu zeregina"
 msgid "Update Task category"
 msgstr "Eguneratu zereginen kategoria"
 
+#: includes/class-pn-tasks-manager-settings.php:170
+msgid "User Roles"
+msgstr "Erabiltzaile-rolak"
+
 #: includes/class-pn-tasks-manager-blocks.php:28
 msgid "Users Ranking (PN Tasks Manager)"
 msgstr "Erabiltzaileen sailkapena (PN Tasks Manager)"
 
-#: includes/class-pn-tasks-manager-shortcodes.php:261
+#: includes/class-pn-tasks-manager-shortcodes.php:222
 msgid "Users ranking by completed hours"
 msgstr "Erabiltzaileen sailkapena egindako orduen arabera"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:266
+#: includes/class-pn-tasks-manager-forms.php:738
+#, php-format
+msgid "Users with %s Role"
+msgstr "%s rola duten erabiltzaileak"
+
+#: includes/class-pn-tasks-manager-post-type-task.php:283
 msgid "Video"
 msgstr "Bideoa"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:979
-#: includes/class-pn-tasks-manager-post-type-task.php:1168
+#: includes/class-pn-tasks-manager-forms.php:708
+msgid "View"
+msgstr "Ikusi"
+
+#: includes/class-pn-tasks-manager-post-type-task.php:976
+#: includes/class-pn-tasks-manager-post-type-task.php:1165
 msgid "View Calendar"
 msgstr "Ikusi egutegia"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:390
-#: includes/class-pn-tasks-manager-post-type-task.php:1081
+#: includes/class-pn-tasks-manager-post-type-task.php:407
+#: includes/class-pn-tasks-manager-post-type-task.php:1078
 msgid "View Task"
 msgstr "Ikusi zeregina"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:261
+#: includes/class-pn-tasks-manager-post-type-task.php:278
 msgid "Warning"
 msgstr "Abisua"
 
-#: includes/class-pn-tasks-manager-calendar.php:457
+#: includes/class-pn-tasks-manager-calendar.php:516
+#: includes/class-pn-tasks-manager-calendar.php:784
 msgid "Wed"
 msgstr "Asteazkena"
 
-#: includes/class-pn-tasks-manager-calendar.php:448
+#: includes/class-pn-tasks-manager-calendar.php:507
 msgid "Wednesday"
 msgstr "Asteazkena"
 
-#: includes/class-pn-tasks-manager-calendar.php:324
+#: includes/class-pn-tasks-manager-calendar.php:375
 msgid "Week"
 msgstr "Astea"
 
-#: includes/class-pn-tasks-manager-post-type-task.php:191
+#: includes/class-pn-tasks-manager-post-type-task.php:208
 msgid "Weeks"
 msgstr "Asteak"
 
@@ -1409,15 +1564,15 @@ msgid ""
 msgstr ""
 "erabat ezabatuko da. Prozesu hau ezin da desegin eta ezin da berreskuratu."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:241
+#: includes/class-pn-tasks-manager-post-type-task.php:258
 msgid "Work"
 msgstr "Lana"
 
-#: includes/class-pn-tasks-manager-calendar.php:330
+#: includes/class-pn-tasks-manager-calendar.php:381
 msgid "Year"
 msgstr "Urtea"
 
-#: includes/class-pn-tasks-manager-forms.php:856
+#: includes/class-pn-tasks-manager-forms.php:938
 msgid "Yes"
 msgstr "Bai"
 
@@ -1425,19 +1580,41 @@ msgstr "Bai"
 msgid "You are an owner"
 msgstr "Jabea zara."
 
-#: includes/class-pn-tasks-manager-ajax.php:581 includes/class-pn-tasks-manager-ajax.php:640
+#: includes/class-pn-tasks-manager-ajax.php:650
+msgid "You do not have permission to create pages."
+msgstr "Ez duzu orriak sortzeko baimenik."
+
+#: includes/class-pn-tasks-manager-ajax.php:709
+msgid "You do not have permission to manage pages."
+msgstr "Ez duzu orriak kudeatzeko baimenik."
+
+#: includes/class-pn-tasks-manager-forms.php:690
+msgid "You do not have permission to manage plugin pages."
+msgstr "Ez duzu pluginaren orriak kudeatzeko baimenik."
+
+#: includes/class-pn-tasks-manager-forms.php:727
+#: includes/class-pn-tasks-manager-ajax.php:133
+msgid "You do not have permission to manage user roles."
+msgstr "Ez duzu erabiltzaile-rolak kudeatzeko baimenik."
+
+#: includes/class-pn-tasks-manager-ajax.php:610
+#: includes/class-pn-tasks-manager-ajax.php:756
 msgid "You must be logged in to create a category."
 msgstr "Kategoria bat sortzeko saioa hasi behar duzu."
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1527
-#: includes/class-pn-tasks-manager-ajax.php:413
+#: includes/class-pn-tasks-manager-post-type-task.php:1512
+#: includes/class-pn-tasks-manager-ajax.php:445
 msgid "You must be logged in to create a new asset."
 msgstr "Aktibo berri bat sortzeko saioa hasi behar duzu."
 
-#: includes/class-pn-tasks-manager-ajax.php:258
+#: includes/class-pn-tasks-manager-ajax.php:312
 msgid "You must be logged in to join a task."
 msgstr "Zeregin batean sartzeko saioa hasi behar duzu."
 
-#: includes/class-pn-tasks-manager-ajax.php:142
+#: includes/class-pn-tasks-manager-ajax.php:196
 msgid "You must be logged in to update a task."
 msgstr "Zeregin bat eguneratzeko saioa hasi behar duzu."
+
+#: includes/class-pn-tasks-manager-calendar.php
+msgid "View task list"
+msgstr "Zereginen zerrenda ikusi"

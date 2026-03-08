@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PN Tasks Manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-12 10:46+0000\n"
+"POT-Creation-Date: 2026-03-07 22:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -22,11 +22,21 @@ msgstr ""
 msgid "%s is required."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1527
+#: includes/class-pn-tasks-manager-ajax.php:181
+#, php-format
+msgid "%s role assigned to %d user(s) successfully."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-ajax.php:183
+#, php-format
+msgid "%s role removed from %d user(s) successfully."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:1512
 msgid "Access Denied"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:969
+#: includes/class-pn-tasks-manager-post-type-task.php:966
 msgid "Access denied"
 msgstr ""
 
@@ -34,7 +44,7 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1412
+#: includes/class-pn-tasks-manager-post-type-task.php:1380
 msgid "Add a comment about this task execution..."
 msgstr ""
 
@@ -66,13 +76,13 @@ msgstr ""
 msgid "Add images"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:391
-#: includes/class-pn-tasks-manager-calendar.php:396
-#: includes/class-pn-tasks-manager-post-type-task.php:391
-#: includes/class-pn-tasks-manager-post-type-task.php:392
-#: includes/class-pn-tasks-manager-post-type-task.php:987
-#: includes/class-pn-tasks-manager-post-type-task.php:1153
-#: includes/class-pn-tasks-manager-post-type-task.php:1537
+#: includes/class-pn-tasks-manager-post-type-task.php:408
+#: includes/class-pn-tasks-manager-post-type-task.php:409
+#: includes/class-pn-tasks-manager-post-type-task.php:984
+#: includes/class-pn-tasks-manager-post-type-task.php:1150
+#: includes/class-pn-tasks-manager-post-type-task.php:1522
+#: includes/class-pn-tasks-manager-calendar.php:450
+#: includes/class-pn-tasks-manager-calendar.php:455
 msgid "Add new Task"
 msgstr ""
 
@@ -80,7 +90,7 @@ msgstr ""
 msgid "Add New Task category"
 msgstr ""
 
-#: templates/public/archive-pn_tasks_manager_task.php:64
+#: templates/public/archive-pn-tasks-manager_task.php:64
 msgid "Add task"
 msgstr ""
 
@@ -92,11 +102,11 @@ msgstr ""
 msgid "Add videos"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:237
+#: includes/class-pn-tasks-manager-post-type-task.php:254
 msgid "Alarm"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:644
+#: includes/class-pn-tasks-manager-calendar.php:703
 msgid "All day"
 msgstr ""
 
@@ -104,53 +114,62 @@ msgstr ""
 msgid "All Task categories"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:389
+#: includes/class-pn-tasks-manager-post-type-task.php:406
 msgid "All Tasks"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:69
+#: includes/class-pn-tasks-manager-settings.php:98
 msgid "Alternate background"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:79
+#: includes/class-pn-tasks-manager-settings.php:108
 msgid "Alternate border"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:59
+#: includes/class-pn-tasks-manager-settings.php:88
 msgid "Alternate color"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:213
+#: includes/class-pn-tasks-manager-common.php:222
 msgid "An error has occurred. Please try again in a few minutes."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:466 includes/class-pn-tasks-manager-ajax.php:475
-#: includes/class-pn-tasks-manager-ajax.php:483
+#: includes/class-pn-tasks-manager-ajax.php:493
+#: includes/class-pn-tasks-manager-ajax.php:502
+#: includes/class-pn-tasks-manager-ajax.php:510
 msgid "An error occurred while checking the Task."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:513
+#: includes/class-pn-tasks-manager-ajax.php:540
 msgid "An error occurred while duplicating the Task."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:225
-#: includes/class-pn-tasks-manager-ajax.php:342 includes/class-pn-tasks-manager-ajax.php:460
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:239
+#: includes/class-pn-tasks-manager-ajax.php:380
+#: includes/class-pn-tasks-manager-ajax.php:487
 msgid "An error occurred while encoding the response."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:534
+#: includes/class-pn-tasks-manager-ajax.php:561
 msgid "An error occurred while removing the Task."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:231
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:240
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:248
-#: includes/class-pn-tasks-manager-ajax.php:352 includes/class-pn-tasks-manager-ajax.php:363
-#: includes/class-pn-tasks-manager-ajax.php:373 includes/class-pn-tasks-manager-ajax.php:403
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:245
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:254
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:262
+#: includes/class-pn-tasks-manager-ajax.php:386
+#: includes/class-pn-tasks-manager-ajax.php:396
+#: includes/class-pn-tasks-manager-ajax.php:405
+#: includes/class-pn-tasks-manager-ajax.php:435
 msgid "An error occurred while showing the Task."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:211
+#: includes/class-pn-tasks-manager-forms.php:759
+#, php-format
+msgid "Assign %s Role"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:228
 msgid "Assigned to"
 msgstr ""
 
@@ -158,35 +177,39 @@ msgstr ""
 msgid "Atleast 8 Character"
 msgstr ""
 
-#: templates/public/archive-pn_tasks_manager_task.php:31
+#: templates/public/archive-pn-tasks-manager_task.php:31
 msgid "Base CPT"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:253
+#: includes/class-pn-tasks-manager-post-type-task.php:270
 msgid "Beach"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:275
+#: includes/class-pn-tasks-manager-post-type-task.php:292
 msgid "Bike"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:251
+#: includes/class-pn-tasks-manager-post-type-task.php:268
 msgid "Book"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:273
+#: includes/class-pn-tasks-manager-post-type-task.php:290
 msgid "Bus"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:254
+#: includes/class-pn-tasks-manager-post-type-task.php:271
 msgid "Cake"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-settings.php:35
+msgid "Calendar"
 msgstr ""
 
 #: includes/class-pn-tasks-manager-blocks.php:29
 msgid "Calendar (PN Tasks Manager)"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:239
+#: includes/class-pn-tasks-manager-post-type-task.php:256
 msgid "Calendar Today"
 msgstr ""
 
@@ -194,35 +217,37 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:247
+#: includes/class-pn-tasks-manager-post-type-task.php:264
 msgid "Car"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:242
+#: includes/class-pn-tasks-manager-common.php:251
 msgid "Category already exists"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:601 includes/class-pn-tasks-manager-ajax.php:660
+#: includes/class-pn-tasks-manager-ajax.php:630
+#: includes/class-pn-tasks-manager-ajax.php:776
 msgid "Category already exists."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:241
+#: includes/class-pn-tasks-manager-common.php:250
 msgid "Category created successfully"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:614 includes/class-pn-tasks-manager-ajax.php:673
+#: includes/class-pn-tasks-manager-ajax.php:643
+#: includes/class-pn-tasks-manager-ajax.php:789
 msgid "Category created successfully."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:281
+#: includes/class-pn-tasks-manager-post-type-task.php:298
 msgid "Celebration"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:259
+#: includes/class-pn-tasks-manager-post-type-task.php:276
 msgid "Check Circle"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:255
+#: includes/class-pn-tasks-manager-post-type-task.php:272
 msgid "Child Care"
 msgstr ""
 
@@ -230,107 +255,126 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-shortcodes.php:268
+#: includes/class-pn-tasks-manager-shortcodes.php:229
 msgid "Click to view completed tasks"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:488
-#: includes/class-pn-tasks-manager-calendar.php:744
+#: includes/class-pn-tasks-manager-calendar.php:547
+#: includes/class-pn-tasks-manager-calendar.php:811
 msgid "Click to view day"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:714
+#: includes/class-pn-tasks-manager-calendar.php:773
 msgid "Click to view month"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1411
+#: includes/class-pn-tasks-manager-post-type-task.php:1379
 msgid "Comments"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1093
+#: includes/class-pn-tasks-manager-post-type-task.php:1090
 msgid "Complete Task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:222
+#: includes/class-pn-tasks-manager-ajax.php:276
 msgid "Completed tasks"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:21
+#: includes/class-pn-tasks-manager-settings.php:50
 msgid "Configure the colors used in the main CSS :root."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:256
+#: includes/class-pn-tasks-manager-common.php:265
 msgid "Connection error"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:257
+#: includes/class-pn-tasks-manager-common.php:266
 msgid "Connection error: Could not connect to server"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:237
+#: includes/class-pn-tasks-manager-common.php:246
 msgid "Copied"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:969
+#: includes/class-pn-tasks-manager-post-type-task.php:966
 msgid "Create account"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1545
+#: includes/class-pn-tasks-manager-settings.php:21
+msgid "Create and manage the pages that display the plugin blocks."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-forms.php:717
+msgid "Create page"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:1530
 msgid "Create Task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:321
+#: includes/class-pn-tasks-manager-calendar.php:372
 msgid "Day"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:190
+#: includes/class-pn-tasks-manager-post-type-task.php:207
 msgid "Days"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:233
+#: includes/class-pn-tasks-manager-post-type-task.php:250
 msgid "Default (event)"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:403
+#: includes/class-pn-tasks-manager-calendar.php:462
 msgid "Download ICS"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1117
+#: includes/class-pn-tasks-manager-post-type-task.php:1114
 msgid "Duplicate Task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:226 includes/class-pn-tasks-manager-forms.php:369
+#: includes/class-pn-tasks-manager-forms.php:709
+msgid "Edit"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-forms.php:369
+#: includes/class-pn-tasks-manager-common.php:235
 msgid "Edit audio"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:227 includes/class-pn-tasks-manager-forms.php:369
+#: includes/class-pn-tasks-manager-forms.php:369
+#: includes/class-pn-tasks-manager-common.php:236
 msgid "Edit audios"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:230 includes/class-pn-tasks-manager-forms.php:390
+#: includes/class-pn-tasks-manager-forms.php:390
+#: includes/class-pn-tasks-manager-common.php:239
 msgid "Edit file"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:231 includes/class-pn-tasks-manager-forms.php:390
+#: includes/class-pn-tasks-manager-forms.php:390
+#: includes/class-pn-tasks-manager-common.php:240
 msgid "Edit files"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:218 includes/class-pn-tasks-manager-forms.php:327
+#: includes/class-pn-tasks-manager-forms.php:327
+#: includes/class-pn-tasks-manager-common.php:227
 msgid "Edit image"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:219 includes/class-pn-tasks-manager-forms.php:327
+#: includes/class-pn-tasks-manager-forms.php:327
+#: includes/class-pn-tasks-manager-common.php:228
 msgid "Edit images"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:393
-#: includes/class-pn-tasks-manager-post-type-task.php:1105
-#: includes/class-pn-tasks-manager-post-type-task.php:1353
+#: includes/class-pn-tasks-manager-post-type-task.php:410
+#: includes/class-pn-tasks-manager-post-type-task.php:1102
+#: includes/class-pn-tasks-manager-post-type-task.php:1330
+#: includes/class-pn-tasks-manager-post-type-task.php:1497
 msgid "Edit Task"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:52
-#: templates/public/archive-pn_tasks_manager_task.php:50
+#: templates/public/single-pn-tasks-manager_task.php:52
+#: templates/public/archive-pn-tasks-manager_task.php:50
 msgid "Edit task"
 msgstr ""
 
@@ -338,113 +382,126 @@ msgstr ""
 msgid "Edit Task category"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:222 includes/class-pn-tasks-manager-forms.php:348
+#: includes/class-pn-tasks-manager-forms.php:348
+#: includes/class-pn-tasks-manager-common.php:231
 msgid "Edit video"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:223 includes/class-pn-tasks-manager-forms.php:348
+#: includes/class-pn-tasks-manager-forms.php:348
+#: includes/class-pn-tasks-manager-common.php:232
 msgid "Edit videos"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1563
+#: includes/class-pn-tasks-manager-post-type-task.php:1548
 msgid "Editing Task"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:131
+#: templates/public/single-pn-tasks-manager_task.php:131
 msgid "Elaboration steps"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:264
+#: includes/class-pn-tasks-manager-post-type-task.php:281
 msgid "Email"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:262
+#: includes/class-pn-tasks-manager-post-type-task.php:279
 msgid "Error"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:239
+#: includes/class-pn-tasks-manager-common.php:248
 msgid "Error creating category"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:240
+#: includes/class-pn-tasks-manager-common.php:249
 msgid "Error creating category. Please try again."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:255
+#: includes/class-pn-tasks-manager-common.php:264
 msgid "Error in transcription"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1370
+#: includes/class-pn-tasks-manager-post-type-task.php:1346
 msgid "Error loading task content"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1343
-#: includes/class-pn-tasks-manager-post-type-task.php:1347
+#: includes/class-pn-tasks-manager-post-type-task.php:1322
+#: includes/class-pn-tasks-manager-post-type-task.php:1324
 msgid "Error loading task fields"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:261
+#: includes/class-pn-tasks-manager-common.php:270
 msgid "Error processing audio"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:249
+#: includes/class-pn-tasks-manager-common.php:258
 msgid "Error: Could not access microphone"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:157
+#: includes/class-pn-tasks-manager-post-type-task.php:174
 msgid "Estimated hours"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:158
+#: includes/class-pn-tasks-manager-post-type-task.php:175
 msgid "Estimated hours (e.g., 1.5)"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:234
+#: includes/class-pn-tasks-manager-post-type-task.php:251
 msgid "Event"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:257
+#: includes/class-pn-tasks-manager-post-type-task.php:274
 msgid "Favorite"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:973
+#: includes/class-pn-tasks-manager-post-type-task.php:970
 msgid "Filter..."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:248
+#: includes/class-pn-tasks-manager-post-type-task.php:265
 msgid "Fitness"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:246
+#: includes/class-pn-tasks-manager-post-type-task.php:263
 msgid "Flight"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:459
+#: includes/class-pn-tasks-manager-calendar.php:518
+#: includes/class-pn-tasks-manager-calendar.php:786
 msgid "Fri"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:450
+#: includes/class-pn-tasks-manager-calendar.php:509
 msgid "Friday"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:270
+#: includes/class-pn-tasks-manager-post-type-task.php:287
 msgid "Grocery Store"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:242
+#: includes/class-pn-tasks-manager-calendar.php:388
+msgid "Hide tasks from others"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-forms.php:755
+msgid ""
+"Hold Ctrl (Windows) or Cmd (Mac) to select multiple users. Users with ✓ "
+"already have this role."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:259
 msgid "Home"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:245
+#: includes/class-pn-tasks-manager-post-type-task.php:262
 msgid "Hospital"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:272
+#: includes/class-pn-tasks-manager-post-type-task.php:289
 msgid "Hotel"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:239
-#: templates/public/single-pn_tasks_manager_task.php:140
+#: includes/class-pn-tasks-manager-ajax.php:293
+#: templates/public/single-pn-tasks-manager_task.php:140
 msgid "hours"
 msgstr ""
 
@@ -456,50 +513,60 @@ msgstr ""
 msgid "https://padresenlanube.com/plugins/pn-tasks-manager/"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:124
+#: includes/class-pn-tasks-manager-settings.php:159
 msgid ""
 "If you activate this option the plugin will remove all options on "
 "deactivation. Please, be careful. This process cannot be undone."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:260
+#: includes/class-pn-tasks-manager-post-type-task.php:277
 msgid "Info"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:106
+#: templates/public/single-pn-tasks-manager_task.php:106
 msgid "Ingredients"
 msgstr ""
 
-#: includes/admin/class-pn-tasks-manager-admin.php:82
+#: includes/admin/class-pn-tasks-manager-admin.php:103
 msgid "Install MailPN"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:44
+#: includes/class-pn-tasks-manager-ajax.php:40
 msgid "Invalid action."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-ajax.php:671
+#: includes/class-pn-tasks-manager-ajax.php:720
+msgid "Invalid page option."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-ajax.php:155
+msgid "Invalid role specified."
 msgstr ""
 
 #: includes/class-pn-tasks-manager-validation.php:157
 msgid "Invalid selection format."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:252
+#: includes/class-pn-tasks-manager-common.php:261
 msgid "Invalid server response"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:251
+#: includes/class-pn-tasks-manager-common.php:260
 msgid "Invalid server response format"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1182
-#: includes/class-pn-tasks-manager-post-type-task.php:1440
+#: includes/class-pn-tasks-manager-post-type-task.php:1178
+#: includes/class-pn-tasks-manager-post-type-task.php:1408
 msgid "Invalid task ID"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:152 includes/class-pn-tasks-manager-ajax.php:268
+#: includes/class-pn-tasks-manager-ajax.php:206
+#: includes/class-pn-tasks-manager-ajax.php:322
 msgid "Invalid task."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:170
+#: includes/class-pn-tasks-manager-ajax.php:224
 msgid "Invalid user."
 msgstr ""
 
@@ -511,15 +578,15 @@ msgstr ""
 msgid "Joinable Tasks (PN Tasks Manager)"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:278
+#: includes/class-pn-tasks-manager-post-type-task.php:295
 msgid "Library"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:217
+#: includes/class-pn-tasks-manager-common.php:226
 msgid "Loading..."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:969
+#: includes/class-pn-tasks-manager-post-type-task.php:966
 msgid "Log in or create an account to create and manage tasks."
 msgstr ""
 
@@ -531,97 +598,112 @@ msgstr ""
 msgid "Lowercase & Uppercase"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:20
+#: includes/class-pn-tasks-manager-settings.php:49
 msgid "Main colors"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-settings.php:171
+msgid "Manage user role assignments for this plugin."
 msgstr ""
 
 #. Description of the plugin
 msgid ""
 "Manage your tasks and time tracking with this plugin. Create tasks, assign "
-"them to users, and track the time spent on each task."
+"them to users, and track the time spent on each task. Features include: "
+"interactive calendar views (day, week, month, year), recurring tasks with "
+"customizable periodicity, task categories for organization, public tasks "
+"that users can join, ICS calendar export, user ranking by completed hours, "
+"Gutenberg blocks integration, email notifications for task assignments, "
+"shortcodes for displaying calendars and task lists, multilingual support, "
+"and flexible role-based permissions."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:41
+#: includes/class-pn-tasks-manager-settings.php:70
 msgid "Maps to --pn-tasks-manager-bg-color-main"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:71
+#: includes/class-pn-tasks-manager-settings.php:100
 msgid "Maps to --pn-tasks-manager-bg-color-main-alt"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:51
+#: includes/class-pn-tasks-manager-settings.php:80
 msgid "Maps to --pn-tasks-manager-border-color-main"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:81
+#: includes/class-pn-tasks-manager-settings.php:110
 msgid "Maps to --pn-tasks-manager-border-color-main-alt"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:31
+#: includes/class-pn-tasks-manager-settings.php:60
 msgid "Maps to --pn-tasks-manager-color-main"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:61
+#: includes/class-pn-tasks-manager-settings.php:90
 msgid "Maps to --pn-tasks-manager-color-main-alt"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:91
+#: includes/class-pn-tasks-manager-settings.php:120
 msgid "Maps to --pn-tasks-manager-color-main-blue"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:101
+#: includes/class-pn-tasks-manager-settings.php:130
 msgid "Maps to --pn-tasks-manager-color-main-grey"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1402
+#: includes/class-pn-tasks-manager-post-type-task.php:1370
 msgid "Mark as completed"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1070
+#: includes/class-pn-tasks-manager-post-type-task.php:1067
 msgid "Mark as done"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1070
+#: includes/class-pn-tasks-manager-post-type-task.php:1067
 msgid "Mark as not done"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:140
+#: templates/public/single-pn-tasks-manager_task.php:140
 msgid "minutes"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:455
+#: includes/class-pn-tasks-manager-ajax.php:662
+msgid "Missing required fields."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-calendar.php:514
+#: includes/class-pn-tasks-manager-calendar.php:782
 msgid "Mon"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:446
+#: includes/class-pn-tasks-manager-calendar.php:505
 msgid "Monday"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:268
+#: includes/class-pn-tasks-manager-post-type-task.php:285
 msgid "Money"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:327
+#: includes/class-pn-tasks-manager-calendar.php:378
 msgid "Month"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:192
+#: includes/class-pn-tasks-manager-post-type-task.php:209
 msgid "Months"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:48
+#: templates/public/single-pn-tasks-manager_task.php:48
 msgid "More tasks"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:249
+#: includes/class-pn-tasks-manager-post-type-task.php:266
 msgid "Movie"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:279
+#: includes/class-pn-tasks-manager-post-type-task.php:296
 msgid "Museum"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:250
+#: includes/class-pn-tasks-manager-post-type-task.php:267
 msgid "Music"
 msgstr ""
 
@@ -630,7 +712,7 @@ msgid "New category name"
 msgstr ""
 
 #. %s: Task title
-#: includes/class-pn-tasks-manager-post-type-task.php:84
+#: includes/class-pn-tasks-manager-post-type-task.php:103
 #, php-format
 msgid "New task assigned: %s"
 msgstr ""
@@ -639,23 +721,23 @@ msgstr ""
 msgid "New Task category"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:197
+#: templates/public/single-pn-tasks-manager_task.php:197
 msgid "Next"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-forms.php:856
+#: includes/class-pn-tasks-manager-forms.php:938
 msgid "No"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:250
+#: includes/class-pn-tasks-manager-common.php:259
 msgid "No audio to transcribe"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-shortcodes.php:263
+#: includes/class-pn-tasks-manager-shortcodes.php:224
 msgid "No completed hours found."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:224
+#: includes/class-pn-tasks-manager-ajax.php:278
 msgid "No completed tasks found for this user."
 msgstr ""
 
@@ -663,11 +745,11 @@ msgstr ""
 msgid "No file found"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-forms.php:848
+#: includes/class-pn-tasks-manager-forms.php:930
 msgid "No file uploaded"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-forms.php:1030
+#: includes/class-pn-tasks-manager-forms.php:1112
 msgid "No images uploaded"
 msgstr ""
 
@@ -681,27 +763,32 @@ msgstr ""
 msgid "No tasks found"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:662
+#: includes/class-pn-tasks-manager-calendar.php:721
 msgid "No tasks scheduled for this day."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:254
+#: includes/class-pn-tasks-manager-common.php:263
 msgid "No transcription received from server"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:396
+#: includes/class-pn-tasks-manager-forms.php:746
+#, php-format
+msgid "No users currently have the %s role."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:413
 msgid "Not Task found"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:397
+#: includes/class-pn-tasks-manager-post-type-task.php:414
 msgid "Not Task found in Trash"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:263
+#: includes/class-pn-tasks-manager-post-type-task.php:280
 msgid "Notifications"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:179
+#: includes/class-pn-tasks-manager-post-type-task.php:196
 msgid "Number"
 msgstr ""
 
@@ -721,15 +808,16 @@ msgstr ""
 msgid "Number must be at most %s."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:99
+#: includes/class-pn-tasks-manager-post-type-task.php:117
 msgid "Open calendar"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-forms.php:442 includes/class-pn-tasks-manager-forms.php:458
+#: includes/class-pn-tasks-manager-forms.php:442
+#: includes/class-pn-tasks-manager-forms.php:458
 msgid "Order element"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:234
+#: includes/class-pn-tasks-manager-common.php:243
 msgid "Ordered element"
 msgstr ""
 
@@ -737,7 +825,19 @@ msgstr ""
 msgid "Padres en la Nube"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:388
+#: includes/class-pn-tasks-manager-ajax.php:697
+msgid "Page created successfully."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-forms.php:716
+msgid "Page title"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-ajax.php:729
+msgid "Page unlinked successfully."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:405
 msgid "Parent Task"
 msgstr ""
 
@@ -753,23 +853,23 @@ msgstr ""
 msgid "Password strength checker"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:187
+#: includes/class-pn-tasks-manager-post-type-task.php:204
 msgid "Period"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:258
+#: includes/class-pn-tasks-manager-common.php:267
 msgid "Permission error: Security verification failed"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:256
+#: includes/class-pn-tasks-manager-post-type-task.php:273
 msgid "Pets"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:265
+#: includes/class-pn-tasks-manager-post-type-task.php:282
 msgid "Phone"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:267
+#: includes/class-pn-tasks-manager-post-type-task.php:284
 msgid "Photo"
 msgstr ""
 
@@ -777,15 +877,15 @@ msgstr ""
 msgid "Play audio"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:134
+#: templates/public/single-pn-tasks-manager_task.php:134
 msgid "Play task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:214
+#: includes/class-pn-tasks-manager-common.php:223
 msgid "Please create a new user or login to save the information."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:238
+#: includes/class-pn-tasks-manager-common.php:247
 msgid "Please enter a category name"
 msgstr ""
 
@@ -813,65 +913,90 @@ msgstr ""
 msgid "Please select valid options."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:170
+#: includes/class-pn-tasks-manager-settings.php:230
 msgid "Plugin main Banner"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:276
+#: includes/class-pn-tasks-manager-settings.php:20
+msgid "Plugin Pages"
+msgstr ""
+
+#. Name of the plugin
+#: includes/class-pn-tasks-manager-forms.php:732
+#: includes/class-pn-tasks-manager-activator.php:33
+#: includes/class-pn-tasks-manager-ajax.php:160
+#: includes/class-pn-tasks-manager-blocks.php:21
+#: includes/class-pn-tasks-manager-settings.php:177
+#: includes/class-pn-tasks-manager-settings.php:179
+#: includes/class-pn-tasks-manager-settings.php:209
+#: includes/class-pn-tasks-manager-settings.php:210
+msgid "PN Tasks Manager"
+msgstr ""
+
+#: includes/admin/class-pn-tasks-manager-admin.php:98
+msgid "PN Tasks Manager notice:"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-settings.php:231
+msgid "PN Tasks Manager Settings"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:293
 msgid "Pool"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:385
+#: includes/class-pn-tasks-manager-post-type-task.php:402
 msgctxt "Post Type general name"
 msgid "Task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:386
+#: includes/class-pn-tasks-manager-post-type-task.php:403
 msgctxt "Post Type singular name"
 msgid "Task"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:194
+#: templates/public/single-pn-tasks-manager_task.php:194
 msgid "Previous"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1485
+#: includes/class-pn-tasks-manager-post-type-task.php:1465
 msgid "Previous comments"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:39
+#: includes/class-pn-tasks-manager-settings.php:68
 msgid "Primary background"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:89
+#: includes/class-pn-tasks-manager-settings.php:118
 msgid "Primary blue"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:49
+#: includes/class-pn-tasks-manager-settings.php:78
 msgid "Primary border"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:29
+#: includes/class-pn-tasks-manager-settings.php:58
 msgid "Primary color"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:99
+#: includes/class-pn-tasks-manager-settings.php:128
 msgid "Primary gray"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:245 includes/class-pn-tasks-manager-forms.php:486
+#: includes/class-pn-tasks-manager-forms.php:486
+#: includes/class-pn-tasks-manager-common.php:254
 msgid "Ready to record"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:248
+#: includes/class-pn-tasks-manager-common.php:257
 msgid "Recording completed. Ready to transcribe."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:247
+#: includes/class-pn-tasks-manager-common.php:256
 msgid "Recording stopped. Ready to play or transcribe."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:246
+#: includes/class-pn-tasks-manager-common.php:255
 msgid "Recording..."
 msgstr ""
 
@@ -883,85 +1008,93 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-forms.php:446 includes/class-pn-tasks-manager-forms.php:462
+#: includes/class-pn-tasks-manager-forms.php:760
+#, php-format
+msgid "Remove %s Role"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-forms.php:446
+#: includes/class-pn-tasks-manager-forms.php:462
 msgid "Remove element"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:123
+#: includes/class-pn-tasks-manager-settings.php:158
 msgid "Remove plugin options on deactivation"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1129
+#: includes/class-pn-tasks-manager-post-type-task.php:1126
 msgid "Remove Task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:216
+#: includes/class-pn-tasks-manager-common.php:225
 msgid "Removed successfully"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:178
+#: includes/class-pn-tasks-manager-post-type-task.php:195
 msgid "Repeat every"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:166
-#: includes/class-pn-tasks-manager-post-type-task.php:167
+#: includes/class-pn-tasks-manager-post-type-task.php:183
+#: includes/class-pn-tasks-manager-post-type-task.php:184
 msgid "Repeat task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:202
-#: includes/class-pn-tasks-manager-post-type-task.php:203
+#: includes/class-pn-tasks-manager-post-type-task.php:219
+#: includes/class-pn-tasks-manager-post-type-task.php:220
 msgid "Repeat until"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-forms.php:721 includes/class-pn-tasks-manager-forms.php:786
+#: includes/class-pn-tasks-manager-forms.php:801
+#: includes/class-pn-tasks-manager-forms.php:868
 msgid "Required field"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:244
+#: includes/class-pn-tasks-manager-post-type-task.php:261
 msgid "Restaurant"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:271
+#: includes/class-pn-tasks-manager-post-type-task.php:288
 msgid "Restaurant Menu"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:460
+#: includes/class-pn-tasks-manager-calendar.php:519
+#: includes/class-pn-tasks-manager-calendar.php:787
 msgid "Sat"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:451
+#: includes/class-pn-tasks-manager-calendar.php:510
 msgid "Saturday"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1515
+#: includes/class-pn-tasks-manager-post-type-task.php:1500
 msgid "Save"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:135
+#: includes/class-pn-tasks-manager-settings.php:196
 msgid "Save options"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1573
+#: includes/class-pn-tasks-manager-post-type-task.php:1558
 msgid "Save Task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:215
+#: includes/class-pn-tasks-manager-common.php:224
 msgid "Saved successfully"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:238
+#: includes/class-pn-tasks-manager-post-type-task.php:255
 msgid "Schedule"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:91
+#: includes/class-pn-tasks-manager-post-type-task.php:110
 msgid "Scheduled for"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:240
+#: includes/class-pn-tasks-manager-post-type-task.php:257
 msgid "School"
 msgstr ""
 
-#: includes/admin/class-pn-tasks-manager-admin.php:83
+#: includes/admin/class-pn-tasks-manager-admin.php:104
 msgid "Search in plugins"
 msgstr ""
 
@@ -969,124 +1102,133 @@ msgstr ""
 msgid "Search Task categories"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:395
-#: includes/class-pn-tasks-manager-post-type-task.php:982
+#: includes/class-pn-tasks-manager-post-type-task.php:412
+#: includes/class-pn-tasks-manager-post-type-task.php:979
 msgid "Search Tasks"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:586 includes/class-pn-tasks-manager-ajax.php:645
+#: includes/class-pn-tasks-manager-ajax.php:142
+msgid "Security check failed for role assignment."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-ajax.php:615
+#: includes/class-pn-tasks-manager-ajax.php:761
 msgid "Security check failed."
 msgstr ""
 
 #: includes/class-pn-tasks-manager-ajax-nopriv.php:52
 #: includes/class-pn-tasks-manager-ajax-nopriv.php:63
-#: includes/class-pn-tasks-manager-post-type-task.php:522
-#: includes/class-pn-tasks-manager-ajax.php:71
+#: includes/class-pn-tasks-manager-post-type-task.php:540
+#: includes/class-pn-tasks-manager-ajax.php:62
 msgid "Security check failed: Invalid nonce."
 msgstr ""
 
 #: includes/class-pn-tasks-manager-ajax-nopriv.php:43
-#: includes/class-pn-tasks-manager-post-type-task.php:513
-#: includes/class-pn-tasks-manager-ajax.php:54
+#: includes/class-pn-tasks-manager-post-type-task.php:531
+#: includes/class-pn-tasks-manager-ajax.php:50
 msgid "Security check failed: Nonce is required."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:340
+#: includes/class-pn-tasks-manager-post-type-task.php:357
 msgid "Select a category"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:341
+#: includes/class-pn-tasks-manager-post-type-task.php:358
 msgid ""
 "Select a category for this task. Categories help organize and color-code "
 "tasks in the calendar."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:231
+#: includes/class-pn-tasks-manager-post-type-task.php:248
 msgid ""
 "Select a Material Icons icon to display in the calendar view. Leave empty to "
 "use default."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:229
+#: includes/class-pn-tasks-manager-post-type-task.php:246
 msgid "Select an icon"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:228
+#: includes/class-pn-tasks-manager-common.php:237
 msgid "Select audio"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:229
+#: includes/class-pn-tasks-manager-common.php:238
 msgid "Select audios"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:232
+#: includes/class-pn-tasks-manager-common.php:241
 msgid "Select file"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:233
+#: includes/class-pn-tasks-manager-common.php:242
 msgid "Select files"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:220
+#: includes/class-pn-tasks-manager-common.php:229
 msgid "Select image"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:221
+#: includes/class-pn-tasks-manager-common.php:230
 msgid "Select images"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:235
+#: includes/class-pn-tasks-manager-common.php:244
 msgid "Select option"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:236
+#: includes/class-pn-tasks-manager-common.php:245
 msgid "Select options"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:188
+#: includes/class-pn-tasks-manager-post-type-task.php:205
 msgid "Select period"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:212
+#: includes/class-pn-tasks-manager-forms.php:749
+msgid "Select Users"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:229
 msgid "Select users"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:224
+#: includes/class-pn-tasks-manager-common.php:233
 msgid "Select video"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:225
+#: includes/class-pn-tasks-manager-common.php:234
 msgid "Select videos"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:259
+#: includes/class-pn-tasks-manager-common.php:268
 msgid "Server error: Internal server problem"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:159
-#: includes/class-pn-tasks-manager-settings.php:160
-#: includes/class-pn-tasks-manager-settings.php:230
+#: includes/class-pn-tasks-manager-settings.php:219
+#: includes/class-pn-tasks-manager-settings.php:220
+#: includes/class-pn-tasks-manager-settings.php:290
 msgid "Settings"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:243
+#: includes/class-pn-tasks-manager-post-type-task.php:260
 msgid "Shopping"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:269
+#: includes/class-pn-tasks-manager-post-type-task.php:286
 msgid "Shopping Bag"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:221
-#: includes/class-pn-tasks-manager-post-type-task.php:222
+#: includes/class-pn-tasks-manager-post-type-task.php:238
+#: includes/class-pn-tasks-manager-post-type-task.php:239
 msgid "Show task in public calendar"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:984
+#: includes/class-pn-tasks-manager-post-type-task.php:981
 msgid "Sort alphabetically"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:277
+#: includes/class-pn-tasks-manager-post-type-task.php:294
 msgid "Spa"
 msgstr ""
 
@@ -1094,11 +1236,11 @@ msgstr ""
 msgid "Special Character (!@#$%^&*)"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:252
+#: includes/class-pn-tasks-manager-post-type-task.php:269
 msgid "Sports"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:258
+#: includes/class-pn-tasks-manager-post-type-task.php:275
 msgid "Star"
 msgstr ""
 
@@ -1114,19 +1256,24 @@ msgstr ""
 msgid "Stop recording"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:206
+#: templates/public/single-pn-tasks-manager_task.php:206
 msgid "Suggestions"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:461
+#: includes/class-pn-tasks-manager-calendar.php:520
+#: includes/class-pn-tasks-manager-calendar.php:788
 msgid "Sun"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:452
+#: includes/class-pn-tasks-manager-calendar.php:511
 msgid "Sunday"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:235
+#: includes/class-pn-tasks-manager-settings.php:141
+msgid "System"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:252
 msgid "Task"
 msgstr ""
 
@@ -1134,12 +1281,12 @@ msgstr ""
 msgid "Task (PN Tasks Manager)"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:236
+#: includes/class-pn-tasks-manager-post-type-task.php:253
 msgid "Task Alt"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:319
-#: includes/class-pn-tasks-manager-post-type-task.php:320
+#: includes/class-pn-tasks-manager-post-type-task.php:336
+#: includes/class-pn-tasks-manager-post-type-task.php:337
 msgid "Task audio url"
 msgstr ""
 
@@ -1147,104 +1294,99 @@ msgstr ""
 msgid "Task categories"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:339
+#: includes/class-pn-tasks-manager-post-type-task.php:356
 msgid "Task category"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:289
-#: includes/class-pn-tasks-manager-post-type-task.php:290
+#: includes/class-pn-tasks-manager-post-type-task.php:306
+#: includes/class-pn-tasks-manager-post-type-task.php:307
 msgid "Task color"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:156
+#: includes/class-pn-tasks-manager-post-type-task.php:157
+msgid "Task date"
 msgstr ""
 
 #: includes/class-pn-tasks-manager-post-type-task.php:139
 #: includes/class-pn-tasks-manager-post-type-task.php:140
-msgid "Task date"
-msgstr ""
-
-#: includes/class-pn-tasks-manager-post-type-task.php:122
-#: includes/class-pn-tasks-manager-post-type-task.php:123
-#: includes/class-pn-tasks-manager-post-type-task.php:404
+#: includes/class-pn-tasks-manager-post-type-task.php:421
 msgid "Task description"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:434
+#: includes/class-pn-tasks-manager-post-type-task.php:452
 msgid "Task details"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:228
+#: includes/class-pn-tasks-manager-post-type-task.php:245
 msgid "Task icon"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax-nopriv.php:256
-#: includes/class-pn-tasks-manager-ajax.php:381 includes/class-pn-tasks-manager-ajax.php:491
+#: includes/class-pn-tasks-manager-ajax-nopriv.php:270
+#: includes/class-pn-tasks-manager-ajax.php:413
+#: includes/class-pn-tasks-manager-ajax.php:518
 msgid "Task ID is required."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-settings.php:27
+msgid "Task List"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-calendar.php
+msgid "View task list"
 msgstr ""
 
 #: includes/class-pn-tasks-manager-blocks.php:31
 msgid "Task List (PN Tasks Manager)"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:299
-#: includes/class-pn-tasks-manager-post-type-task.php:300
+#: includes/class-pn-tasks-manager-post-type-task.php:316
+#: includes/class-pn-tasks-manager-post-type-task.php:317
 msgid "Task multimedia content"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1189
-#: includes/class-pn-tasks-manager-post-type-task.php:1446
+#: includes/class-pn-tasks-manager-post-type-task.php:1184
+#: includes/class-pn-tasks-manager-post-type-task.php:1414
 msgid "Task not found"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:114
-#: includes/class-pn-tasks-manager-settings.php:115
+#: includes/class-pn-tasks-manager-settings.php:149
+#: includes/class-pn-tasks-manager-settings.php:150
 msgid "Task slug"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-activator.php:55
-#: includes/class-pn-tasks-manager-activator.php:67
+#: includes/class-pn-tasks-manager-activator.php:58
+#: includes/class-pn-tasks-manager-activator.php:70
 msgid "Task Test"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:147
-#: includes/class-pn-tasks-manager-post-type-task.php:148
+#: includes/class-pn-tasks-manager-post-type-task.php:164
+#: includes/class-pn-tasks-manager-post-type-task.php:165
 msgid "Task time"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:112
-#: includes/class-pn-tasks-manager-post-type-task.php:113
+#: includes/class-pn-tasks-manager-post-type-task.php:130
+#: includes/class-pn-tasks-manager-post-type-task.php:131
 msgid "Task title"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:309
-#: includes/class-pn-tasks-manager-post-type-task.php:310
+#: includes/class-pn-tasks-manager-post-type-task.php:326
+#: includes/class-pn-tasks-manager-post-type-task.php:327
 msgid "Task url"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:329
-#: includes/class-pn-tasks-manager-post-type-task.php:330
+#: includes/class-pn-tasks-manager-post-type-task.php:346
+#: includes/class-pn-tasks-manager-post-type-task.php:347
 msgid "Task video url"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:387
-#: includes/class-pn-tasks-manager-post-type-task.php:403
+#: includes/class-pn-tasks-manager-post-type-task.php:404
+#: includes/class-pn-tasks-manager-post-type-task.php:420
 msgid "Tasks"
 msgstr ""
 
-#. Name of the plugin
-#: includes/class-pn-tasks-manager-activator.php:33 includes/class-pn-tasks-manager-blocks.php:21
-#: includes/class-pn-tasks-manager-settings.php:148
-#: includes/class-pn-tasks-manager-settings.php:149
-msgid "PN Tasks Manager"
-msgstr ""
-
-#: includes/class-pn-tasks-manager-settings.php:171
-msgid "PN Tasks Manager Settings"
-msgstr ""
-
-#: includes/admin/class-pn-tasks-manager-admin.php:77
-msgid "PN Tasks Manager notice:"
-msgstr ""
-
-#: includes/class-pn-tasks-manager-ajax.php:593 includes/class-pn-tasks-manager-ajax.php:652
+#: includes/class-pn-tasks-manager-ajax.php:622
+#: includes/class-pn-tasks-manager-ajax.php:768
 msgid "Taxonomy and term name are required."
 msgstr ""
 
@@ -1268,7 +1410,7 @@ msgstr ""
 msgid "Text must be at most %d characters long."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:280
+#: includes/class-pn-tasks-manager-post-type-task.php:297
 msgid "Theater"
 msgstr ""
 
@@ -1276,29 +1418,30 @@ msgstr ""
 msgid "This field"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-settings.php:116
+#: includes/class-pn-tasks-manager-settings.php:151
 msgid ""
 "This option sets the slug of the main Task archive page, and the Task pages. "
 "By default they will be:"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:458
+#: includes/class-pn-tasks-manager-calendar.php:517
+#: includes/class-pn-tasks-manager-calendar.php:785
 msgid "Thu"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:449
+#: includes/class-pn-tasks-manager-calendar.php:508
 msgid "Thursday"
 msgstr ""
 
-#: includes/admin/class-pn-tasks-manager-admin.php:78
+#: includes/admin/class-pn-tasks-manager-admin.php:99
 msgid "To send task assignment emails, please install and activate"
 msgstr ""
 
-#: templates/public/single-pn_tasks_manager_task.php:140
+#: templates/public/single-pn-tasks-manager_task.php:140
 msgid "Total time"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:274
+#: includes/class-pn-tasks-manager-post-type-task.php:291
 msgid "Train"
 msgstr ""
 
@@ -1310,27 +1453,32 @@ msgstr ""
 msgid "Transcribed text will appear here..."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:253
+#: includes/class-pn-tasks-manager-common.php:262
 msgid "Transcription completed"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:456
+#: includes/class-pn-tasks-manager-calendar.php:515
+#: includes/class-pn-tasks-manager-calendar.php:783
 msgid "Tue"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:447
+#: includes/class-pn-tasks-manager-calendar.php:506
 msgid "Tuesday"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1493
+#: includes/class-pn-tasks-manager-post-type-task.php:1473
 msgid "Unknown"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-common.php:260
+#: includes/class-pn-tasks-manager-common.php:269
 msgid "Unknown error"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:394
+#: includes/class-pn-tasks-manager-forms.php:710
+msgid "Unlink"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:411
 msgid "Update Task"
 msgstr ""
 
@@ -1338,45 +1486,59 @@ msgstr ""
 msgid "Update Task category"
 msgstr ""
 
+#: includes/class-pn-tasks-manager-settings.php:170
+msgid "User Roles"
+msgstr ""
+
 #: includes/class-pn-tasks-manager-blocks.php:28
 msgid "Users Ranking (PN Tasks Manager)"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-shortcodes.php:261
+#: includes/class-pn-tasks-manager-shortcodes.php:222
 msgid "Users ranking by completed hours"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:266
+#: includes/class-pn-tasks-manager-forms.php:738
+#, php-format
+msgid "Users with %s Role"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:283
 msgid "Video"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:979
-#: includes/class-pn-tasks-manager-post-type-task.php:1168
+#: includes/class-pn-tasks-manager-forms.php:708
+msgid "View"
+msgstr ""
+
+#: includes/class-pn-tasks-manager-post-type-task.php:976
+#: includes/class-pn-tasks-manager-post-type-task.php:1165
 msgid "View Calendar"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:390
-#: includes/class-pn-tasks-manager-post-type-task.php:1081
+#: includes/class-pn-tasks-manager-post-type-task.php:407
+#: includes/class-pn-tasks-manager-post-type-task.php:1078
 msgid "View Task"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:261
+#: includes/class-pn-tasks-manager-post-type-task.php:278
 msgid "Warning"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:457
+#: includes/class-pn-tasks-manager-calendar.php:516
+#: includes/class-pn-tasks-manager-calendar.php:784
 msgid "Wed"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:448
+#: includes/class-pn-tasks-manager-calendar.php:507
 msgid "Wednesday"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:324
+#: includes/class-pn-tasks-manager-calendar.php:375
 msgid "Week"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:191
+#: includes/class-pn-tasks-manager-post-type-task.php:208
 msgid "Weeks"
 msgstr ""
 
@@ -1386,15 +1548,15 @@ msgid ""
 "recovered."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:241
+#: includes/class-pn-tasks-manager-post-type-task.php:258
 msgid "Work"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-calendar.php:330
+#: includes/class-pn-tasks-manager-calendar.php:381
 msgid "Year"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-forms.php:856
+#: includes/class-pn-tasks-manager-forms.php:938
 msgid "Yes"
 msgstr ""
 
@@ -1402,19 +1564,37 @@ msgstr ""
 msgid "You are an owner"
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:581 includes/class-pn-tasks-manager-ajax.php:640
+#: includes/class-pn-tasks-manager-ajax.php:650
+msgid "You do not have permission to create pages."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-ajax.php:709
+msgid "You do not have permission to manage pages."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-forms.php:690
+msgid "You do not have permission to manage plugin pages."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-forms.php:727
+#: includes/class-pn-tasks-manager-ajax.php:133
+msgid "You do not have permission to manage user roles."
+msgstr ""
+
+#: includes/class-pn-tasks-manager-ajax.php:610
+#: includes/class-pn-tasks-manager-ajax.php:756
 msgid "You must be logged in to create a category."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-post-type-task.php:1527
-#: includes/class-pn-tasks-manager-ajax.php:413
+#: includes/class-pn-tasks-manager-post-type-task.php:1512
+#: includes/class-pn-tasks-manager-ajax.php:445
 msgid "You must be logged in to create a new asset."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:258
+#: includes/class-pn-tasks-manager-ajax.php:312
 msgid "You must be logged in to join a task."
 msgstr ""
 
-#: includes/class-pn-tasks-manager-ajax.php:142
+#: includes/class-pn-tasks-manager-ajax.php:196
 msgid "You must be logged in to update a task."
 msgstr ""

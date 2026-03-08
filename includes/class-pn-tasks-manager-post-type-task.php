@@ -15,24 +15,38 @@ class PN_TASKS_MANAGER_Post_Type_Task {
    * Try to resolve the public calendar page URL (page using [pn-tasks-manager-calendar])
    */
   private static function pn_tasks_manager_get_calendar_url() {
-    // Find first published page containing our calendar shortcode
+    // Check if URL is already cached in a static variable
+    static $cached_url = null;
+    if ($cached_url !== null) {
+      return $cached_url;
+    }
+
+    // Find published pages and check their content for the calendar shortcode
     $pages = get_posts([
       'post_type' => 'page',
       'post_status' => 'publish',
       'numberposts' => -1,
-      's' => '[pn-tasks-manager-calendar',
       'fields' => 'ids',
     ]);
     if (!empty($pages)) {
       foreach ($pages as $page_id) {
         $content = get_post_field('post_content', $page_id);
         if ($content && has_shortcode($content, 'pn-tasks-manager-calendar')) {
-          return get_permalink($page_id);
+          $cached_url = get_permalink($page_id);
+          return $cached_url;
         }
       }
     }
-    // Fallback: home
-    return home_url('/');
+
+    // Check plugin-managed page option
+    $calendar_page_id = get_option('pn_tasks_manager_page_calendar');
+    if (!empty($calendar_page_id) && get_post_status($calendar_page_id) === 'publish') {
+      $cached_url = get_permalink($calendar_page_id);
+      return $cached_url;
+    }
+
+    $cached_url = '';
+    return $cached_url;
   }
 
   /**
@@ -135,7 +149,7 @@ class PN_TASKS_MANAGER_Post_Type_Task {
         'class' => 'pn-tasks-manager-input pn-tasks-manager-width-100-percent',
         'input' => 'textarea',
         'required' => true,
-        'value' => !empty($task_id) ? (str_replace(']]>', ']]&gt;', self::pn_tasks_manager_filter_task_content(get_post($task_id)->post_content))) : '',
+        'value' => !empty($task_id) ? get_post($task_id)->post_content : '',
         'label' => __('Task description', 'pn-tasks-manager'),
         'placeholder' => __('Task description', 'pn-tasks-manager'),
       ];
@@ -836,11 +850,23 @@ class PN_TASKS_MANAGER_Post_Type_Task {
                 update_post_meta($task_id, 'pn_tasks_manager_task_owners', [$current_user_id]);
               }
 
-              // Notify all assigned users about the new task
+              // Notify assigned users who haven't been notified yet
               $owners = $this->pn_tasks_manager_task_owners($task_id);
               if (!empty($owners)) {
+                $already_notified = get_post_meta($task_id, 'pn_tasks_manager_task_notified_users', true);
+                if (!is_array($already_notified)) {
+                  $already_notified = [];
+                }
+                $newly_notified = [];
                 foreach ($owners as $owner_id) {
-                  self::pn_tasks_manager_notify_assignment($task_id, intval($owner_id));
+                  $owner_id = intval($owner_id);
+                  if ($owner_id > 0 && !in_array($owner_id, $already_notified, true)) {
+                    self::pn_tasks_manager_notify_assignment($task_id, $owner_id);
+                    $newly_notified[] = $owner_id;
+                  }
+                }
+                if (!empty($newly_notified)) {
+                  update_post_meta($task_id, 'pn_tasks_manager_task_notified_users', array_values(array_unique(array_merge($already_notified, $newly_notified))));
                 }
               }
               break;
@@ -848,9 +874,6 @@ class PN_TASKS_MANAGER_Post_Type_Task {
               // The post meta is already updated by the generic handler in ajax-nopriv.php.
               // This hook only handles task-specific logic (taxonomy, owners, notifications).
               $task_id = $element_id;
-
-              // Capture previous owners before updating
-              $previous_owners = $this->pn_tasks_manager_task_owners($task_id);
               $task = get_post($task_id);
 
               // Handle taxonomy assignment
@@ -864,18 +887,17 @@ class PN_TASKS_MANAGER_Post_Type_Task {
                   }
                 }
               }
-              
+
               // Ensure task author is always included in owners
               $pn_tasks_manager_owners = get_post_meta($task_id, 'pn_tasks_manager_task_owners', true);
               $task_author = $task ? $task->post_author : 0;
-              
+
               if (!empty($task_author)) {
                 $owners_empty = false;
-                
+
                 if (empty($pn_tasks_manager_owners)) {
                   $owners_empty = true;
                 } elseif (is_array($pn_tasks_manager_owners)) {
-                  // Filter out empty values
                   $pn_tasks_manager_owners = array_filter($pn_tasks_manager_owners, function($owner) {
                     return !empty($owner);
                   });
@@ -883,37 +905,33 @@ class PN_TASKS_MANAGER_Post_Type_Task {
                     $owners_empty = true;
                   }
                 } else {
-                  // Single value, convert to array
                   $pn_tasks_manager_owners = [intval($pn_tasks_manager_owners)];
                 }
-                
+
                 if ($owners_empty) {
                   update_post_meta($task_id, 'pn_tasks_manager_task_owners', [$task_author]);
                 }
               }
 
-              // After ensuring owners, compute newly added owners and notify only them
+              // Notify only owners who haven't been notified yet for this task
               $current_owners = $this->pn_tasks_manager_task_owners($task_id);
-              
-              // Normalize both arrays to integers for proper comparison
-              $previous_owners = is_array($previous_owners) ? array_map('intval', $previous_owners) : [];
+              $already_notified = get_post_meta($task_id, 'pn_tasks_manager_task_notified_users', true);
+              if (!is_array($already_notified)) {
+                $already_notified = [];
+              }
+              $already_notified = array_map('intval', $already_notified);
               $current_owners = is_array($current_owners) ? array_map('intval', $current_owners) : [];
-              
-              // Remove duplicates and ensure unique values
-              $previous_owners = array_unique($previous_owners);
-              $current_owners = array_unique($current_owners);
-              
-              // Only notify newly added owners (not existing ones)
-              $new_owners = array_diff($current_owners, $previous_owners);
-              
+
+              $new_owners = array_diff($current_owners, $already_notified);
+
               if (!empty($new_owners)) {
                 foreach ($new_owners as $owner_id) {
                   $owner_id = intval($owner_id);
-                  // Only send if owner ID is valid
                   if ($owner_id > 0) {
                     self::pn_tasks_manager_notify_assignment($task_id, $owner_id);
                   }
                 }
+                update_post_meta($task_id, 'pn_tasks_manager_task_notified_users', array_values(array_unique(array_merge($already_notified, array_map('intval', $new_owners)))));
               }
 
               // Repeated tasks are now calculated dynamically in the calendar
@@ -971,7 +989,7 @@ class PN_TASKS_MANAGER_Post_Type_Task {
               <?php
               // Get calendar page URL
               $calendar_url = self::pn_tasks_manager_get_calendar_url();
-              if ($calendar_url && $calendar_url !== home_url('/')): ?>
+              if (!empty($calendar_url)): ?>
                 <a href="<?php echo esc_url($calendar_url); ?>" class="pn-tasks-manager-text-decoration-none pn-tasks-manager-mr-10">
                   <i class="material-icons-outlined pn-tasks-manager-cursor-pointer pn-tasks-manager-font-size-25 pn-tasks-manager-vertical-align-middle pn-tasks-manager-tooltip" title="<?php esc_attr_e('View Calendar', 'pn-tasks-manager'); ?>">calendar_today</i>
                 </a>
@@ -1028,13 +1046,13 @@ class PN_TASKS_MANAGER_Post_Type_Task {
       <ul class="pn-tasks-manager-tasks pn-tasks-manager-list-style-none pn-tasks-manager-p-0 pn-tasks-manager-margin-auto">
         <?php if (!empty($task)): ?>
           <?php foreach ($task as $task_id): ?>
-            <?php 
+            <?php
               $is_completed = get_post_meta($task_id, 'pn_tasks_manager_task_completed', true) === 'on';
               // Get icon and color - task meta has priority over category
               $category_style = self::pn_tasks_manager_get_task_category_style($task_id);
               $task_icon_meta = get_post_meta($task_id, 'pn_tasks_manager_task_icon', true);
               $task_color_meta = get_post_meta($task_id, 'pn_tasks_manager_task_color', true);
-              
+
               // Use task icon if set, otherwise use category icon
               if (!empty($task_icon_meta)) {
                 $task_icon = $task_icon_meta;
@@ -1043,13 +1061,27 @@ class PN_TASKS_MANAGER_Post_Type_Task {
               } else {
                 // Use category icon if set, otherwise empty
                 $task_icon = !empty($category_style['icon']) && $category_style['icon'] !== 'event' ? $category_style['icon'] : '';
-                // Use category color
-                $task_color = $category_style['color'];
+                // Use category color - but if task has its own color, use that
+                $task_color = !empty($task_color_meta) ? $task_color_meta : $category_style['color'];
               }
-              
+
               // Final fallback for color if still empty
               if (empty($task_color)) {
                 $task_color = get_option('pn_tasks_manager_color_main') ?: '#b84a00'; // Default color from settings
+              }
+
+              // Get task date and time
+              $task_date = get_post_meta($task_id, 'pn_tasks_manager_task_date', true);
+              $task_time = get_post_meta($task_id, 'pn_tasks_manager_task_time', true);
+
+              // Get assigned owners
+              $task_owners_ids = self::pn_tasks_manager_task_owners_static($task_id);
+              $task_owners_names = [];
+              foreach ($task_owners_ids as $owner_id) {
+                $owner = get_userdata($owner_id);
+                if ($owner) {
+                  $task_owners_names[] = $owner->display_name;
+                }
               }
             ?>
             <li class="pn-tasks-manager-task pn-tasks-manager-pn_tasks_task-list-item pn-tasks-manager-mb-10 <?php echo $is_completed ? 'pn-tasks-manager-completed' : ''; ?>" data-pn_tasks_manager_task-id="<?php echo esc_attr($task_id); ?>">
@@ -1061,6 +1093,27 @@ class PN_TASKS_MANAGER_Post_Type_Task {
                     <?php endif; ?>
                     <span><?php echo esc_html(get_the_title($task_id)); ?></span>
                   </a>
+                  <?php if (!empty($task_date) || !empty($task_owners_names)): ?>
+                    <div class="pn-tasks-manager-task-list-meta">
+                      <?php if (!empty($task_date)): ?>
+                        <small class="pn-tasks-manager-task-list-meta-date">
+                          <i class="material-icons-outlined" style="font-size: 14px; vertical-align: text-bottom;">calendar_today</i>
+                          <?php
+                            echo esc_html(date_i18n(get_option('date_format'), strtotime($task_date)));
+                            if (!empty($task_time)) {
+                              echo ' · ' . esc_html($task_time);
+                            }
+                          ?>
+                        </small>
+                      <?php endif; ?>
+                      <?php if (!empty($task_owners_names)): ?>
+                        <small class="pn-tasks-manager-task-list-meta-owner">
+                          <i class="material-icons-outlined" style="font-size: 14px; vertical-align: text-bottom;">person</i>
+                          <?php echo esc_html(implode(', ', $task_owners_names)); ?>
+                        </small>
+                      <?php endif; ?>
+                    </div>
+                  <?php endif; ?>
                 </div>
 
                 <div class="pn-tasks-manager-display-inline-table pn-tasks-manager-width-20-percent pn-tasks-manager-text-align-right pn-tasks-manager-position-relative">
@@ -1160,7 +1213,7 @@ class PN_TASKS_MANAGER_Post_Type_Task {
       $calendar_url = self::pn_tasks_manager_get_calendar_url();
       if ($calendar_url && $calendar_url !== home_url('/')): ?>
         <div class="pn-tasks-manager-task-list-footer pn-tasks-manager-text-align-center pn-tasks-manager-mt-30">
-          <a href="<?php echo esc_url($calendar_url); ?>" class="pn-tasks-manager-btn pn-tasks-manager-btn-primary">
+          <a href="<?php echo esc_url($calendar_url); ?>" class="pn-tasks-manager-btn pn-tasks-manager-btn-transparent pn-tasks-manager-btn-mini">
             <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-mr-10">calendar_today</i>
             <?php esc_html_e('View Calendar', 'pn-tasks-manager'); ?>
           </a>
@@ -1647,10 +1700,14 @@ class PN_TASKS_MANAGER_Post_Type_Task {
   }
 
   public function pn_tasks_manager_task_owners($task_id) {
+    return self::pn_tasks_manager_task_owners_static($task_id);
+  }
+
+  public static function pn_tasks_manager_task_owners_static($task_id) {
     $pn_tasks_manager_owners = get_post_meta($task_id, 'pn_tasks_manager_task_owners', true);
     $task = get_post($task_id);
     $pn_tasks_manager_owners_array = [];
-    
+
     // Always include the author
     if (!empty($task) && !empty($task->post_author)) {
       $pn_tasks_manager_owners_array[] = $task->post_author;

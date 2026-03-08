@@ -337,32 +337,35 @@ class PN_TASKS_MANAGER_Ajax_Nopriv {
                   if (empty($pn_tasks_manager_form_subtype) || in_array($pn_tasks_manager_form_subtype, ['post_new', 'post_edit', 'post_check'])) {
                     // For post_check, we don't need to create a new post or update title/description
                     if ($pn_tasks_manager_form_subtype !== 'post_check') {
+                      // Build correct field prefix: 'pn_tasks_task' → 'pn_tasks_manager_task'
+                      $field_prefix = str_replace('pn_tasks_', 'pn_tasks_manager_', $post_type);
+                      $title_key = $field_prefix . '_title';
+                      $description_key = $field_prefix . '_description';
+
                       if (empty($post_id)) {
                         // Allow any logged-in user to create a new post
                         if (is_user_logged_in()) {
                           $post_functions = new PN_TASKS_MANAGER_Functions_Post();
-                          $title_key = $post_type . '_title';
-                          $description_key = $post_type . '_description';
-                          $title = !empty($_POST[$title_key]) && isset($_POST[$title_key]) ? wp_kses_post(wp_unslash($_POST[$title_key])) : '';
-                          $description = !empty($_POST[$description_key]) && isset($_POST[$description_key]) ? wp_kses_post(wp_unslash($_POST[$description_key])) : '';
-                          
+                          $title = !empty($pn_tasks_manager_key_value[$title_key]) ? $pn_tasks_manager_key_value[$title_key] : '';
+                          $description = !empty($pn_tasks_manager_key_value[$description_key]) ? $pn_tasks_manager_key_value[$description_key] : '';
+
                           $post_id = $post_functions->pn_tasks_manager_insert_post($title, $description, '', sanitize_title($title), $post_type, 'publish', get_current_user_id());
                         }
                       }
 
                       if (!empty($post_id)) {
                         foreach ($pn_tasks_manager_key_value as $pn_tasks_manager_key => $pn_tasks_manager_value) {
-                          if ($pn_tasks_manager_key == $post_type . '_title') {
+                          if ($pn_tasks_manager_key === $title_key) {
                             wp_update_post([
                               'ID' => $post_id,
-                              'post_title' => esc_html($pn_tasks_manager_value),
+                              'post_title' => sanitize_text_field($pn_tasks_manager_value),
                             ]);
                           }
 
-                          if ($pn_tasks_manager_key == $post_type . '_description') {
+                          if ($pn_tasks_manager_key === $description_key) {
                             wp_update_post([
                               'ID' => $post_id,
-                              'post_content' => esc_html($pn_tasks_manager_value),
+                              'post_content' => wp_kses_post($pn_tasks_manager_value),
                             ]);
                           }
 

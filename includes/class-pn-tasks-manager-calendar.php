@@ -172,17 +172,27 @@ class PN_TASKS_MANAGER_Calendar {
             $tasks_by_date[$task_date_formatted] = [];
           }
           
-          // Get icon and color from category, fallback to task meta
+          // Get icon and color: task meta > category > default base icon
           $category_style = PN_TASKS_MANAGER_Post_Type_Task::pn_tasks_manager_get_task_category_style($task_id);
-          $task_icon = !empty($category_style['icon']) ? $category_style['icon'] : get_post_meta($task_id, 'pn_tasks_manager_task_icon', true);
-          $task_color = !empty($category_style['color']) ? $category_style['color'] : get_post_meta($task_id, 'pn_tasks_manager_task_color', true);
+          $task_icon_meta = get_post_meta($task_id, 'pn_tasks_manager_task_icon', true);
+          $task_color_meta = get_post_meta($task_id, 'pn_tasks_manager_task_color', true);
+
+          if (!empty($task_icon_meta)) {
+            $task_icon = $task_icon_meta;
+            $task_color = !empty($task_color_meta) ? $task_color_meta : $category_style['color'];
+          } else {
+            $task_icon = !empty($category_style['icon']) && $category_style['icon'] !== 'event' ? $category_style['icon'] : '';
+            $task_color = $category_style['color'];
+          }
+
           if (empty($task_color)) {
             $task_color = get_option('pn_tasks_manager_color_main') ?: '#b84a00'; // Default color from settings
           }
+          // Calendar always shows a base icon even if the task/category has none
           if (empty($task_icon)) {
-            $task_icon = 'event'; // Default icon
+            $task_icon = 'event';
           }
-          
+
           $tasks_by_date[$task_date_formatted][] = [
             'id' => $task_id,
             'title' => get_the_title($task_id),
@@ -244,15 +254,25 @@ class PN_TASKS_MANAGER_Calendar {
               }
               
               // Use original task ID for repeated instances (virtual)
-              // Get icon and color from category, fallback to task meta
+              // Get icon and color: task meta > category > default base icon
               $category_style = PN_TASKS_MANAGER_Post_Type_Task::pn_tasks_manager_get_task_category_style($task_id);
-              $task_icon = !empty($category_style['icon']) ? $category_style['icon'] : get_post_meta($task_id, 'pn_tasks_manager_task_icon', true);
-              $task_color = !empty($category_style['color']) ? $category_style['color'] : get_post_meta($task_id, 'pn_tasks_manager_task_color', true);
+              $task_icon_meta = get_post_meta($task_id, 'pn_tasks_manager_task_icon', true);
+              $task_color_meta = get_post_meta($task_id, 'pn_tasks_manager_task_color', true);
+
+              if (!empty($task_icon_meta)) {
+                $task_icon = $task_icon_meta;
+                $task_color = !empty($task_color_meta) ? $task_color_meta : $category_style['color'];
+              } else {
+                $task_icon = !empty($category_style['icon']) && $category_style['icon'] !== 'event' ? $category_style['icon'] : '';
+                $task_color = $category_style['color'];
+              }
+
               if (empty($task_color)) {
                 $task_color = get_option('pn_tasks_manager_color_main') ?: '#b84a00'; // Default color from settings
               }
+              // Calendar always shows a base icon even if the task/category has none
               if (empty($task_icon)) {
-                $task_icon = 'event'; // Default icon
+                $task_icon = 'event';
               }
               
               $tasks_by_date[$next_date_formatted][] = [
@@ -415,48 +435,66 @@ class PN_TASKS_MANAGER_Calendar {
       </div>
       
       <?php
-      // Find page with pn-tasks-manager-task-list shortcode
+      // Find task list page URL
       $task_list_page_url = '';
-      $pages = get_posts([
-        'post_type' => 'page',
-        'post_status' => 'publish',
-        'numberposts' => -1,
-        's' => '[pn-tasks-manager-task-list',
-        'fields' => 'ids',
-      ]);
-      
-      if (!empty($pages)) {
-        foreach ($pages as $page_id) {
-          $content = get_post_field('post_content', $page_id);
-          if ($content && has_shortcode($content, 'pn-tasks-manager-task-list')) {
-            $task_list_page_url = get_permalink($page_id);
-            break;
+      $add_task_url = '';
+
+      // First try plugin-managed page option
+      $task_list_page_id = get_option('pn_tasks_manager_page_task_list');
+      if (!empty($task_list_page_id) && get_post_status($task_list_page_id) === 'publish') {
+        $task_list_page_url = get_permalink($task_list_page_id);
+        $add_task_url = $task_list_page_url;
+      }
+
+      // Fallback: search pages with shortcode
+      if (empty($task_list_page_url)) {
+        $pages = get_posts([
+          'post_type' => 'page',
+          'post_status' => 'publish',
+          'numberposts' => -1,
+          'fields' => 'ids',
+        ]);
+        if (!empty($pages)) {
+          foreach ($pages as $page_id) {
+            $content = get_post_field('post_content', $page_id);
+            if ($content && has_shortcode($content, 'pn-tasks-manager-task-list')) {
+              $task_list_page_url = get_permalink($page_id);
+              $add_task_url = $task_list_page_url;
+              break;
+            }
           }
         }
       }
-      
-      // If no page found, use admin URL for adding new task (if user has permission)
-      if (empty($task_list_page_url) && is_user_logged_in() && (current_user_can('administrator') || current_user_can('pn_tasks_manager_role_manager'))) {
-        $task_list_page_url = admin_url('post-new.php?post_type=pn_tasks_manager_task');
+
+      // If no page found for add task, use admin URL (if user has permission)
+      if (empty($add_task_url) && is_user_logged_in() && (current_user_can('administrator') || current_user_can('pn_tasks_manager_role_manager'))) {
+        $add_task_url = admin_url('post-new.php?post_type=pn_tasks_manager_task');
       }
       ?>
-      
+
       <div class="pn-tasks-manager-calendar-footer pn-tasks-manager-text-align-center pn-tasks-manager-mt-30">
         <div class="pn-tasks-manager-calendar-footer-buttons">
-          <?php if (!empty($task_list_page_url) || is_user_logged_in()): ?>
-            <?php if (!empty($task_list_page_url)): ?>
-              <a href="<?php echo esc_url($task_list_page_url); ?>" class="pn-tasks-manager-btn pn-tasks-manager-btn-primary pn-tasks-manager-btn-mini pn-tasks-manager-mr-10">
+          <?php if (!empty($add_task_url) || is_user_logged_in()): ?>
+            <?php if (!empty($add_task_url)): ?>
+              <a href="<?php echo esc_url($add_task_url); ?>" class="pn-tasks-manager-btn pn-tasks-manager-btn-transparent pn-tasks-manager-btn-mini pn-tasks-manager-mr-10">
                 <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-mr-10">add</i>
                 <?php esc_html_e('Add new Task', 'pn-tasks-manager'); ?>
               </a>
             <?php elseif (is_user_logged_in()): ?>
-              <a href="#" class="pn-tasks-manager-btn pn-tasks-manager-btn-primary pn-tasks-manager-btn-mini pn-tasks-manager-popup-open-ajax pn-tasks-manager-mr-10" data-pn-tasks-manager-popup-id="pn-tasks-manager-popup-pn_tasks_task-add" data-pn-tasks-manager-ajax-type="pn_tasks_manager_task_new">
+              <a href="#" class="pn-tasks-manager-btn pn-tasks-manager-btn-transparent pn-tasks-manager-btn-mini pn-tasks-manager-popup-open-ajax pn-tasks-manager-mr-10" data-pn-tasks-manager-popup-id="pn-tasks-manager-popup-pn_tasks_task-add" data-pn-tasks-manager-ajax-type="pn_tasks_manager_task_new">
                 <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-mr-10">add</i>
                 <?php esc_html_e('Add new Task', 'pn-tasks-manager'); ?>
               </a>
             <?php endif; ?>
           <?php endif; ?>
-          
+
+          <?php if (!empty($task_list_page_url)): ?>
+            <a href="<?php echo esc_url($task_list_page_url); ?>" class="pn-tasks-manager-btn pn-tasks-manager-btn-secondary pn-tasks-manager-btn-mini pn-tasks-manager-mr-10 pn-tasks-manager-tooltip" title="<?php esc_attr_e('View task list', 'pn-tasks-manager'); ?>">
+              <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-mr-10">list_alt</i>
+              <?php esc_html_e('Task List', 'pn-tasks-manager'); ?>
+            </a>
+          <?php endif; ?>
+
           <a href="<?php echo esc_url(admin_url('admin-ajax.php?action=pn_tasks_manager_download_ics&nonce=' . wp_create_nonce('pn-tasks-manager-download-ics'))); ?>" class="pn-tasks-manager-btn pn-tasks-manager-btn-secondary pn-tasks-manager-download-ics-btn pn-tasks-manager-btn-mini">
             <i class="material-icons-outlined pn-tasks-manager-vertical-align-middle pn-tasks-manager-mr-10">download</i>
             <?php esc_html_e('Download ICS', 'pn-tasks-manager'); ?>
