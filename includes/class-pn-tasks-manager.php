@@ -52,7 +52,7 @@ class PN_TASKS_MANAGER {
 		if (defined('PN_TASKS_MANAGER_VERSION')) {
 			$this->pn_tasks_manager_version = PN_TASKS_MANAGER_VERSION;
 		} else {
-			$this->pn_tasks_manager_version = '1.0.6';
+			$this->pn_tasks_manager_version = '1.0.10';
 		}
 
 		$this->pn_tasks_manager_plugin_name = 'pn-tasks-manager';

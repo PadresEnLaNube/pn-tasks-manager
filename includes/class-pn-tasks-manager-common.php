@@ -162,7 +162,7 @@ class PN_TASKS_MANAGER_Common {
 
 		wp_enqueue_script($this->plugin_name, PN_TASKS_MANAGER_URL . 'assets/js/pn-tasks-manager.js', ['jquery'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
 		wp_enqueue_script($this->plugin_name . '-aux', PN_TASKS_MANAGER_URL . 'assets/js/pn-tasks-manager-aux.js', ['jquery'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
-		wp_enqueue_script($this->plugin_name . '-forms', PN_TASKS_MANAGER_URL . 'assets/js/pn-tasks-manager-forms.js', ['jquery'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
+		wp_enqueue_script($this->plugin_name . '-forms', PN_TASKS_MANAGER_URL . 'assets/js/pn-tasks-manager-forms.js', ['jquery', 'jquery-ui-sortable'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
 		wp_enqueue_script($this->plugin_name . '-ajax', PN_TASKS_MANAGER_URL . 'assets/js/pn-tasks-manager-ajax.js', ['jquery'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
 		wp_enqueue_script($this->plugin_name . '-shortcodes', PN_TASKS_MANAGER_URL . 'assets/js/pn-tasks-manager-shortcodes.js', [$this->plugin_name . '-ajax'], $this->version, false, ['in_footer' => true, 'strategy' => 'defer']);
 

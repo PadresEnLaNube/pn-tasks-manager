@@ -30,8 +30,6 @@ class PN_TASKS_MANAGER_Taxonomies_Task {
 	        'add_new_item'      			=> esc_html(__('Add New Task category', 'pn-tasks-manager')),
 	        'new_item_name'     			=> esc_html(__('New Task category', 'pn-tasks-manager')),
 	        'menu_name'         			=> esc_html(__('Task categories', 'pn-tasks-manager')),
-				'archive'			      	=> true,
-				'slug'			      		=> 'task-category',
 			],
 		];
 
@@ -44,25 +42,16 @@ class PN_TASKS_MANAGER_Taxonomies_Task {
 			$args = [
 				'labels'            		=> $labels,
 				'hierarchical'      		=> true,
-				'public'            		=> true,
+				'public'            		=> false,
+				'publicly_queryable'		=> false,
 				'show_ui' 					=> true,
-				'query_var'         		=> true,
-				'rewrite'           		=> true,
+				'show_in_nav_menus' 		=> false,
+				'query_var'         		=> false,
+				'rewrite'           		=> false,
 				'show_in_rest'      		=> true,
 				// Use dynamically defined capabilities constant for pn_tasks_task CPT
 				'capabilities'      		=> defined('PN_TASKS_MANAGER_ROLE_PN_TASKS_TASK_CAPABILITIES') ? constant('PN_TASKS_MANAGER_ROLE_PN_TASKS_TASK_CAPABILITIES') : [],
 			];
-
-			if ($options['archive']) {
-				$args['public'] = true;
-				$args['publicly_queryable'] = true;
-				$args['show_in_nav_menus'] = true;
-				$args['query_var'] = $taxonomy;
-				$args['show_ui'] = true;
-				$args['rewrite'] = [
-					'slug' 					=> $options['slug'],
-				];
-			}
 
 			register_taxonomy($taxonomy, 'pn_tasks_task', $args);
 			register_taxonomy_for_object_type($taxonomy, 'pn_tasks_task');

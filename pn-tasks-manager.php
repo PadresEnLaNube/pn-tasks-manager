@@ -13,7 +13,7 @@
  * Plugin Name:       PN Tasks Manager
  * Plugin URI:        https://padresenlanube.com/plugins/pn-tasks-manager/
  * Description:       Manage your tasks and time tracking with this plugin. Create tasks, assign them to users, and track the time spent on each task. Features include: interactive calendar views (day, week, month, year), recurring tasks with customizable periodicity, task categories for organization, public tasks that users can join, ICS calendar export, user ranking by completed hours, Gutenberg blocks integration, email notifications for task assignments, shortcodes for displaying calendars and task lists, multilingual support, and flexible role-based permissions.
- * Version:           1.0.6
+ * Version:           1.0.10
  * Requires at least: 3.0
  * Requires PHP:      7.2
  * Author:            Padres en la Nube
@@ -34,7 +34,7 @@ if (!defined('WPINC')) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('PN_TASKS_MANAGER_VERSION', '1.0.6');
+define('PN_TASKS_MANAGER_VERSION', '1.0.10');
 define('PN_TASKS_MANAGER_DIR', plugin_dir_path(__FILE__));
 define('PN_TASKS_MANAGER_URL', plugin_dir_url(__FILE__));
 define('PN_TASKS_MANAGER_CPTS', [
